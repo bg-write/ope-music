@@ -11,7 +11,7 @@ A minimal music discovery website.
 
 ## 🚀 Live Site
 
-Visit: [Coming Soon - Netlify Deployment]
+Visit: [https://ope-music.netlify.app](https://ope-music.netlify.app)
 
 ## 🛠 Built With
 

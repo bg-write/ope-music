@@ -295,21 +295,17 @@
         // Function to share a song by copying its direct link to clipboard
         // Creates a unique URL with hash navigation for each song
         function shareSong(songId, songTitle) {
-            console.log('shareSong called with:', songId, songTitle);
             const currentUrl = window.location.href.split('#')[0];
             const shareUrl = `${currentUrl}#${songId}`;
-            console.log('Share URL:', shareUrl);
             
-            // Always copy just the URL to clipboard for consistency
+            // Copy URL to clipboard
             navigator.clipboard.writeText(shareUrl).then(() => {
-                console.log('URL copied to clipboard');
                 // Show success message
                 const shareBtn = document.querySelector(`#${songId} .share-btn`);
-                console.log('Found share button:', shareBtn);
                 
                 if (shareBtn) {
                     const originalText = shareBtn.textContent;
-                    shareBtn.textContent = '✅ Copied!';
+                    shareBtn.textContent = '✅ Link Copied!';
                     shareBtn.classList.add('copied');
                     
                     setTimeout(() => {
@@ -333,13 +329,13 @@
             const currentUrl = window.location.href.split('#')[0];
             const shareUrl = `${currentUrl}#${albumId}`;
             
-            // Always copy just the URL to clipboard for consistency
+            // Copy URL to clipboard
             navigator.clipboard.writeText(shareUrl).then(() => {
                 // Show success message
                 const shareBtn = document.querySelector(`#${albumId} .share-btn`);
                 if (shareBtn) {
                     const originalText = shareBtn.textContent;
-                    shareBtn.textContent = '✅ Copied!';
+                    shareBtn.textContent = '✅ Link Copied!';
                     shareBtn.classList.add('copied');
                     
                     setTimeout(() => {
@@ -393,12 +389,12 @@
         window.addEventListener('hashchange', handleHashNavigation);
     </script>
 
-                                                                                                <!-- Footer -->
+                                                                                                                <!-- Footer -->
     <div class="footer">
         
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> August 17, 2025 (Los Angeles, CA PST time)
+                <strong>Last updated:</strong> August 17, 2025 (Los Angeles, CA PST Time)
             </div>
             
             <div class="contact-info">

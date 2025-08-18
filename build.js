@@ -217,7 +217,7 @@ function generateFooterHTML(songs, albums, lastModifiedString) {
     return `
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> ${lastModifiedString} (Los Angeles, CA PST time)
+                <strong>Last updated:</strong> ${lastModifiedString} (Los Angeles, CA PST Time)
             </div>
             
             <div class="contact-info">
