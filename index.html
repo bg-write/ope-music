@@ -300,41 +300,32 @@
             const shareUrl = `${currentUrl}#${songId}`;
             console.log('Share URL:', shareUrl);
             
-            if (navigator.share) {
-                // Use native sharing on mobile devices
-                navigator.share({
-                    title: `Check out this song: ${songTitle}`,
-                    text: `I found this great song on OPE! - ${songTitle}`,
-                    url: shareUrl
-                });
-            } else {
-                // Fallback: copy to clipboard
-                navigator.clipboard.writeText(shareUrl).then(() => {
-                    console.log('URL copied to clipboard');
-                    // Show success message
-                    const shareBtn = document.querySelector(`#${songId} .share-btn`);
-                    console.log('Found share button:', shareBtn);
+            // Always copy just the URL to clipboard for consistency
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                console.log('URL copied to clipboard');
+                // Show success message
+                const shareBtn = document.querySelector(`#${songId} .share-btn`);
+                console.log('Found share button:', shareBtn);
+                
+                if (shareBtn) {
+                    const originalText = shareBtn.textContent;
+                    shareBtn.textContent = '✅ Copied!';
+                    shareBtn.classList.add('copied');
                     
-                    if (shareBtn) {
-                        const originalText = shareBtn.textContent;
-                        shareBtn.textContent = '✅ Copied!';
-                        shareBtn.classList.add('copied');
-                        
-                        setTimeout(() => {
-                            shareBtn.textContent = originalText;
-                            shareBtn.classList.remove('copied');
-                        }, 2000);
-                    } else {
-                        console.error('Share button not found for:', songId);
-                        // Fallback: show alert
-                        alert('Link copied to clipboard: ' + shareUrl);
-                    }
-                }).catch(err => {
-                    console.error('Failed to copy to clipboard:', err);
+                    setTimeout(() => {
+                        shareBtn.textContent = originalText;
+                        shareBtn.classList.remove('copied');
+                    }, 2000);
+                } else {
+                    console.error('Share button not found for:', songId);
                     // Fallback: show alert
                     alert('Link copied to clipboard: ' + shareUrl);
-                });
-            }
+                }
+            }).catch(err => {
+                console.error('Failed to copy to clipboard:', err);
+                // Fallback: show alert
+                alert('Link copied to clipboard: ' + shareUrl);
+            });
         }
 
         // Function to share an album
@@ -342,34 +333,29 @@
             const currentUrl = window.location.href.split('#')[0];
             const shareUrl = `${currentUrl}#${albumId}`;
             
-            if (navigator.share) {
-                // Use native sharing on mobile devices
-                navigator.share({
-                    title: `Check out this album review: ${albumTitle}`,
-                    text: `I found this great album review on OPE! - ${albumTitle}`,
-                    url: shareUrl
-                });
-            } else {
-                // Fallback: copy to clipboard
-                navigator.clipboard.writeText(shareUrl).then(() => {
-                    // Show success message
-                    const shareBtn = document.querySelector(`#${albumId} .share-btn`);
-                    if (shareBtn) {
-                        const originalText = shareBtn.textContent;
-                        shareBtn.textContent = '✅ Copied!';
-                        shareBtn.classList.add('copied');
-                        
-                        setTimeout(() => {
-                            shareBtn.textContent = originalText;
-                            shareBtn.classList.remove('copied');
-                        }, 2000);
-                    } else {
-                        console.error('Share button not found for:', albumId);
-                        // Fallback: show alert
-                        alert('Link copied to clipboard: ' + shareUrl);
-                    }
-                });
-            }
+            // Always copy just the URL to clipboard for consistency
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                // Show success message
+                const shareBtn = document.querySelector(`#${albumId} .share-btn`);
+                if (shareBtn) {
+                    const originalText = shareBtn.textContent;
+                    shareBtn.textContent = '✅ Copied!';
+                    shareBtn.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        shareBtn.textContent = originalText;
+                        shareBtn.classList.remove('copied');
+                    }, 2000);
+                } else {
+                    console.error('Share button not found for:', albumId);
+                    // Fallback: show alert
+                    alert('Link copied to clipboard: ' + shareUrl);
+                }
+            }).catch(err => {
+                console.error('Failed to copy to clipboard:', err);
+                // Fallback: show alert
+                alert('Link copied to clipboard: ' + shareUrl);
+            });
         }
 
         // Function to handle hash navigation
@@ -407,12 +393,12 @@
         window.addEventListener('hashchange', handleHashNavigation);
     </script>
 
-                                                                                        <!-- Footer -->
+                                                                                                <!-- Footer -->
     <div class="footer">
         
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> August 17, 2025
+                <strong>Last updated:</strong> August 17, 2025 (Los Angeles, CA PST time)
             </div>
             
             <div class="contact-info">

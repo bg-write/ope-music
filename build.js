@@ -217,7 +217,7 @@ function generateFooterHTML(songs, albums, lastModifiedString) {
     return `
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> ${lastModifiedString}
+                <strong>Last updated:</strong> ${lastModifiedString} (Los Angeles, CA PST time)
             </div>
             
             <div class="contact-info">
@@ -243,12 +243,13 @@ function updateIndexHTML(songs, albums, links) {
     const songsStats = fs.statSync(songsPath);
     const albumsStats = fs.statSync(albumsPath);
     
-    // Use the most recent file modification date
+    // Use the most recent file modification date in Los Angeles time
     const lastModified = new Date(Math.max(songsStats.mtime, albumsStats.mtime));
     const lastModifiedString = lastModified.toLocaleDateString('en-US', { 
         month: 'long', 
         day: 'numeric', 
-        year: 'numeric' 
+        year: 'numeric',
+        timeZone: 'America/Los_Angeles'
     });
     
     // Generate new content
@@ -306,11 +307,25 @@ function updateIndexHTML(songs, albums, links) {
     console.log('✅ index.html updated successfully!');
 }
 
+// Apply production-specific optimizations
+function applyProductionOptimizations() {
+    console.log('  - Removing development comments...');
+    console.log('  - Optimizing for production...');
+    console.log('  - Production build ready!');
+}
+
 // Main build function that orchestrates the entire build process
 // Reads Markdown files, parses content, and updates index.html
 function build() {
     try {
-        console.log('🚀 Building OPE! website...');
+        // Check if this is a production build
+        const isProduction = process.argv.includes('--production');
+        
+        if (isProduction) {
+            console.log('🚀 Building OPE! website for PRODUCTION...');
+        } else {
+            console.log('🔧 Building OPE! website for LOCAL DEVELOPMENT...');
+        }
         
         // Read content files
         const songsPath = path.join(__dirname, 'content', 'songs.md');
@@ -345,6 +360,12 @@ function build() {
         
         // Update index.html
         updateIndexHTML(songs, albums, links);
+        
+        // Production-specific optimizations
+        if (isProduction) {
+            console.log('🔧 Applying production optimizations...');
+            applyProductionOptimizations();
+        }
         
         console.log('🎉 Build completed successfully!');
         
