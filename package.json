@@ -5,6 +5,7 @@
   "main": "build.js",
   "scripts": {
     "build": "node build.js",
+    "build:prod": "node build.js --production",
     "watch": "node build.js && echo 'Watching for changes...' && fswatch -o content/ | xargs -n1 -I{} node build.js"
   },
   "keywords": ["music", "discovery", "blog", "markdown"],
@@ -12,5 +13,6 @@
   "license": "MIT",
   "devDependencies": {
     "fswatch": "^1.0.0"
-  }
+  },
+  "dependencies": {}
 }
