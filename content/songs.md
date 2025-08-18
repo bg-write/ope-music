@@ -1,7 +1,7 @@
 # Songs
 
 ## Joyce Manor - "All My Friends Are So Depressed"
-**Date:** AUGUST 18, 2025
+**Date:** August 18, 2025
 **Rating:** 1/4
 **Featured:** ⭐
 **Description:** Why the fuck is everyone trying to do alt-country poorly now.

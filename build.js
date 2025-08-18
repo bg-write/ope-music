@@ -226,6 +226,10 @@ function generateFooterHTML(songs, albums, lastModifiedString) {
                 <strong>Last updated:</strong> ${lastModifiedString} (Los Angeles, CA PST Time)
             </div>
             
+            <div class="support-info">
+                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends.
+            </div>
+            
             <div class="contact-info">
                 Don't like my reviews? Email me at bradywgerber at gmail dot com to tell me why I'm wrong, or hate-click my <a href="https://bradygerber.com/" target="_blank" rel="noopener">website</a>.
             </div>
@@ -277,13 +281,13 @@ function updateIndexHTML(songs, albums, links) {
             newsletter: {
                 title: "Newsletter",
                 html: \`<div class="section">
-        <p><a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
+        <p>Get a link to my latest reviews every Friday, along with other fun links and musings about life: <a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
     </div>\`
             },
             podcast: {
                 title: "Podcast",
                 html: \`<div class="section">
-        <p><a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
+        <p>It's like OPE! but easier to understand: <a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
     </div>\`
             },
             members: {
@@ -296,11 +300,11 @@ function updateIndexHTML(songs, albums, links) {
     
     // Update the footer in the HTML - completely replace the entire footer section
     // Includes last updated date, about text, and author image
-    const footerRegex = /<!-- Footer -->[\s\S]*?<\/div>\s*<\/div>\s*<\/body>/;
+    const footerRegex = /<!-- Footer -->[\s\S]*?<\/footer>\s*<\/body>/;
     const newFooter = `    <!-- Footer -->
-    <div class="footer">
+    <footer class="footer" role="contentinfo">
         ${footerHTML}
-    </div>
+    </footer>
 </body>`;
     
     if (footerRegex.test(indexContent)) {

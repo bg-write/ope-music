@@ -24,35 +24,46 @@
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
 </head>
 <body>
+    <!-- Skip Navigation Link for Screen Readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <!-- Header Section with logo and tagline -->
     <!-- Contains the main title, subtitle, and animated logo image -->
-    <div class="header-content">
+    <header class="header-content" role="banner">
         <div class="header-text">
             <h1>OPE!</h1>
             <p>Music reviews by Brady Gerber</p>
             <p>Fueled by corn and spite</p>
         </div>
         <div class="header-image">
-            <img src="images/logo.png" alt="OPE! Logo" class="logo">
+            <img src="images/logo.png" alt="OPE! Logo - Animated music note icon" class="logo">
         </div>
-    </div>
+    </header>
 
     <!-- Navigation tabs for switching between different content sections -->
     <!-- Each tab loads content dynamically without page refresh -->
-    <div class="nav">
-        <a href="#" onclick="showContent('free')" id="free-link">Songs</a>
-        <a href="#" onclick="showContent('newsletter')" id="newsletter-link">Newsletter</a>
-        <a href="#" onclick="showContent('podcast')" id="podcast-link">Podcast</a>
-        <!-- <a href="#" onclick="showContent('albums')" id="albums-link">Album Reviews</a> -->
-        <!-- <a href="#" onclick="showContent('members')" id="members-link">Exclusive Member Content</a> -->
-    </div>
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+        <a href="#" onclick="showContent('free')" id="free-link" role="tab" aria-selected="true" aria-controls="content-container">Songs</a>
+        <a href="#" onclick="showContent('newsletter')" id="newsletter-link" role="tab" aria-selected="false" aria-controls="content-container">Newsletter</a>
+        <a href="#" onclick="showContent('podcast')" id="podcast-link" role="tab" aria-selected="false" aria-controls="content-container">Podcast</a>
+        <!-- <a href="#" onclick="showContent('email')" id="email-link" role="tab" aria-selected="false" aria-controls="content-container">Email</a> -->
+        <!-- <a href="#" onclick="showContent('albums')" id="albums-link" role="tab" aria-selected="false" aria-controls="content-container">Album Reviews</a> -->
+        <!-- <a href="#" onclick="showContent('members')" id="members-link" role="tab" aria-selected="false" aria-controls="content-container">Exclusive Member Content</a> -->
+    </nav>
 
     <!-- Content Container - dynamically populated by JavaScript -->
     <!-- Content is loaded from the 'content' object below, which gets updated by build.js -->
-    <div id="content-container">
-        <!-- Content will be loaded here dynamically -->
-        <p>Content will be loaded from Markdown files...</p>
-    </div>
+    <main id="main-content" role="main" aria-live="polite" aria-label="Page content">
+        <div id="content-container">
+            <!-- Content will be loaded here dynamically -->
+            <p>Content will be loaded from Markdown files...</p>
+        </div>
+    </main>
+
+    <!-- Floating Back to Top Button -->
+    <button id="back-to-top" class="back-to-top-btn" aria-label="Back to top of page" title="Back to top">
+        ↑
+    </button>
 
     <script>
         // Content data - This will be populated by the build script
@@ -71,7 +82,7 @@
         <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor - "all my friends are so depressed"">
             <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
             <p class="song-rating">1/4</p>
-            <p class="song-date">AUGUST 18, 2025</p>
+            <p class="song-date">August 18, 2025</p>
             <p class="song-description">Why the fuck is everyone trying to do alt-country poorly now.</p>
             <div class="song-links">
                 <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
@@ -93,13 +104,13 @@
             newsletter: {
                 title: "Newsletter",
                 html: `<div class="section">
-        <p><a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
+        <p>Get a link to my latest reviews every Friday, along with other fun links and musings about life: <a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
     </div>`
             },
             podcast: {
                 title: "Podcast",
                 html: `<div class="section">
-        <p><a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
+        <p>It's like OPE! but easier to understand: <a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
     </div>`
             },
             members: {
@@ -115,7 +126,7 @@
         <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor - "all my friends are so depressed"">
             <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
             <p class="song-rating">1/4</p>
-            <p class="song-date">AUGUST 18, 2025</p>
+            <p class="song-date">August 18, 2025</p>
             <p class="song-description">Why the fuck is everyone trying to do alt-country poorly now.</p>
             <div class="song-links">
                 <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
@@ -169,28 +180,52 @@
         function showContent(page) {
             const container = document.getElementById('content-container');
             const freeLink = document.getElementById('free-link');
-            const albumsLink = document.getElementById('albums-link');
-            // const membersLink = document.getElementById('members-link');
+            const newsletterLink = document.getElementById('newsletter-link');
+            const podcastLink = document.getElementById('podcast-link');
             
             // Update content
             container.innerHTML = content[page].html;
             
-            // Update navigation styling
+            // Update navigation styling and ARIA states
             freeLink.classList.remove('active');
-            albumsLink.classList.remove('active');
-            // membersLink.classList.remove('active');
+            freeLink.setAttribute('aria-selected', 'false');
+            newsletterLink.classList.remove('active');
+            newsletterLink.setAttribute('aria-selected', 'false');
+            podcastLink.classList.remove('active');
+            podcastLink.setAttribute('aria-selected', 'false');
             
             if (page === 'free') {
                 freeLink.classList.add('active');
-            } else if (page === 'albums') {
-                albumsLink.classList.add('active');
+                freeLink.setAttribute('aria-selected', 'true');
+            } else if (page === 'newsletter') {
+                newsletterLink.classList.add('active');
+                newsletterLink.setAttribute('aria-selected', 'true');
+            } else if (page === 'podcast') {
+                podcastLink.classList.add('active');
+                podcastLink.setAttribute('aria-selected', 'true');
             }
-            // else if (page === 'members') {
-            //     membersLink.classList.add('active');
-            // }
             
             // Update page title
             document.title = `OPE! - ${content[page].title}`;
+            
+            // Announce page change to screen readers
+            announcePageChange(content[page].title);
+        }
+        
+        // Function to announce page changes to screen readers
+        function announcePageChange(pageTitle) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = `Switched to ${pageTitle} page`;
+            
+            document.body.appendChild(announcement);
+            
+            // Remove after announcement
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
         }
 
         // Function to search albums
@@ -319,8 +354,15 @@
             const currentUrl = window.location.href.split('#')[0];
             const shareUrl = `${currentUrl}#${songId}`;
             
-            // Copy URL to clipboard
-            navigator.clipboard.writeText(shareUrl).then(() => {
+            // Simply copy the direct link to clipboard
+            copyToClipboard(songId, songTitle, shareUrl);
+        }
+        
+
+        
+        // Function to copy link to clipboard
+        function copyToClipboard(songId, songTitle, shareUrl) {
+            const doSuccessUI = () => {
                 // Show success message
                 const shareBtn = document.querySelector(`#${songId} .share-btn`);
                 
@@ -333,46 +375,55 @@
                         shareBtn.textContent = originalText;
                         shareBtn.classList.remove('copied');
                     }, 2000);
-                } else {
-                    console.error('Share button not found for:', songId);
-                    // Fallback: show alert
-                    alert('Link copied to clipboard: ' + shareUrl);
                 }
-            }).catch(err => {
-                console.error('Failed to copy to clipboard:', err);
-                // Fallback: show alert
-                alert('Link copied to clipboard: ' + shareUrl);
-            });
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(shareUrl).then(doSuccessUI).catch(() => {
+                    // Fallback below
+                    try {
+                        const ta = document.createElement('textarea');
+                        ta.value = shareUrl;
+                        ta.setAttribute('readonly', '');
+                        ta.style.position = 'absolute';
+                        ta.style.left = '-9999px';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(ta);
+                        doSuccessUI();
+                    } catch (err2) {
+                        alert('Link: ' + shareUrl);
+                    }
+                });
+            } else {
+                // Fallback for insecure contexts
+                try {
+                    const ta = document.createElement('textarea');
+                    ta.value = shareUrl;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'absolute';
+                    ta.style.left = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    doSuccessUI();
+                } catch (err3) {
+                    alert('Link: ' + shareUrl);
+                }
+            }
         }
+        
+
 
         // Function to share an album
         function shareAlbum(albumId, albumTitle) {
             const currentUrl = window.location.href.split('#')[0];
             const shareUrl = `${currentUrl}#${albumId}`;
             
-            // Copy URL to clipboard
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                // Show success message
-                const shareBtn = document.querySelector(`#${albumId} .share-btn`);
-                if (shareBtn) {
-                    const originalText = shareBtn.textContent;
-                    shareBtn.textContent = '✅ Link Copied!';
-                    shareBtn.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        shareBtn.textContent = originalText;
-                        shareBtn.classList.remove('copied');
-                    }, 2000);
-                } else {
-                    console.error('Share button not found for:', albumId);
-                    // Fallback: show alert
-                    alert('Link copied to clipboard: ' + shareUrl);
-                }
-            }).catch(err => {
-                console.error('Failed to copy to clipboard:', err);
-                // Fallback: show alert
-                alert('Link copied to clipboard: ' + shareUrl);
-            });
+            // Simply copy the direct link to clipboard
+            copyToClipboard(albumId, albumTitle, shareUrl);
         }
 
         // Function to handle hash navigation
@@ -408,14 +459,60 @@
 
         // Listen for hash changes
         window.addEventListener('hashchange', handleHashNavigation);
+
+        // Back to top functionality
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        // Smooth scroll to top when clicked
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Keyboard navigation for tabs
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const tabs = document.querySelectorAll('.nav a[role="tab"]');
+                const currentTab = document.querySelector('.nav a[aria-selected="true"]');
+                const currentIndex = Array.from(tabs).indexOf(currentTab);
+                
+                let nextIndex;
+                if (e.key === 'ArrowRight') {
+                    nextIndex = (currentIndex + 1) % tabs.length;
+                } else {
+                    nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                }
+                
+                const nextTab = tabs[nextIndex];
+                const page = nextTab.getAttribute('onclick').match(/'([^']+)'/)[1];
+                showContent(page);
+                nextTab.focus();
+                e.preventDefault();
+            }
+        });
     </script>
 
-                                                                                                                                        <!-- Footer -->
-    <div class="footer">
+                                                                                                                                                        <!-- Footer -->
+    <footer class="footer" role="contentinfo">
         
         <div class="footer-content">
             <div class="last-updated">
                 <strong>Last updated:</strong> August 18, 2025 (Los Angeles, CA PST Time)
+            </div>
+            
+            <div class="support-info">
+                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends.
             </div>
             
             <div class="contact-info">
@@ -427,6 +524,6 @@
                 <span class="copyright">&copy; 2025 OPE!. All rights reserved.</span>
             </div>
         </div>
-    </div>
+    </footer>
 </body>
 </html>
