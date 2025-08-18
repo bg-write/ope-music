@@ -6,13 +6,11 @@
   "scripts": {
     "build": "node build.js",
     "build:prod": "node build.js --production",
-    "watch": "node build.js && echo 'Watching for changes...' && fswatch -o content/ | xargs -n1 -I{} node build.js"
+    "watch": "node build.js && echo 'Watching for changes...' && echo 'Note: Install fswatch locally with: npm install -g fswatch'"
   },
   "keywords": ["music", "discovery", "blog", "markdown"],
   "author": "Brady Gerber",
   "license": "MIT",
-  "devDependencies": {
-    "fswatch": "^1.0.0"
-  },
+  "devDependencies": {},
   "dependencies": {}
 }
