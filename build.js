@@ -47,27 +47,23 @@ function parseMarkdown(content) {
 function generateFeaturedSongHTML(songs, lastModifiedString) {
     if (songs.length === 0) return '<p>No songs available yet.</p>';
 
-    const featuredSong = songs.find(song => song.featured);
-    if (!featuredSong) return '<p>No featured song this week.</p>';
+    const featuredSongs = songs.filter(song => song.featured);
+    if (featuredSongs.length === 0) return '<p>No featured songs this week.</p>';
 
-    // Create clean URL-friendly ID
-    const songId = featuredSong.title.toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-        .replace(/\s+/g, '-') // Replace spaces with hyphens
-        .replace(/-+/g, '-') // Replace multiple hyphens with single
-        .replace(/^-|-$/g, '') // Remove leading/trailing hyphens
-        + '-song-review';
+    // Generate HTML for all featured songs
+    const featuredSongsHTML = featuredSongs.map(featuredSong => {
+        // Create clean URL-friendly ID
+        const songId = featuredSong.title.toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+            .replace(/\s+/g, '-') // Replace spaces with hyphens
+            .replace(/-+/g, '-') // Replace multiple hyphens with single
+            .replace(/^-|-$/g, '') // Remove leading/trailing hyphens
+            + '-song-review';
 
-    // Escape quotes for JavaScript
-    const escapedTitle = featuredSong.title.replace(/"/g, '&quot;');
+        // Escape quotes for JavaScript
+        const escapedTitle = featuredSong.title.replace(/"/g, '&quot;');
 
-    return `
-    <div class="section">
-        <div class="search-section">
-            <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
-            <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
-        </div>
-        
+        return `
         <div class="song-entry" id="${songId}" data-artist="${featuredSong.title.toLowerCase()}">
             <h3 class="song-title">${featuredSong.title}</h3>
             <p class="song-rating">${featuredSong.rating || '4/4'}</p>
@@ -77,7 +73,17 @@ function generateFeaturedSongHTML(songs, lastModifiedString) {
                 <a href="${featuredSong.youtube}" target="_blank" rel="noopener">Listen</a>
                 <button onclick="shareSong('${songId}', '${escapedTitle}')" class="share-btn">Share</button>
             </div>
+        </div>`;
+    }).join('');
+
+    return `
+    <div class="section">
+        <div class="search-section">
+            <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+            <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
         </div>
+        
+        ${featuredSongsHTML}
     </div>`;
 }
 
