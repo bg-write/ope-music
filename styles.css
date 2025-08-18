@@ -1,0 +1,334 @@
+/* OPE! Music Discovery Website - Ultra Minimal Styling */
+/* Clean, plain-text aesthetic with subtle animations */
+
+/* Basic Reset - removes default browser styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+    line-height: 1.3;
+    color: #000;
+    background-color: #fff;
+    font-size: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Basic Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    margin: 15px 0 8px 0;
+}
+
+h1 {
+    font-size: 18px;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+p {
+    margin: 8px 0;
+}
+
+/* Basic Links */
+a {
+    color: #000;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Basic Lists */
+ul, ol {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+li {
+    margin: 3px 0;
+}
+
+/* Header Layout - positions logo and text side by side */
+/* Uses inline-block for horizontal alignment without flexbox complexity */
+.header-content {
+    margin-bottom: 20px;
+}
+
+.header-text {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.header-image {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: 15px;
+}
+
+/* Logo Animation - subtle bounce effect for visual interest */
+/* Gentle upward movement every 2.5 seconds */
+.logo {
+    width: 130px;
+    height: 130px;
+    animation: gentle-bounce 2.5s ease-in-out infinite;
+}
+
+@keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Author Image - small profile picture in footer */
+/* Subtle glow effect on hover for interactivity */
+.author-image {
+    width: 40px;
+    height: 40px;
+    margin: 10px 0 20px 0;
+    animation: subtle-glow 4s ease-in-out infinite;
+    display: block;
+}
+
+@keyframes subtle-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+/* Basic Spacing */
+.section {
+    margin: 25px 0;
+}
+
+.search-section {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.search-section input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.search-help {
+    margin: 8px 0 0 0;
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+}
+
+.no-results {
+    margin: 15px 0 0 0;
+    font-size: 16px;
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+/* Song and Album Entry Styling - consistent layout for all content */
+/* Each entry has title, rating, date, description, and action links */
+.song-entry, .link-entry {
+    margin: 15px 0;
+    padding: 8px 0;
+}
+
+.song-title {
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+}
+
+.song-links {
+    margin: 0.5rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.song-links a, .song-links .share-btn {
+    color: #0066cc;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.song-links a:hover, .song-links .share-btn:hover {
+    color: #004499;
+}
+
+.song-links a:active, .song-links .share-btn:active {
+    color: #003366;
+}
+
+/* Share button success state - visual feedback when link is copied */
+/* Green background with darker text for clear confirmation */
+.share-btn.copied {
+    background: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* Existing song entry styles */
+.song-date, .song-description {
+    margin: 0.5rem 0;
+}
+
+.song-artist {
+    font-style: italic;
+}
+
+.song-date {
+    color: #666;
+    font-size: 13px;
+}
+
+.song-rating {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.song-description {
+    margin: 8px 0;
+}
+
+.song-links {
+    margin: 8px 0;
+}
+
+.song-links a {
+    margin-right: 12px;
+}
+
+.link-entry {
+    margin: 15px 0;
+    padding: 8px 0;
+}
+
+.link-title {
+    font-weight: bold;
+}
+
+.link-date {
+    color: #666;
+    font-size: 13px;
+}
+
+.link-description {
+    margin: 8px 0;
+}
+
+/* Navigation - tab system for switching between content sections */
+/* Active tab is highlighted, inactive tabs are subtle */
+.nav {
+    margin: 15px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav a {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.nav a.active {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Content Container */
+#content-container {
+    flex: 1;
+}
+
+/* Footer */
+.footer {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+    font-size: 13px;
+    color: #666;
+}
+
+.footer-content {
+    margin: 20px 0;
+}
+
+.footer-content .last-updated {
+    margin: 15px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.footer-content .about-section {
+    margin: 20px 0;
+}
+
+.footer-content .about-section h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 15px 0 8px 0;
+}
+
+.footer-content .about-section p {
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.footer-bottom .author-image {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    animation: subtle-glow 4s ease-in-out infinite;
+}
+
+.footer-bottom .copyright {
+    font-size: 13px;
+    color: #666;
+    align-self: flex-end;
+}
+
+/* Last Updated */
+.last-updated {
+    margin: 15px 0;
+    font-size: 13px;
+    color: #666;
+}

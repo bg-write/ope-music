@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPE! - Music Reviews by Brady Gerber</title>
+    <meta name="description" content="Music sucks.">
+    <meta name="keywords" content="music discovery, song of the week, music recommendations, indie music, new music">
+    <meta name="author" content="Brady Gerber">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="OPE! - Music Reviews by Brady Gerber">
+    <meta property="og:description" content="Music sucks.">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OPE! - Music Reviews by Brady Gerber">
+    <meta name="twitter:description" content="Music sucks.">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+</head>
+<body>
+    <!-- Header Section with logo and tagline -->
+    <!-- Contains the main title, subtitle, and animated logo image -->
+    <div class="header-content">
+        <div class="header-text">
+            <h1>OPE!</h1>
+            <p>Music reviews by Brady Gerber</p>
+            <p>Fueled by corn and spite</p>
+        </div>
+        <div class="header-image">
+            <img src="images/logo.png" alt="OPE! Logo" class="logo">
+        </div>
+    </div>
+
+    <!-- Navigation tabs for switching between different content sections -->
+    <!-- Each tab loads content dynamically without page refresh -->
+    <div class="nav">
+        <a href="#" onclick="showContent('free')" id="free-link">Songs</a>
+        <a href="#" onclick="showContent('newsletter')" id="newsletter-link">Newsletter</a>
+        <a href="#" onclick="showContent('podcast')" id="podcast-link">Podcast</a>
+        <!-- <a href="#" onclick="showContent('albums')" id="albums-link">Album Reviews</a> -->
+        <!-- <a href="#" onclick="showContent('members')" id="members-link">Exclusive Member Content</a> -->
+    </div>
+
+    <!-- Content Container - dynamically populated by JavaScript -->
+    <!-- Content is loaded from the 'content' object below, which gets updated by build.js -->
+    <div id="content-container">
+        <!-- Content will be loaded here dynamically -->
+        <p>Content will be loaded from Markdown files...</p>
+    </div>
+
+    <script>
+        // Content data - This will be populated by the build script
+        // Each tab has a title and HTML content that gets injected into the page
+        const content = {
+            free: {
+                title: "Songs",
+                html: `
+    <div class="section">
+        <div class="search-section">
+            <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+            <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
+        </div>
+        
+        <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k - "barely a horse, mostly a pony"">
+            <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
+            <p class="song-rating">3.5/4</p>
+            <p class="song-date">August 15, 2025</p>
+            <p class="song-description">The sound of a horse looking out at the sea and thinking about frisbees and the sadness of Tolstoy. Seagulls flutter. The wind; it smells like Elvis's hairspray. I want to drop a rock into the ocean and pray for its safety. It's adorable zoomers think they discovered y'alternative and have the right to ban the term. Spider-Man weeps, but not alone.</p>
+            <div class="song-links">
+                <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
+                <button onclick="shareSong('horses-4k-barely-a-horse-mostly-a-pony-song-review', 'Horses 4k - &quot;Barely a Horse, Mostly a Pony&quot;')" class="share-btn">Share</button>
+            </div>
+        </div>
+    </div>`
+            },
+            newsletter: {
+                title: "Newsletter",
+                html: `<div class="section">
+        <p><a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
+    </div>`
+            },
+            podcast: {
+                title: "Podcast",
+                html: `<div class="section">
+        <p><a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
+    </div>`
+            },
+            members: {
+                title: "All Weekly Picks",
+                html: `<div class="section">
+        <div class="search-section">
+            <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+            <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
+        </div>
+        
+        <h2>All Weekly Picks</h2>
+        
+        <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k - "barely a horse, mostly a pony"">
+            <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
+            <p class="song-rating">3.5/4</p>
+            <p class="song-date">August 15, 2025</p>
+            <p class="song-description">The sound of a horse looking out at the sea and thinking about frisbees and the sadness of Tolstoy. Seagulls flutter. The wind; it smells like Elvis's hairspray. I want to drop a rock into the ocean and pray for its safety. It's adorable zoomers think they discovered y'alternative and have the right to ban the term. Spider-Man weeps, but not alone.</p>
+            <div class="song-links">
+                <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
+                <button onclick="shareSong('horses-4k-barely-a-horse-mostly-a-pony-song-review', 'Horses 4k - &quot;Barely a Horse, Mostly a Pony&quot;')" class="share-btn">Share</button>
+            </div>
+        </div>
+    </div>
+
+                    <div class="section">
+        <h2>Link Recommendations</h2>
+        
+        
+        <div class="link-entry">
+            <h3 class="link-title">The Evolution of Synthwave: From VHS to Spotify</h3>
+            <p class="link-date">August 12, 2025</p>
+            <p class="link-description">Sick.</p>
+            <a href="https://example.com/synthwave-evolution" target="_blank" rel="noopener">Read Article</a>
+        </div>
+        <div class="link-entry">
+            <h3 class="link-title">Why We Love Sad Songs: The Science of Musical Emotion</h3>
+            <p class="link-date">August 5, 2025</p>
+            <p class="link-description">Sick.</p>
+            <a href="https://example.com/sad-songs-science" target="_blank" rel="noopener">Read Article</a>
+        </div>
+        <div class="link-entry">
+            <h3 class="link-title">The Art of the Album Cover: 50 Years of Visual Music</h3>
+            <p class="link-date">July 28, 2025</p>
+            <p class="link-description">Sick.</p>
+            <a href="https://example.com/album-covers" target="_blank" rel="noopener">Read Article</a>
+        </div>
+        <div class="link-entry">
+            <h3 class="link-title">How Streaming Changed the Way We Discover Music</h3>
+            <p class="link-date">July 21, 2025</p>
+            <p class="link-description">Sick.</p>
+            <a href="https://example.com/streaming-discovery" target="_blank" rel="noopener">Read Article</a>
+        </div></div>`
+            }
+        };
+
+        // Function to show content
+        function showContent(page) {
+            const container = document.getElementById('content-container');
+            const freeLink = document.getElementById('free-link');
+            const albumsLink = document.getElementById('albums-link');
+            // const membersLink = document.getElementById('members-link');
+            
+            // Update content
+            container.innerHTML = content[page].html;
+            
+            // Update navigation styling
+            freeLink.classList.remove('active');
+            albumsLink.classList.remove('active');
+            // membersLink.classList.remove('active');
+            
+            if (page === 'free') {
+                freeLink.classList.add('active');
+            } else if (page === 'albums') {
+                albumsLink.classList.add('active');
+            }
+            // else if (page === 'members') {
+            //     membersLink.classList.add('active');
+            // }
+            
+            // Update page title
+            document.title = `OPE! - ${content[page].title}`;
+        }
+
+        // Function to search albums
+        function searchAlbums() {
+            const searchTerm = document.getElementById('album-search').value.toLowerCase();
+            const albumEntries = document.querySelectorAll('.song-entry[data-artist]');
+            let visibleCount = 0;
+            
+            // Split search into individual terms
+            const searchTerms = searchTerm.split(' ').filter(term => term.length > 0);
+            
+            albumEntries.forEach(entry => {
+                const artistText = entry.getAttribute('data-artist');
+                const titleText = entry.querySelector('.song-title').textContent.toLowerCase();
+                const combinedText = `${artistText} ${titleText}`;
+                
+                let shouldShow = false;
+                
+                if (searchTerm === '') {
+                    // Empty search shows everything
+                    shouldShow = true;
+                } else if (searchTerms.length === 1) {
+                    // Single term search - check if it appears anywhere
+                    shouldShow = combinedText.includes(searchTerms[0]);
+                } else {
+                    // Multi-term search - check if ALL terms appear somewhere
+                    shouldShow = searchTerms.every(term => combinedText.includes(term));
+                }
+                
+                if (shouldShow) {
+                    entry.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+            
+            // Show/hide "no results" message
+            let noResultsMsg = document.getElementById('no-results-msg');
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('p');
+                noResultsMsg.id = 'no-results-msg';
+                noResultsMsg.className = 'no-results';
+                noResultsMsg.textContent = 'No results, sad.';
+                const searchSection = document.querySelector('.search-section');
+                if (searchSection) {
+                    searchSection.appendChild(noResultsMsg);
+                }
+            }
+            
+            if (visibleCount === 0 && searchTerm !== '') {
+                noResultsMsg.style.display = 'block';
+            } else {
+                noResultsMsg.style.display = 'none';
+            }
+        }
+
+        // Function to search songs by artist name or song title
+        // Supports multi-term search and shows "no results" message when needed
+        function searchSongs() {
+            const searchTerm = document.getElementById('song-search').value.toLowerCase();
+            const songEntries = document.querySelectorAll('.song-entry[data-artist]'); // Songs now have data-artist
+            let visibleCount = 0;
+            
+            // Split search into individual terms
+            const searchTerms = searchTerm.split(' ').filter(term => term.length > 0);
+            
+            songEntries.forEach(entry => {
+                const artistText = entry.getAttribute('data-artist');
+                const titleText = entry.querySelector('.song-title').textContent.toLowerCase();
+                const combinedText = `${artistText} ${titleText}`;
+                
+                let shouldShow = false;
+                
+                if (searchTerm === '') {
+                    // Empty search shows everything
+                    shouldShow = true;
+                } else if (searchTerms.length === 1) {
+                    // Single term search - check if it appears anywhere
+                    shouldShow = combinedText.includes(searchTerms[0]);
+                } else {
+                    // Multi-term search - check if ALL terms appear somewhere
+                    shouldShow = searchTerms.every(term => combinedText.includes(term));
+                }
+                
+                if (shouldShow) {
+                    entry.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+            
+            // Show/hide "no results" message
+            let noResultsMsg = document.getElementById('no-results-msg');
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('p');
+                noResultsMsg.id = 'no-results-msg';
+                noResultsMsg.className = 'no-results';
+                noResultsMsg.textContent = 'No results, sad.';
+                const searchSection = document.querySelector('.search-section');
+                if (searchSection) {
+                    searchSection.appendChild(noResultsMsg);
+                }
+            }
+            
+            if (visibleCount === 0 && searchTerm !== '') {
+                noResultsMsg.style.display = 'block';
+            } else {
+                noResultsMsg.style.display = 'none';
+            }
+        }
+
+        // Show free page by default
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if there's a hash in the URL for direct navigation
+            handleHashNavigation();
+            
+            // Show default page
+            showContent('free');
+        });
+
+        // Function to share a song by copying its direct link to clipboard
+        // Creates a unique URL with hash navigation for each song
+        function shareSong(songId, songTitle) {
+            console.log('shareSong called with:', songId, songTitle);
+            const currentUrl = window.location.href.split('#')[0];
+            const shareUrl = `${currentUrl}#${songId}`;
+            console.log('Share URL:', shareUrl);
+            
+            if (navigator.share) {
+                // Use native sharing on mobile devices
+                navigator.share({
+                    title: `Check out this song: ${songTitle}`,
+                    text: `I found this great song on OPE! - ${songTitle}`,
+                    url: shareUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    console.log('URL copied to clipboard');
+                    // Show success message
+                    const shareBtn = document.querySelector(`#${songId} .share-btn`);
+                    console.log('Found share button:', shareBtn);
+                    
+                    if (shareBtn) {
+                        const originalText = shareBtn.textContent;
+                        shareBtn.textContent = '✅ Copied!';
+                        shareBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            shareBtn.textContent = originalText;
+                            shareBtn.classList.remove('copied');
+                        }, 2000);
+                    } else {
+                        console.error('Share button not found for:', songId);
+                        // Fallback: show alert
+                        alert('Link copied to clipboard: ' + shareUrl);
+                    }
+                }).catch(err => {
+                    console.error('Failed to copy to clipboard:', err);
+                    // Fallback: show alert
+                    alert('Link copied to clipboard: ' + shareUrl);
+                });
+            }
+        }
+
+        // Function to share an album
+        function shareAlbum(albumId, albumTitle) {
+            const currentUrl = window.location.href.split('#')[0];
+            const shareUrl = `${currentUrl}#${albumId}`;
+            
+            if (navigator.share) {
+                // Use native sharing on mobile devices
+                navigator.share({
+                    title: `Check out this album review: ${albumTitle}`,
+                    text: `I found this great album review on OPE! - ${albumTitle}`,
+                    url: shareUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    // Show success message
+                    const shareBtn = document.querySelector(`#${albumId} .share-btn`);
+                    if (shareBtn) {
+                        const originalText = shareBtn.textContent;
+                        shareBtn.textContent = '✅ Copied!';
+                        shareBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            shareBtn.textContent = originalText;
+                            shareBtn.classList.remove('copied');
+                        }, 2000);
+                    } else {
+                        console.error('Share button not found for:', albumId);
+                        // Fallback: show alert
+                        alert('Link copied to clipboard: ' + shareUrl);
+                    }
+                });
+            }
+        }
+
+        // Function to handle hash navigation
+        function handleHashNavigation() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                // Find the element with this ID
+                const targetElement = document.getElementById(hash);
+                if (targetElement) {
+                    // Determine which tab this element belongs to
+                    if (hash.includes('-song-review')) {
+                        showContent('free');
+                    } else if (hash.includes('-album-review')) {
+                        showContent('albums');
+                    }
+                    
+                    // Wait for content to load, then scroll to element
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                        
+                        // Add a subtle highlight effect
+                        targetElement.style.boxShadow = '0 0 20px rgba(0,123,255,0.3)';
+                        setTimeout(() => {
+                            targetElement.style.boxShadow = '';
+                        }, 2000);
+                    }, 100);
+                }
+            }
+        }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleHashNavigation);
+    </script>
+
+                                                                                        <!-- Footer -->
+    <div class="footer">
+        
+        <div class="footer-content">
+            <div class="last-updated">
+                <strong>Last updated:</strong> August 17, 2025
+            </div>
+            
+            <div class="contact-info">
+                Don't like my reviews? Email me at bradywgerber at gmail dot com to tell me why I'm wrong, or hate-click my <a href="https://bradygerber.com/" target="_blank" rel="noopener">website</a>.
+            </div>
+            
+            <div class="footer-bottom">
+                <img src="images/author.png" alt="Brady Gerber" class="author-image">
+                <span class="copyright">&copy; 2025 OPE!. All rights reserved.</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
