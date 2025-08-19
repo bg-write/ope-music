@@ -4,7 +4,7 @@ const path = require('path');
 // Load reviews from JSON file
 function loadReviews() {
   try {
-    const dataFile = path.join(__dirname, '../../python_backend/data/reviews.json');
+    const dataFile = path.join(__dirname, '../reviews.json');
     const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
     return data.reviews || [];
   } catch (error) {
