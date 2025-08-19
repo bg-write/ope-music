@@ -1,0 +1,11 @@
+{
+  "name": "ope-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for OPE! Music Reviews API",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Functions are built automatically by Netlify'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

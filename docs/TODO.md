@@ -62,10 +62,39 @@
    - Add analytics tracking
    - **Status**: Simplified to one-click sharing with "Link Copied!" feedback, clipboard functionality working
 
+**Share button restoration** 🔧 **FUTURE WORK**
+   - Investigate and fix Share button functionality that was removed
+   - Ensure proper JavaScript execution without syntax errors
+   - Test clipboard API and visual feedback
+   - **Note**: Share buttons were temporarily removed due to JavaScript corruption issues
+
 **Search enhancements**
     - Add search suggestions
     - Show search history
     - Keyboard shortcuts
+
+**Analytics & Data Practice Implementation** 📊 **SKILL DEVELOPMENT**
+   - **Client-side tracking**: Use JavaScript to track user interactions (page views, search queries, review clicks)
+   - **Local storage analytics**: Store basic usage data in localStorage for demo purposes
+   - **Simple dashboard page**: Create an analytics.html page showing usage statistics
+   
+   **BigQuery/SQL Practice**:
+   - Export Markdown review data into CSV format
+   - Practice SQL queries on this data (most reviewed artists, average ratings, etc.)
+   - Upload to Google Sheets and practice SQL-like queries
+   
+   **Domo/Looker-style Dashboards**:
+   - Create simple analytics dashboard using Chart.js or similar
+   - Show metrics like:
+     - Total reviews by month
+     - Average ratings by artist/genre
+     - Most searched terms
+     - Popular review pages
+   
+   **Quick implementation idea**:
+   - Add simple analytics.js file that tracks and displays basic metrics
+   - Provides concrete examples for data collection and visualization discussions
+   - **Note**: Great for interview preparation and building practical data skills
 
 **Website sharing improvements**
     - Add new "Share" tab for clean website sharing (no hash)
@@ -92,6 +121,18 @@
     - Generate statistics and content insights
     - Export data for analysis
     - Keep Markdown workflow, add SQL for querying
+
+### **Build Script Safety & Maintenance** ⚠️ **IMPORTANT**
+**Prevent build.js corruption of index.html**
+    - **Current Issue**: build.js can corrupt index.html if not carefully managed
+    - **Dangers**: Malformed HTML, JavaScript syntax errors, broken functionality
+    - **Best Practices**: 
+        - Always test build output before committing
+        - Use git to restore index.html if corruption occurs
+        - Keep build.js changes minimal and focused
+        - Consider automated testing of build output
+        - Document any complex build script modifications
+    - **Note**: This project experienced significant issues with build script corruption
 
 ## ✅ **COMPLETED ITEMS - Ready for Launch**
 
