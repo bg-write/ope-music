@@ -72,45 +72,51 @@
             free: {
                 title: "Songs",
                 html: `
-    <div class="section">
-        <div class="search-section">
-            <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
-            <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
-        </div>
-        
-        
-        <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor - "all my friends are so depressed"">
-            <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
-            <p class="song-rating">1/4</p>
-            <p class="song-date">August 18, 2025</p>
-            <p class="song-description">Why the fuck is everyone trying to do alt-country poorly now.</p>
-            <div class="song-links">
-                <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
-                <button onclick="shareSong('joyce-manor-all-my-friends-are-so-depressed-song-review', 'Joyce Manor - &quot;All My Friends Are So Depressed&quot;')" class="share-btn">Share</button>
+        <div class="section">
+            <div class="search-section">
+                <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+                <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
             </div>
-        </div>
-        <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k - "barely a horse, mostly a pony"">
-            <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
-            <p class="song-rating">3.5/4</p>
-            <p class="song-date">August 15, 2025</p>
-            <p class="song-description">The sound of a horse looking out at the sea and thinking about frisbees and the sadness of Tolstoy. Seagulls flutter. The wind; it smells like Elvis's hairspray. I want to drop a rock into the ocean and pray for its safety. It's adorable zoomers think they discovered y'alternative and have the right to ban the term. Spider-Man weeps, but not alone.</p>
-            <div class="song-links">
-                <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
-                <button onclick="shareSong('horses-4k-barely-a-horse-mostly-a-pony-song-review', 'Horses 4k - &quot;Barely a Horse, Mostly a Pony&quot;')" class="share-btn">Share</button>
+            
+            
+            <div class="song-entry" id="wednesday-bitter-everyday-song-review" data-artist="wednesday  bitter everyday">
+                <h3 class="song-title">Wednesday - "Bitter Everyday"</h3>
+                <p class="song-rating">0.5/4</p>
+                <p class="song-date">August 19, 2025</p>
+                <p class="song-description">I'd rather lick Kid Rock's dinghy than listen to any more 2020s shoegaze. Even mildew and regret got bored by this song.</p>
+                <div class="song-links">
+                    <a href="https://youtu.be/qGNRGk5TOLE?si=-9XE7b4vi1BZC-re" target="_blank" rel="noopener">Listen</a>
+                </div>
             </div>
-        </div>
-    </div>`
+            <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor  all my friends are so depressed">
+                <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
+                <p class="song-rating">1/4</p>
+                <p class="song-date">August 18, 2025</p>
+                <p class="song-description">Why is everyone trying to do alt-country poorly now. The Civil War reenactment of Old 97's no one asked for.</p>
+                <div class="song-links">
+                    <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
+                </div>
+            </div>
+            <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k  barely a horse mostly a pony">
+                <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
+                <p class="song-rating">3.5/4</p>
+                <p class="song-date">August 15, 2025</p>
+                <p class="song-description">The sound of a horse staring at the sea, pondering frisbees and Tolstoy. Seagulls heckle. The wind; it smells like Elvis's hairspray. And zoomers — bless them — think they invented y'alternative just to ban it, like they're trying to outlaw sadness itself.</p>
+                <div class="song-links">
+                    <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
+                </div>
+            </div></div>`
             },
             newsletter: {
                 title: "Newsletter",
                 html: `<div class="section">
-        <p>Get a link to my latest reviews every Friday, along with other fun links and musings about life: <a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
+        <p>A link to the week's reviews every Friday, along with other "fun" links and "musings" on "life": <a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
     </div>`
             },
             podcast: {
                 title: "Podcast",
                 html: `<div class="section">
-        <p>It's like OPE! but easier to understand: <a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
+        <p>My reviews, but easier to understand: <a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
     </div>`
             },
             members: {
@@ -120,59 +126,65 @@
             <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
             <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
         </div>
-        
-        <h2>All Weekly Picks</h2>
-        
-        <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor - "all my friends are so depressed"">
-            <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
-            <p class="song-rating">1/4</p>
-            <p class="song-date">August 18, 2025</p>
-            <p class="song-description">Why the fuck is everyone trying to do alt-country poorly now.</p>
-            <div class="song-links">
-                <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
-                <button onclick="shareSong('joyce-manor-all-my-friends-are-so-depressed-song-review', 'Joyce Manor - &quot;All My Friends Are So Depressed&quot;')" class="share-btn">Share</button>
+            <div class="song-entry" id="wednesday-bitter-everyday-song-review" data-artist="wednesday  bitter everyday">
+                <h3 class="song-title">Wednesday - "Bitter Everyday"</h3>
+                <p class="song-rating">0.5/4</p>
+                <p class="song-date">August 19, 2025</p>
+                <p class="song-description">I'd rather lick Kid Rock's dinghy than listen to any more 2020s shoegaze. Even mildew and regret got bored by this song.</p>
+                <div class="song-links">
+                    <a href="https://youtu.be/qGNRGk5TOLE?si=-9XE7b4vi1BZC-re" target="_blank" rel="noopener">Listen</a>
+                </div>
             </div>
-        </div>
-        <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k - "barely a horse, mostly a pony"">
-            <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
-            <p class="song-rating">3.5/4</p>
-            <p class="song-date">August 15, 2025</p>
-            <p class="song-description">The sound of a horse looking out at the sea and thinking about frisbees and the sadness of Tolstoy. Seagulls flutter. The wind; it smells like Elvis's hairspray. I want to drop a rock into the ocean and pray for its safety. It's adorable zoomers think they discovered y'alternative and have the right to ban the term. Spider-Man weeps, but not alone.</p>
-            <div class="song-links">
-                <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
-                <button onclick="shareSong('horses-4k-barely-a-horse-mostly-a-pony-song-review', 'Horses 4k - &quot;Barely a Horse, Mostly a Pony&quot;')" class="share-btn">Share</button>
+            <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor  all my friends are so depressed">
+                <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
+                <p class="song-rating">1/4</p>
+                <p class="song-date">August 18, 2025</p>
+                <p class="song-description">Why is everyone trying to do alt-country poorly now. The Civil War reenactment of Old 97's no one asked for.</p>
+                <div class="song-links">
+                    <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
+                </div>
             </div>
-        </div>
-    </div>
-
-                    <div class="section">
-        <h2>Link Recommendations</h2>
-        
-        
-        <div class="link-entry">
-            <h3 class="link-title">The Evolution of Synthwave: From VHS to Spotify</h3>
-            <p class="link-date">August 12, 2025</p>
-            <p class="link-description">Sick.</p>
-            <a href="https://example.com/synthwave-evolution" target="_blank" rel="noopener">Read Article</a>
-        </div>
-        <div class="link-entry">
-            <h3 class="link-title">Why We Love Sad Songs: The Science of Musical Emotion</h3>
-            <p class="link-date">August 5, 2025</p>
-            <p class="link-description">Sick.</p>
-            <a href="https://example.com/sad-songs-science" target="_blank" rel="noopener">Read Article</a>
-        </div>
-        <div class="link-entry">
-            <h3 class="link-title">The Art of the Album Cover: 50 Years of Visual Music</h3>
-            <p class="link-date">July 28, 2025</p>
-            <p class="link-description">Sick.</p>
-            <a href="https://example.com/album-covers" target="_blank" rel="noopener">Read Article</a>
-        </div>
-        <div class="link-entry">
-            <h3 class="link-title">How Streaming Changed the Way We Discover Music</h3>
-            <p class="link-date">July 21, 2025</p>
-            <p class="link-description">Sick.</p>
-            <a href="https://example.com/streaming-discovery" target="_blank" rel="noopener">Read Article</a>
-        </div></div>`
+            <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k  barely a horse mostly a pony">
+                <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
+                <p class="song-rating">3.5/4</p>
+                <p class="song-date">August 15, 2025</p>
+                <p class="song-description">The sound of a horse staring at the sea, pondering frisbees and Tolstoy. Seagulls heckle. The wind; it smells like Elvis's hairspray. And zoomers — bless them — think they invented y'alternative just to ban it, like they're trying to outlaw sadness itself.</p>
+                <div class="song-links">
+                    <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
+                </div>
+            </div>
+            <div class="link-entry">
+                <h3 class="link-title">The Evolution of Synthwave: From VHS to Spotify</h3>
+                <p class="link-date">August 12, 2025</p>
+                <p class="link-description">Sick.</p>
+                <div class="link-links">
+                    <a href="https://example.com/synthwave-evolution" target="_blank" rel="noopener">Read More</a>
+                </div>
+            </div>
+            <div class="link-entry">
+                <h3 class="link-title">Why We Love Sad Songs: The Science of Musical Emotion</h3>
+                <p class="link-date">August 5, 2025</p>
+                <p class="link-description">Sick.</p>
+                <div class="link-links">
+                    <a href="https://example.com/sad-songs-science" target="_blank" rel="noopener">Read More</a>
+                </div>
+            </div>
+            <div class="link-entry">
+                <h3 class="link-title">The Art of the Album Cover: 50 Years of Visual Music</h3>
+                <p class="link-date">July 28, 2025</p>
+                <p class="link-description">Sick.</p>
+                <div class="link-links">
+                    <a href="https://example.com/album-covers" target="_blank" rel="noopener">Read More</a>
+                </div>
+            </div>
+            <div class="link-entry">
+                <h3 class="link-title">How Streaming Changed the Way We Discover Music</h3>
+                <p class="link-date">July 21, 2025</p>
+                <p class="link-description">Sick.</p>
+                <div class="link-links">
+                    <a href="https://example.com/streaming-discovery" target="_blank" rel="noopener">Read More</a>
+                </div>
+            </div></div>`
             }
         };
 
@@ -504,11 +516,11 @@
     </script>
 
                                                                                                                                                         <!-- Footer -->
-    <footer class="footer" role="contentinfo">
+<footer class="footer" role="contentinfo">
         
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> August 18, 2025 (Los Angeles, CA PST Time)
+                <strong>Last updated:</strong> August 19, 2025 (Los Angeles, CA PST Time)
             </div>
             
             <div class="support-info">
