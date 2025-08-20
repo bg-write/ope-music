@@ -5,7 +5,17 @@ const path = require('path');
 function loadReviews() {
   try {
     const dataFile = path.join(__dirname, 'reviews.json');
+    console.log('Attempting to read file:', dataFile);
+    console.log('Current directory:', __dirname);
+    
+    // Check if file exists
+    if (!fs.existsSync(dataFile)) {
+      console.error('File does not exist:', dataFile);
+      return [];
+    }
+    
     const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+    console.log('Successfully loaded data:', data);
     return data.reviews || [];
   } catch (error) {
     console.error('Error loading reviews:', error);
@@ -63,7 +73,12 @@ exports.handler = async function(event, context) {
         return createResponse({
           message: "OPE! Music Reviews API is working!",
           total_reviews: reviews.length,
-          sample_review: reviews[0] || null
+          sample_review: reviews[0] || null,
+          debug: {
+            current_dir: __dirname,
+            data_file: path.join(__dirname, 'reviews.json'),
+            file_exists: fs.existsSync(path.join(__dirname, 'reviews.json'))
+          }
         });
       }
     }
@@ -73,7 +88,13 @@ exports.handler = async function(event, context) {
       message: "OPE! Music Reviews API",
       status: "Function is running",
       path: path,
-      method: method
+      method: method,
+      debug: {
+        current_dir: __dirname,
+        data_file: path.join(__dirname, 'reviews.json'),
+        file_exists: fs.existsSync(path.join(__dirname, 'reviews.json')),
+        available_files: fs.readdirSync(__dirname)
+      }
     });
     
   } catch (error) {
