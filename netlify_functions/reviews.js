@@ -62,12 +62,12 @@ exports.handler = async function(event, context) {
   }
   
   // Get the path and method
-  const path = event.path;
+  const requestPath = event.path;
   const method = event.httpMethod;
   
   try {
     // Simple test endpoint
-    if (path === '/.netlify/functions/reviews') {
+    if (requestPath === '/.netlify/functions/reviews') {
       if (method === 'GET') {
         const reviews = loadReviews();
         return createResponse({
@@ -87,7 +87,7 @@ exports.handler = async function(event, context) {
     return createResponse({
       message: "OPE! Music Reviews API",
       status: "Function is running",
-      path: path,
+      path: requestPath,
       method: method,
       debug: {
         current_dir: __dirname,
