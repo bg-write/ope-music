@@ -71,7 +71,14 @@
         
         // Global data storage
         let reviewsData = [];
-        let linksData = [];
+        
+        // Analytics tracking
+        let analyticsData = {
+            pageViews: {},
+            searches: [],
+            reviewClicks: [],
+            sessionStart: new Date().toISOString()
+        };
         
         // Content data - Now dynamically populated from API
         let content = {
@@ -146,17 +153,7 @@
          * @param {string} link.url - URL to the link
          * @returns {string} HTML string for the link entry
          */
-        function generateLinkHTML(link) {
-            return `
-            <div class="link-entry">
-                <h3 class="link-title">${link.title}</h3>
-                <p class="link-date">${link.date}</p>
-                <p class="link-description">${link.description}</p>
-                <div class="link-links">
-                    <a href="${link.url}" target="_blank" rel="noopener">Read More</a>
-                </div>
-            </div>`;
-        }
+
 
         /**
          * Update the content object with data from the API
@@ -177,14 +174,13 @@
             }
 
             // Update All Weekly Picks tab (members)
-            if (reviewsData.length > 0 || linksData.length > 0) {
+            if (reviewsData.length > 0) {
                 const membersHTML = `
                 <div class="section">
                     <div class="search-section">
                         <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
                         <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
                         ${reviewsData.map(song => generateSongHTML(song)).join('')}
-                        ${linksData.map(link => generateLinkHTML(link)).join('')}
                     </div>`;
                 content.members.html = membersHTML;
             }
@@ -241,7 +237,7 @@
                 const reviewsResult = await reviewsResponse.json();
                 reviewsData = reviewsResult.reviews || [];
 
-                linksData = []; // No links API yet
+
 
                 // Update content with API data
                 updateContentFromAPI();
@@ -252,7 +248,7 @@
                     showContent(currentPage);
                 }
 
-                console.log('✅ API data loaded successfully:', { reviews: reviewsData.length, links: linksData.length });
+                // API data loaded successfully
             } catch (error) {
                 console.error('❌ Error fetching API data:', error);
                 // Create error HTML with retry button
@@ -279,6 +275,15 @@
             const freeLink = document.getElementById('free-link');
             const newsletterLink = document.getElementById('newsletter-link');
             const podcastLink = document.getElementById('podcast-link');
+            
+            // Track page view for analytics
+            if (!analyticsData.pageViews[page]) {
+                analyticsData.pageViews[page] = 0;
+            }
+            analyticsData.pageViews[page]++;
+            
+            // Save analytics data
+            saveAnalyticsData();
             
             // Update content
             container.innerHTML = content[page].html;
@@ -324,6 +329,129 @@
                 document.body.removeChild(announcement);
             }, 1000);
         }
+        
+        /**
+         * Save analytics data to localStorage
+         */
+        function saveAnalyticsData() {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('opeAnalytics', JSON.stringify(analyticsData));
+            }
+        }
+        
+        /**
+         * Load analytics data from localStorage
+         */
+        function loadAnalyticsData() {
+            if (typeof localStorage !== 'undefined') {
+                const saved = localStorage.getItem('opeAnalytics');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        analyticsData = { ...analyticsData, ...parsed };
+                    } catch (e) {
+                        console.warn('Could not parse saved analytics data');
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Export analytics data as CSV for SQL practice
+         */
+        function exportAnalyticsCSV() {
+            const csvData = [];
+            
+            // Page views data
+            Object.entries(analyticsData.pageViews).forEach(([page, count]) => {
+                csvData.push(`page_view,${page},${count},${new Date().toISOString()}`);
+            });
+            
+            // Search data
+            analyticsData.searches.forEach(search => {
+                csvData.push(`search,${search.term},${search.results},${search.timestamp}`);
+            });
+            
+            // Review clicks data
+            analyticsData.reviewClicks.forEach(click => {
+                csvData.push(`review_click,${click.reviewId},${click.reviewTitle},${click.timestamp}`);
+            });
+            
+            // API endpoints information
+            csvData.push(`api_endpoint,/reviews,all_reviews,${new Date().toISOString()}`);
+            
+            const csv = `event_type,value,count,timestamp\n${csvData.join('\n')}`;
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ope_analytics_${new Date().toISOString()}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        /**
+         * Export review metadata as CSV for data analysis
+         */
+        async function exportReviewsCSV() {
+            try {
+                // Fetch the latest review data from your API
+                const response = await fetch('https://ope-music.netlify.app/.netlify/functions/reviews');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                const reviews = data.reviews || [];
+                
+                if (reviews.length === 0) {
+                    alert('No reviews found to export');
+                    return;
+                }
+                
+                // Create CSV with review metadata
+                const csvData = [];
+                
+                // Add header row
+                csvData.push('song_title,song_artist,review_date,review_score,review_text,song_url,review_id');
+                
+                // Add each review as a row
+                reviews.forEach(review => {
+                    // Clean and escape the review text for CSV
+                    const cleanText = review.review_text.replace(/"/g, '""').replace(/\n/g, ' ');
+                    const cleanTitle = review.song_title.replace(/"/g, '""');
+                    const cleanArtist = review.song_artist.replace(/"/g, '""');
+                    
+                    // Convert review score from fraction to decimal (e.g., "1/4" -> "1.0")
+                    let reviewScore = review.review_score;
+                    if (reviewScore && reviewScore.includes('/')) {
+                        const [numerator, denominator] = reviewScore.split('/');
+                        const decimalScore = (parseFloat(numerator) / parseFloat(denominator)) * 4;
+                        reviewScore = decimalScore.toFixed(1); // Keep 1 decimal place
+                    }
+                    
+                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.review_date}","${reviewScore}","${cleanText}","${review.song_url}","${review.review_id}"`);
+                });
+                
+                            // Create and download CSV with proper headers
+            const csv = csvData.join('\n');
+            const blob = new Blob(['\ufeff' + csv], { 
+                type: 'text/csv;charset=utf-8;' 
+            });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ope_reviews_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+                
+                // Successfully exported reviews to CSV
+                
+            } catch (error) {
+                console.error('❌ Error exporting reviews:', error);
+                alert('Error exporting reviews. Please try again.');
+            }
+        }
 
         /**
          * Search songs by artist name or song title
@@ -332,6 +460,15 @@
         function searchSongs() {
             const searchTerm = document.getElementById('song-search').value.toLowerCase().trim();
             const songEntries = document.querySelectorAll('.song-entry[data-artist]');
+            
+            // Track search for analytics (only if there's a search term)
+            if (searchTerm) {
+                analyticsData.searches.push({
+                    term: searchTerm,
+                    timestamp: new Date().toISOString(),
+                    results: 0 // Will be updated below
+                });
+            }
             
             // Early return for empty search
             if (!searchTerm) {
@@ -355,6 +492,14 @@
                 entry.style.display = shouldShow ? 'block' : 'none';
                 if (shouldShow) visibleCount++;
             });
+            
+            // Update search results count in analytics
+            if (analyticsData.searches.length > 0) {
+                analyticsData.searches[analyticsData.searches.length - 1].results = visibleCount;
+            }
+            
+            // Save analytics data
+            saveAnalyticsData();
             
             // Show/hide "no results" message
             if (visibleCount === 0) {
@@ -395,6 +540,9 @@
 
         // Show free page by default
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved analytics data
+            loadAnalyticsData();
+            
             // Check if there's a hash in the URL for direct navigation
             handleHashNavigation();
             
@@ -566,11 +714,15 @@
             </div>
             
             <div class="support-info">
-                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends.
+                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends
             </div>
             
             <div class="contact-info">
-                Don't like my reviews? Email me at bradywgerber at gmail dot com to tell me why I'm wrong, or hate-click my <a href="https://bradygerber.com/" target="_blank" rel="noopener">website</a>.
+                <strong>Don't like my reviews?</strong> Email me at bradywgerber at gmail dot com to tell me why I'm wrong, or hate-click my <a href="https://bradygerber.com/" target="_blank" rel="noopener" class="api-link">website</a>
+            </div>
+            
+            <div class="analytics-info">
+                <strong>For all my data nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="exportReviewsCSV(); return false;" class="analytics-link">download OPE!'s review data as a CSV file</a> 📊 
             </div>
             
             <div class="footer-bottom">

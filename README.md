@@ -4,15 +4,20 @@ A minimal music discovery website powered by dynamic APIs.
 
 ## ✨ Features
 
-- **Music Reviews** - 1-4 scale ratings
+- **Music Reviews** - 1-4 scale ratings with decimal precision
 - **Smart Search** - Find content by artist or title
 - **Shareable Links** - Direct links to individual reviews
 - **Mobile-Responsive** - Works on all devices
 - **Dynamic Content** - Real-time updates via API
+- **Data Export** - CSV download for data analysis
+- **Public API** - RESTful endpoint for programmatic access
+- **Analytics Tracking** - User behavior monitoring
 
 ## 🚀 Live Site
 
 Visit: [https://ope-music.netlify.app](https://ope-music.netlify.app)
+
+**Public API**: [https://ope-music.netlify.app/api/reviews](https://ope-music.netlify.app/api/reviews)
 
 ## 🛠 Built With
 
@@ -22,6 +27,7 @@ Visit: [https://ope-music.netlify.app](https://ope-music.netlify.app)
 - **Markdown** - Simple content management
 - **Python** - Content conversion tools
 - **Netlify Functions** - Serverless API backend
+- **Data Analytics** - CSV export and analytics tracking
 
 ## 📁 Project Structure
 

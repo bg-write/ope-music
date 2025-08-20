@@ -256,6 +256,31 @@ li {
     font-style: italic;
 }
 
+.keyboard-help {
+    font-size: 11px;
+    color: #555;
+    margin: 8px 0;
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-left: 3px solid #007bff;
+    border-radius: 4px;
+}
+
+.keyboard-help kbd {
+    background-color: #e9ecef;
+    border: 1px solid #adb5bd;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    color: #495057;
+    display: inline-block;
+    font-size: 10px;
+    font-family: monospace;
+    line-height: 1.4;
+    margin: 0 2px;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
 .no-results {
     margin: 15px 0 0 0;
     font-size: 14px;
@@ -414,24 +439,6 @@ li {
     margin-right: 12px;
 }
 
-.link-entry {
-    margin: 15px 0;
-    padding: 8px 0;
-}
-
-.link-title {
-    font-weight: bold;
-}
-
-.link-date {
-    color: #666;
-    font-size: 11px;
-}
-
-.link-description {
-    margin: 8px 0;
-}
-
 /* Navigation - tab system for switching between content sections */
 /* Active tab is highlighted, inactive tabs are subtle */
 .nav {
@@ -503,6 +510,38 @@ li {
     margin: 8px 0;
     font-size: 11px;
     line-height: 1.4;
+}
+
+.analytics-info {
+    margin: 15px 0;
+    font-size: 11px;
+    color: #666;
+}
+
+.analytics-link {
+    color: #0066cc;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.analytics-link:hover {
+    color: #004499;
+}
+
+.api-info {
+    margin: 15px 0;
+    font-size: 11px;
+    color: #666;
+}
+
+.api-link {
+    color: #0066cc;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.api-link:hover {
+    color: #004499;
 }
 
 .footer-bottom {

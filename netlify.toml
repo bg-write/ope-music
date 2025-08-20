@@ -8,12 +8,12 @@
   node_bundler = "esbuild"
 
 [[redirects]]
-  from = "/api/*"
+  from = "/api/reviews"
   to = "/.netlify/functions/reviews"
   status = 200
 
 [[redirects]]
-  from = "/test"
+  from = "/api/*"
   to = "/.netlify/functions/reviews"
   status = 200
 
