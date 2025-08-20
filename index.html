@@ -66,127 +66,146 @@
     </button>
 
     <script>
-        // Content data - This will be populated by the build script
-        // Each tab has a title and HTML content that gets injected into the page
-        const content = {
-            free: {
-                title: "Songs",
-                html: `
-        <div class="section">
-            <div class="search-section">
-                <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
-                <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
-            </div>
-            
-            
-            <div class="song-entry" id="wednesday-bitter-everyday-song-review" data-artist="wednesday  bitter everyday">
-                <h3 class="song-title">Wednesday - "Bitter Everyday"</h3>
-                <p class="song-rating">0.5/4</p>
-                <p class="song-date">August 19, 2025</p>
-                <p class="song-description">I'd rather lick Kid Rock's dinghy than listen to any more 2020s shoegaze. Even mildew and regret got bored by this song.</p>
-                <div class="song-links">
-                    <a href="https://youtu.be/qGNRGk5TOLE?si=-9XE7b4vi1BZC-re" target="_blank" rel="noopener">Listen</a>
-                </div>
-            </div>
-            <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor  all my friends are so depressed">
-                <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
-                <p class="song-rating">1/4</p>
-                <p class="song-date">August 18, 2025</p>
-                <p class="song-description">Why is everyone trying to do alt-country poorly now. The Civil War reenactment of Old 97's no one asked for.</p>
-                <div class="song-links">
-                    <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
-                </div>
-            </div>
-            <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k  barely a horse mostly a pony">
-                <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
-                <p class="song-rating">3.5/4</p>
-                <p class="song-date">August 15, 2025</p>
-                <p class="song-description">The sound of a horse staring at the sea, pondering frisbees and Tolstoy. Seagulls heckle. The wind; it smells like Elvis's hairspray. And zoomers — bless them — think they invented y'alternative just to ban it, like they're trying to outlaw sadness itself.</p>
-                <div class="song-links">
-                    <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
-                </div>
-            </div></div>`
-            },
-            newsletter: {
-                title: "Newsletter",
-                html: `<div class="section">
+        // API Configuration
+        const API_BASE = 'https://ope-music.netlify.app/api';
+        
+        // Global data storage
+        let reviewsData = [];
+        let linksData = [];
+        
+        // Content data - Now dynamically populated from API
+        let content = {
+            free: { title: "Songs", html: '<div class="section"><p>Loading reviews...</p></div>' },
+            newsletter: { title: "Newsletter", html: `<div class="section">
         <p>A link to the week's reviews every Friday, along with other "fun" links and "musings" on "life": <a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
-    </div>`
-            },
-            podcast: {
-                title: "Podcast",
-                html: `<div class="section">
+    </div>` },
+            podcast: { title: "Podcast", html: `<div class="section">
         <p>My reviews, but easier to understand: <a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
-    </div>`
-            },
-            members: {
-                title: "All Weekly Picks",
-                html: `<div class="section">
-        <div class="search-section">
-            <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
-            <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
-        </div>
-            <div class="song-entry" id="wednesday-bitter-everyday-song-review" data-artist="wednesday  bitter everyday">
-                <h3 class="song-title">Wednesday - "Bitter Everyday"</h3>
-                <p class="song-rating">0.5/4</p>
-                <p class="song-date">August 19, 2025</p>
-                <p class="song-description">I'd rather lick Kid Rock's dinghy than listen to any more 2020s shoegaze. Even mildew and regret got bored by this song.</p>
-                <div class="song-links">
-                    <a href="https://youtu.be/qGNRGk5TOLE?si=-9XE7b4vi1BZC-re" target="_blank" rel="noopener">Listen</a>
-                </div>
-            </div>
-            <div class="song-entry" id="joyce-manor-all-my-friends-are-so-depressed-song-review" data-artist="joyce manor  all my friends are so depressed">
-                <h3 class="song-title">Joyce Manor - "All My Friends Are So Depressed"</h3>
-                <p class="song-rating">1/4</p>
-                <p class="song-date">August 18, 2025</p>
-                <p class="song-description">Why is everyone trying to do alt-country poorly now. The Civil War reenactment of Old 97's no one asked for.</p>
-                <div class="song-links">
-                    <a href="https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr" target="_blank" rel="noopener">Listen</a>
-                </div>
-            </div>
-            <div class="song-entry" id="horses-4k-barely-a-horse-mostly-a-pony-song-review" data-artist="horses 4k  barely a horse mostly a pony">
-                <h3 class="song-title">Horses 4k - "Barely a Horse, Mostly a Pony"</h3>
-                <p class="song-rating">3.5/4</p>
-                <p class="song-date">August 15, 2025</p>
-                <p class="song-description">The sound of a horse staring at the sea, pondering frisbees and Tolstoy. Seagulls heckle. The wind; it smells like Elvis's hairspray. And zoomers — bless them — think they invented y'alternative just to ban it, like they're trying to outlaw sadness itself.</p>
-                <div class="song-links">
-                    <a href="https://horses4k.bandcamp.com/album/nina" target="_blank" rel="noopener">Listen</a>
-                </div>
-            </div>
-            <div class="link-entry">
-                <h3 class="link-title">The Evolution of Synthwave: From VHS to Spotify</h3>
-                <p class="link-date">August 12, 2025</p>
-                <p class="link-description">Sick.</p>
-                <div class="link-links">
-                    <a href="https://example.com/synthwave-evolution" target="_blank" rel="noopener">Read More</a>
-                </div>
-            </div>
-            <div class="link-entry">
-                <h3 class="link-title">Why We Love Sad Songs: The Science of Musical Emotion</h3>
-                <p class="link-date">August 5, 2025</p>
-                <p class="link-description">Sick.</p>
-                <div class="link-links">
-                    <a href="https://example.com/sad-songs-science" target="_blank" rel="noopener">Read More</a>
-                </div>
-            </div>
-            <div class="link-entry">
-                <h3 class="link-title">The Art of the Album Cover: 50 Years of Visual Music</h3>
-                <p class="link-date">July 28, 2025</p>
-                <p class="link-description">Sick.</p>
-                <div class="link-links">
-                    <a href="https://example.com/album-covers" target="_blank" rel="noopener">Read More</a>
-                </div>
-            </div>
-            <div class="link-entry">
-                <h3 class="link-title">How Streaming Changed the Way We Discover Music</h3>
-                <p class="link-date">July 21, 2025</p>
-                <p class="link-description">Sick.</p>
-                <div class="link-links">
-                    <a href="https://example.com/streaming-discovery" target="_blank" rel="noopener">Read More</a>
-                </div>
-            </div></div>`
-            }
+    </div>` },
+            members: { title: "All Weekly Picks", html: '<div class="section"><p>Loading all content...</p></div>' }
         };
+
+        // Function to generate song HTML from API data
+        function generateSongHTML(song) {
+            return `
+            <div class="song-entry" id="${song.review_id}" data-artist="${song.song_artist.toLowerCase()} ${song.song_title.toLowerCase()}">
+                <h3 class="song-title">${song.song_artist} - "${song.song_title}"</h3>
+                <p class="song-rating">${song.review_score}</p>
+                <p class="song-date">${song.review_date}</p>
+                <p class="song-description">${song.review_text}</p>
+                <div class="song-links">
+                    <a href="${song.song_url}" target="_blank" rel="noopener">Listen</a>
+                </div>
+            </div>`;
+        }
+
+        // Function to generate link HTML from API data
+        function generateLinkHTML(link) {
+            return `
+            <div class="link-entry">
+                <h3 class="link-title">${link.title}</h3>
+                <p class="link-date">${link.date}</p>
+                <p class="link-description">${link.description}</p>
+                <div class="link-links">
+                    <a href="${link.url}" target="_blank" rel="noopener">Read More</a>
+                </div>
+            </div>`;
+        }
+
+        // Function to update content from API data
+        function updateContentFromAPI() {
+            // Update Songs tab (free)
+            if (reviewsData.length > 0) {
+                const songsHTML = `
+                <div class="section">
+                    <div class="search-section">
+                        <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+                        <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
+                    </div>
+                    ${reviewsData.map(song => generateSongHTML(song)).join('')}
+                </div>`;
+                content.free.html = songsHTML;
+            }
+
+            // Update All Weekly Picks tab (members)
+            if (reviewsData.length > 0 || linksData.length > 0) {
+                const membersHTML = `
+                <div class="section">
+                    <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+                    <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
+                    ${reviewsData.map(song => generateSongHTML(song)).join('')}
+                    ${linksData.map(link => generateLinkHTML(link)).join('')}
+                </div>`;
+                content.members.html = membersHTML;
+            }
+
+            // Update footer date with most recent review date
+            if (reviewsData.length > 0) {
+                const mostRecentReview = reviewsData[0]; // First review is most recent
+                const lastUpdatedSpan = document.getElementById('last-updated-date');
+                if (lastUpdatedSpan) {
+                    lastUpdatedSpan.textContent = mostRecentReview.review_date;
+                }
+            }
+        }
+
+        // Function to fetch data from API
+        async function fetchDataFromAPI() {
+            try {
+                // Show loading state
+                content.free.html = '<div class="section"><p>🔄 Loading reviews from API...</p></div>';
+                content.members.html = '<div class="section"><p>🔄 Loading all content from API...</p></div>';
+                
+                // Refresh current tab to show loading
+                const currentTab = document.querySelector('.nav a[aria-selected="true"]');
+                if (currentTab) {
+                    const currentPage = currentTab.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showContent(currentPage);
+                }
+
+                // Fetch reviews
+                const reviewsResponse = await fetch(`${API_BASE}/reviews`);
+                if (!reviewsResponse.ok) {
+                    throw new Error(`HTTP ${reviewsResponse.status}: ${reviewsResponse.statusText}`);
+                }
+                
+                const reviewsResult = await reviewsResponse.json();
+                reviewsData = reviewsResult.reviews || [];
+
+                // Fetch links (if you have a links API endpoint)
+                // For now, we'll use empty array since your current setup doesn't have links API
+                linksData = [];
+
+                // Update content with API data
+                updateContentFromAPI();
+
+                // If we're on a tab that needs to refresh, refresh it
+                if (currentTab) {
+                    const currentPage = currentTab.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showContent(currentPage);
+                }
+
+                console.log('✅ API data loaded successfully:', { reviews: reviewsData.length, links: linksData.length });
+            } catch (error) {
+                console.error('❌ Error fetching API data:', error);
+                // Fallback to static content if API fails
+                content.free.html = `<div class="section">
+                    <p>❌ Error loading reviews: ${error.message}</p>
+                    <p><button onclick="fetchDataFromAPI()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Retry</button></p>
+                </div>`;
+                content.members.html = `<div class="section">
+                    <p>❌ Error loading content: ${error.message}</p>
+                    <p><button onclick="fetchDataFromAPI()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Retry</button></p>
+                </div>`;
+                
+                // Refresh current tab to show error
+                const currentTab = document.querySelector('.nav a[aria-selected="true"]');
+                if (currentTab) {
+                    const currentPage = currentTab.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    showContent(currentPage);
+                }
+            }
+        }
 
         // Function to show content
         function showContent(page) {
@@ -358,6 +377,9 @@
             
             // Show default page
             showContent('free');
+
+            // Fetch data from API on load
+            fetchDataFromAPI();
         });
 
         // Function to share a song by copying its direct link to clipboard
@@ -442,18 +464,18 @@
         function handleHashNavigation() {
             const hash = window.location.hash.substring(1);
             if (hash) {
-                // Find the element with this ID
-                const targetElement = document.getElementById(hash);
-                if (targetElement) {
-                    // Determine which tab this element belongs to
-                    if (hash.includes('-song-review')) {
-                        showContent('free');
-                    } else if (hash.includes('-album-review')) {
-                        showContent('albums');
-                    }
-                    
-                    // Wait for content to load, then scroll to element
-                    setTimeout(() => {
+                // Determine which tab this element belongs to
+                if (hash.includes('-song-review')) {
+                    showContent('free');
+                } else if (hash.includes('-album-review')) {
+                    showContent('free'); // Redirect album reviews to songs tab for now
+                }
+                
+                // Wait for API data to load, then scroll to element
+                const waitForElement = () => {
+                    const targetElement = document.getElementById(hash);
+                    if (targetElement) {
+                        // Scroll to element
                         targetElement.scrollIntoView({ 
                             behavior: 'smooth', 
                             block: 'center' 
@@ -464,8 +486,16 @@
                         setTimeout(() => {
                             targetElement.style.boxShadow = '';
                         }, 2000);
-                    }, 100);
-                }
+                    } else if (reviewsData.length > 0) {
+                        // Element should exist now, try again
+                        setTimeout(waitForElement, 100);
+                    } else {
+                        // Still loading, wait longer
+                        setTimeout(waitForElement, 500);
+                    }
+                };
+                
+                waitForElement();
             }
         }
 
@@ -520,7 +550,7 @@
         
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> August 19, 2025 (Los Angeles, CA PST Time)
+                <strong>Last updated:</strong> <span id="last-updated-date">Loading...</span> (Los Angeles, CA PST Time)
             </div>
             
             <div class="support-info">
