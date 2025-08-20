@@ -86,6 +86,33 @@
         };
 
         /**
+         * Convert numeric rating to 4-star display using Roger Ebert's method
+         * @param {string} rating - Rating string (e.g., "3.5/4")
+         * @returns {string} HTML string with 4 stars
+         */
+        function generateStarRating(rating) {
+            // Parse the rating (e.g., "3.5/4" -> 3.5 out of 4)
+            const ratingMatch = rating.match(/(\d+(?:\.\d+)?)\/(\d+)/);
+            if (!ratingMatch) return rating; // Fallback to original if can't parse
+            
+            const score = parseFloat(ratingMatch[1]);
+            const maxScore = parseInt(ratingMatch[2]);
+            
+            // Convert to 4-star scale
+            const fourStarScore = (score / maxScore) * 4;
+            
+            // Create star rating container with Roger Ebert's approach
+            const starsHTML = `
+                <div class="star-box" title="${rating}">
+                    <div class="stars-empty">☆☆☆☆</div>
+                    <div class="stars-filled" style="width: ${(fourStarScore / 4) * 100}%">★★★★</div>
+                </div>
+            `;
+            
+            return starsHTML;
+        }
+
+        /**
          * Generate HTML for a song review entry
          * @param {Object} song - Song review data from API
          * @param {string} song.song_title - Title of the song
@@ -101,7 +128,7 @@
             return `
             <div class="song-entry" id="${song.review_id}" data-artist="${song.song_artist.toLowerCase()} ${song.song_title.toLowerCase()}">
                 <h3 class="song-title">${song.song_artist} - "${song.song_title}"</h3>
-                <p class="song-rating">${song.review_score}</p>
+                <div class="song-rating">${generateStarRating(song.review_score)}</div>
                 <p class="song-date">${song.review_date}</p>
                 <p class="song-description">${song.review_text}</p>
                 <div class="song-links">

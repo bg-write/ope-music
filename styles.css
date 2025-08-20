@@ -366,8 +366,40 @@ li {
 }
 
 .song-rating {
-    margin: 5px 0;
-    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+.star-box {
+    position: relative;
+    display: inline-block;
+    font-size: 2.2em;
+    line-height: 1;
+}
+
+.stars-empty {
+    color: #ddd;
+    position: relative;
+    z-index: 1;
+}
+
+.stars-filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ffd700; /* Golden yellow */
+    text-shadow: 0 0 3px rgba(255, 215, 0, 0.5);
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.star-box:hover .stars-filled {
+    color: #ffed4e;
+    text-shadow: 0 0 5px rgba(255, 237, 78, 0.7);
+    transform: scale(1.05);
 }
 
 .song-description {
