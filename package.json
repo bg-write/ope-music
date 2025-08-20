@@ -4,6 +4,8 @@
   "description": "OPE! Music Discovery Website - Dynamic API-powered frontend",
   "main": "index.html",
   "scripts": {
+    "build": "echo '✅ No build step needed - static site with API functions'",
+    "build:prod": "echo '✅ No build step needed - static site with API functions'",
     "dev": "echo 'Open index.html in your browser - no build step needed!'",
     "deploy": "echo 'Push to git - Netlify auto-deploys!'"
   },
