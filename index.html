@@ -72,11 +72,70 @@
         // Global data storage
         let reviewsData = [];
         
+        // Data validation utilities
+        const DataValidator = {
+            sanitizeText: (text) => {
+                if (typeof text !== 'string') return '';
+                return text.replace(/[<>]/g, '').trim();
+            },
+            
+            validateReview: (review) => {
+                const errors = [];
+                
+                if (!review.song_title || review.song_title.trim().length === 0) {
+                    errors.push('Missing song title');
+                }
+                if (!review.song_artist || review.song_artist.trim().length === 0) {
+                    errors.push('Missing artist name');
+                }
+                if (!review.review_score || !/^\d+(\.\d+)?\/\d+$/.test(review.review_score)) {
+                    errors.push(`Invalid review score format: "${review.review_score}"`);
+                }
+                
+                // More flexible date validation - accept various formats
+                if (!review.review_date) {
+                    errors.push('Missing review date');
+                } else {
+                    // Accept formats like: "August 20, 2025", "2025-08-20", "8/20/2025"
+                    const dateFormats = [
+                        /^[A-Za-z]+ \d{1,2}, \d{4}$/, // "August 20, 2025"
+                        /^\d{4}-\d{2}-\d{2}$/, // "2025-08-20"
+                        /^\d{1,2}\/\d{1,2}\/\d{4}$/ // "8/20/2025"
+                    ];
+                    
+                    const isValidDate = dateFormats.some(format => format.test(review.review_date));
+                    if (!isValidDate) {
+                        errors.push(`Invalid date format: "${review.review_date}"`);
+                    }
+                }
+                
+                return { isValid: errors.length === 0, errors };
+            },
+            
+            sanitizeReview: (review) => {
+                return {
+                    ...review,
+                    song_title: DataValidator.sanitizeText(review.song_title),
+                    song_artist: DataValidator.sanitizeText(review.song_artist),
+                    review_text: DataValidator.sanitizeText(review.review_text),
+                    song_url: review.song_url || '',
+                    review_id: review.review_id || ''
+                };
+            }
+        };
+        
         // Analytics tracking
         let analyticsData = {
             pageViews: {},
             searches: [],
             reviewClicks: [],
+            apiErrors: [],
+            dataQualityIssues: [],
+            performanceMetrics: {
+                apiResponseTimes: [],
+                errorRates: 0,
+                totalRequests: 0
+            },
             sessionStart: new Date().toISOString()
         };
         
@@ -236,6 +295,43 @@
                 
                 const reviewsResult = await reviewsResponse.json();
                 reviewsData = reviewsResult.reviews || [];
+                
+                // Validate and sanitize all reviews
+                const rawReviews = reviewsResult.reviews || [];
+                const validatedReviews = [];
+                const dataQualityIssues = [];
+                
+                rawReviews.forEach((review, index) => {
+                    const validation = DataValidator.validateReview(review);
+                    if (validation.isValid) {
+                        validatedReviews.push(DataValidator.sanitizeReview(review));
+                    } else {
+                        dataQualityIssues.push({
+                            reviewIndex: index,
+                            errors: validation.errors,
+                            review: review
+                        });
+                        // Only log significant data quality issues
+                        if (validation.errors.length > 1) {
+                            console.warn(`Data quality issue in review ${index}:`, validation.errors);
+                        }
+                    }
+                });
+                
+                // Store validated data (fallback to raw if all validation fails)
+                if (validatedReviews.length > 0) {
+                    reviewsData = validatedReviews;
+                    console.log(`✅ Loaded ${validatedReviews.length} validated reviews`);
+                } else {
+                    console.warn('⚠️ No reviews passed validation, falling back to raw data');
+                    reviewsData = rawReviews;
+                }
+                
+                // Track data quality issues
+                if (dataQualityIssues.length > 0) {
+                    analyticsData.dataQualityIssues.push(...dataQualityIssues);
+                    console.warn(`⚠️ Found ${dataQualityIssues.length} data quality issues`);
+                }
 
 
 
@@ -251,6 +347,14 @@
                 // API data loaded successfully
             } catch (error) {
                 console.error('❌ Error fetching API data:', error);
+                
+                // Track API error for analytics
+                analyticsData.apiErrors.push({
+                    timestamp: new Date().toISOString(),
+                    error: error.message,
+                    stack: error.stack
+                });
+                
                 // Create error HTML with retry button
                 const errorHTML = `<div class="section">
                     <p>❌ Error loading reviews: ${error.message}</p>
@@ -361,31 +465,48 @@
          */
         function exportAnalyticsCSV() {
             const csvData = [];
+            csvData.push('event_type,value,count,timestamp,details');
             
             // Page views data
             Object.entries(analyticsData.pageViews).forEach(([page, count]) => {
-                csvData.push(`page_view,${page},${count},${new Date().toISOString()}`);
+                csvData.push(`page_view,${page},${count},${analyticsData.sessionStart},`);
             });
             
             // Search data
             analyticsData.searches.forEach(search => {
-                csvData.push(`search,${search.term},${search.results},${search.timestamp}`);
+                csvData.push(`search,${search.term},${search.results || 1},${search.timestamp},`);
             });
             
             // Review clicks data
             analyticsData.reviewClicks.forEach(click => {
-                csvData.push(`review_click,${click.reviewId},${click.reviewTitle},${click.timestamp}`);
+                csvData.push(`review_click,${click.reviewId || click.songTitle},1,${click.timestamp},`);
             });
             
-            // API endpoints information
-            csvData.push(`api_endpoint,/reviews,all_reviews,${new Date().toISOString()}`);
+            // API errors
+            analyticsData.apiErrors.forEach(error => {
+                csvData.push(`api_error,${error.error},1,${error.timestamp},${error.stack}`);
+            });
             
-            const csv = `event_type,value,count,timestamp\n${csvData.join('\n')}`;
-            const blob = new Blob([csv], { type: 'text/csv' });
+            // Data quality issues
+            analyticsData.dataQualityIssues.forEach(issue => {
+                csvData.push(`data_quality_issue,review_${issue.reviewIndex},1,${new Date().toISOString()},${issue.errors.join(', ')}`);
+            });
+            
+            // Performance metrics
+            if (analyticsData.performanceMetrics.apiResponseTimes.length > 0) {
+                const avgResponseTime = analyticsData.performanceMetrics.apiResponseTimes.reduce((a, b) => a + b, 0) / analyticsData.performanceMetrics.apiResponseTimes.length;
+                csvData.push(`performance_metric,average_response_time,${avgResponseTime.toFixed(2)},${new Date().toISOString()},ms`);
+            }
+            
+            csvData.push(`performance_metric,error_rate,${analyticsData.performanceMetrics.errorRates},${new Date().toISOString()},percentage`);
+            csvData.push(`performance_metric,total_requests,${analyticsData.performanceMetrics.totalRequests},${new Date().toISOString()},percentage`);
+            
+            const csv = `event_type,value,count,timestamp,details\n${csvData.join('\n')}`;
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ope_analytics_${new Date().toISOString()}.csv`;
+            a.download = `ope_enhanced_analytics_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
             window.URL.revokeObjectURL(url);
         }
@@ -412,15 +533,37 @@
                 // Create CSV with review metadata
                 const csvData = [];
                 
-                // Add header row
-                csvData.push('song_title,song_artist,review_date,review_score,review_text,song_url,review_id');
+                // Add header row with data quality column
+                csvData.push('song_title,song_artist,review_date,review_score,review_text,song_url,review_id,data_quality_status');
+                
+                // Track validation results
+                const validationResults = {
+                    total: reviews.length,
+                    valid: 0,
+                    invalid: 0,
+                    issues: []
+                };
                 
                 // Add each review as a row
-                reviews.forEach(review => {
+                reviews.forEach((review, index) => {
+                    // Validate review data
+                    const validation = DataValidator.validateReview(review);
+                    const isValid = validation.isValid;
+                    
+                    if (isValid) {
+                        validationResults.valid++;
+                    } else {
+                        validationResults.invalid++;
+                        validationResults.issues.push({
+                            index,
+                            errors: validation.errors
+                        });
+                    }
+                    
                     // Clean and escape the review text for CSV
-                    const cleanText = review.review_text.replace(/"/g, '""').replace(/\n/g, ' ');
-                    const cleanTitle = review.song_title.replace(/"/g, '""');
-                    const cleanArtist = review.song_artist.replace(/"/g, '""');
+                    const cleanText = (review.review_text || '').replace(/"/g, '""').replace(/\n/g, ' ');
+                    const cleanTitle = (review.song_title || '').replace(/"/g, '""');
+                    const cleanArtist = (review.song_artist || '').replace(/"/g, '""');
                     
                     // Convert review score from fraction to decimal (e.g., "1/4" -> "1.0")
                     let reviewScore = review.review_score;
@@ -430,8 +573,17 @@
                         reviewScore = decimalScore.toFixed(1); // Keep 1 decimal place
                     }
                     
-                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.review_date}","${reviewScore}","${cleanText}","${review.song_url}","${review.review_id}"`);
+                    const qualityStatus = isValid ? 'VALID' : `INVALID: ${validation.errors.join(', ')}`;
+                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.review_date}","${reviewScore}","${cleanText}","${review.song_url}","${review.review_id}","${qualityStatus}"`);
                 });
+                
+                // Add data quality summary at the top
+                csvData.unshift(`# Data Quality Report - ${new Date().toISOString()}`);
+                csvData.unshift(`# Total Reviews: ${validationResults.total}, Valid: ${validationResults.valid}, Invalid: ${validationResults.invalid}`);
+                if (validationResults.issues.length > 0) {
+                    csvData.unshift(`# Issues Found: ${validationResults.issues.map(i => `Review ${i.index}: ${i.errors.join(', ')}`).join('; ')}`);
+                }
+                csvData.unshift('');
                 
                             // Create and download CSV with proper headers
             const csv = csvData.join('\n');
@@ -441,7 +593,7 @@
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `ope_reviews_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `ope_reviews_with_quality_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
             window.URL.revokeObjectURL(url);
                 
@@ -722,7 +874,7 @@
             </div>
             
             <div class="analytics-info">
-                <strong>For all my data nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="exportReviewsCSV(); return false;" class="analytics-link">download OPE!'s review data as a CSV file</a> 📊 
+                <strong>For all my data nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="exportReviewsCSV(); return false;" class="analytics-link">download OPE!'s review data as a CSV file</a> 
             </div>
             
             <div class="footer-bottom">

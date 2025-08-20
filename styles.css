@@ -142,11 +142,11 @@ li {
 }
 
 /* Logo Animation - subtle bounce effect for visual interest */
-/* Gentle upward movement every 2.5 seconds */
+/* Gentle upward movement every 2 seconds */
 .logo {
     width: 130px;
     height: 130px;
-    animation: gentle-bounce 2.5s ease-in-out infinite;
+    animation: gentle-bounce 2s ease-in-out infinite;
 }
 
 @keyframes gentle-bounce {
