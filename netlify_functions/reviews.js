@@ -1,11 +1,15 @@
 // Reviews data embedded directly in the function
 const reviewsData = {
-  "metadata": {
-    "conversion_date": "2025-08-19T16:26:58.891812",
-    "source_file": "content/songs.md",
-    "total_reviews": 3
-  },
   "reviews": [
+    {
+      "song_title": "Everybody Scream",
+      "song_artist": "Florence + The Machine",
+      "review_date": "August 20, 2025",
+      "review_score": "1/4",
+      "review_text": "The Spoon of theater kids but doomed to jazz hands. The pre-chorus drum fumble (\"breakdown\" is felony-level generous) is bad yet Florence can still out-sing the man yelling at pigeons behind the 7-Eleven.",
+      "song_url": "https://youtu.be/03iBgkXb1EE?si=AEroczos9BZM7yVx",
+      "review_id": "florence-+-the-machine-everybody-scream-song-review"
+    },
     {
       "song_title": "Bitter Everyday",
       "song_artist": "Wednesday",
@@ -33,8 +37,14 @@ const reviewsData = {
       "song_url": "https://horses4k.bandcamp.com/album/nina",
       "review_id": "horses-4k-barely-a-horse-mostly-a-pony-song-review"
     }
-  ]
-};
+  ],
+  "pagination": {
+    "page": 1,
+    "per_page": 4,
+    "total": 4,
+    "pages": 1
+  }
+};;
 
 // Load reviews from embedded data
 function loadReviews() {
