@@ -1,6 +1,6 @@
 # OPE! 🎵
 
-A minimal music discovery website.
+A minimal music discovery website powered by dynamic APIs.
 
 ## ✨ Features
 
@@ -8,6 +8,7 @@ A minimal music discovery website.
 - **Smart Search** - Find content by artist or title
 - **Shareable Links** - Direct links to individual reviews
 - **Mobile-Responsive** - Works on all devices
+- **Dynamic Content** - Real-time updates via API
 
 ## 🚀 Live Site
 
@@ -19,24 +20,38 @@ Visit: [https://ope-music.netlify.app](https://ope-music.netlify.app)
 - **CSS3** - Clean, minimal styling
 - **Vanilla JavaScript** - Dynamic content loading
 - **Markdown** - Simple content management
-- **Node.js** - Build automation
+- **Python** - Content conversion tools
+- **Netlify Functions** - Serverless API backend
 
 ## 📁 Project Structure
 
 ```
 ope/
-├── index.html          # Main website
-├── styles.css          # Styling
-├── content/            # Content (Markdown)
-└── images/             # Assets
+├── index.html                    # Main website (API-powered)
+├── styles.css                    # Styling
+├── content/                      # Content (Markdown)
+│   ├── songs.md                  # Song reviews
+│   └── drafts.md                 # Work-in-progress reviews
+├── python_backend/               # Content conversion tools
+├── netlify_functions/            # API backend
+└── images/                       # Assets
 ```
 
 ## 📝 Content Management
 
-Content is written in simple Markdown files and automatically built into the website.
+### **Adding New Reviews**
+1. **Write in Markdown** - Add to `content/songs.md`
+2. **Run converter** - `python python_backend/markdown_converter.py`
+3. **Deploy** - `git push` (Netlify auto-deploys)
+
+### **Workflow Benefits**
+- ✅ **No build step** - Instant updates
+- ✅ **No file corruption** - API handles everything
+- ✅ **Scalable** - Easy to add 100+ reviews
+- ✅ **Maintainable** - Clean separation of concerns
 
 ## 🌐 Deployment
 
-Deployed on Netlify with automatic builds from GitHub.
+Deployed on Netlify with automatic builds from GitHub. No build process needed - just push to deploy!
 
 🌽

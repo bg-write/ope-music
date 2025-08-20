@@ -8,7 +8,23 @@
    - ✅ `/api/reviews` - Returns all reviews with pagination
    - ✅ `/api/search?q=<query>` - Search functionality working
    - ✅ `/api/analytics` - Analytics data returning correctly
-**Next Phase**: Frontend Integration - Update HTML/JS to use API instead of static content
+**Next Phase**: Code Cleanup & Optimization - Remove old build system, clean up unused code
+
+## 🧹 **Code Cleanup & Optimization** 🔥 **ACTIVE WORK**
+**Status**: Removing old build system and unused code
+**Completed**:
+   - ✅ Removed `build.js` (no longer needed)
+   - ✅ Updated `package.json` (removed build scripts)
+   - ✅ Updated `README.md` (documented new workflow)
+**In Progress**:
+   - 🔄 Cleaning up unused functions in `index.html`
+   - 🔄 Removing album-related code (not used)
+   - 🔄 Simplifying and optimizing JavaScript
+**Next Steps**:
+   - Remove `searchAlbums()` function (unused)
+   - Remove `shareAlbum()` function (unused)
+   - Clean up duplicate search logic
+   - Optimize API integration code
 
 **What We've Built**:
    - ✅ Flask API backend (local development)

@@ -1,14 +1,13 @@
 {
   "name": "ope-music-website",
   "version": "1.0.0",
-  "description": "OPE! Music Discovery Website - Built from Markdown",
-  "main": "build.js",
+  "description": "OPE! Music Discovery Website - Dynamic API-powered frontend",
+  "main": "index.html",
   "scripts": {
-    "build": "node build.js",
-    "build:prod": "node build.js --production",
-    "watch": "node build.js && echo 'Watching for changes...' && echo 'Note: Install fswatch locally with: npm install -g fswatch'"
+    "dev": "echo 'Open index.html in your browser - no build step needed!'",
+    "deploy": "echo 'Push to git - Netlify auto-deploys!'"
   },
-  "keywords": ["music", "discovery", "blog", "markdown"],
+  "keywords": ["music", "discovery", "blog", "api", "netlify-functions"],
   "author": "Brady Gerber",
   "license": "MIT",
   "devDependencies": {},
