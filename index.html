@@ -172,9 +172,7 @@
                 const reviewsResult = await reviewsResponse.json();
                 reviewsData = reviewsResult.reviews || [];
 
-                // Fetch links (if you have a links API endpoint)
-                // For now, we'll use empty array since your current setup doesn't have links API
-                linksData = [];
+                linksData = []; // No links API yet
 
                 // Update content with API data
                 updateContentFromAPI();
@@ -188,15 +186,14 @@
                 console.log('✅ API data loaded successfully:', { reviews: reviewsData.length, links: linksData.length });
             } catch (error) {
                 console.error('❌ Error fetching API data:', error);
-                // Fallback to static content if API fails
-                content.free.html = `<div class="section">
+                // Create error HTML with retry button
+                const errorHTML = `<div class="section">
                     <p>❌ Error loading reviews: ${error.message}</p>
                     <p><button onclick="fetchDataFromAPI()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Retry</button></p>
                 </div>`;
-                content.members.html = `<div class="section">
-                    <p>❌ Error loading content: ${error.message}</p>
-                    <p><button onclick="fetchDataFromAPI()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Retry</button></p>
-                </div>`;
+                
+                content.free.html = errorHTML;
+                content.members.html = errorHTML;
                 
                 // Refresh current tab to show error
                 const currentTab = document.querySelector('.nav a[aria-selected="true"]');
@@ -259,66 +256,11 @@
             }, 1000);
         }
 
-        // Function to search albums
-        function searchAlbums() {
-            const searchTerm = document.getElementById('album-search').value.toLowerCase();
-            const albumEntries = document.querySelectorAll('.song-entry[data-artist]');
-            let visibleCount = 0;
-            
-            // Split search into individual terms
-            const searchTerms = searchTerm.split(' ').filter(term => term.length > 0);
-            
-            albumEntries.forEach(entry => {
-                const artistText = entry.getAttribute('data-artist');
-                const titleText = entry.querySelector('.song-title').textContent.toLowerCase();
-                const combinedText = `${artistText} ${titleText}`;
-                
-                let shouldShow = false;
-                
-                if (searchTerm === '') {
-                    // Empty search shows everything
-                    shouldShow = true;
-                } else if (searchTerms.length === 1) {
-                    // Single term search - check if it appears anywhere
-                    shouldShow = combinedText.includes(searchTerms[0]);
-                } else {
-                    // Multi-term search - check if ALL terms appear somewhere
-                    shouldShow = searchTerms.every(term => combinedText.includes(term));
-                }
-                
-                if (shouldShow) {
-                    entry.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    entry.style.display = 'none';
-                }
-            });
-            
-            // Show/hide "no results" message
-            let noResultsMsg = document.getElementById('no-results-msg');
-            if (!noResultsMsg) {
-                noResultsMsg = document.createElement('p');
-                noResultsMsg.id = 'no-results-msg';
-                noResultsMsg.className = 'no-results';
-                noResultsMsg.textContent = 'No results, sad.';
-                const searchSection = document.querySelector('.search-section');
-                if (searchSection) {
-                    searchSection.appendChild(noResultsMsg);
-                }
-            }
-            
-            if (visibleCount === 0 && searchTerm !== '') {
-                noResultsMsg.style.display = 'block';
-            } else {
-                noResultsMsg.style.display = 'none';
-            }
-        }
-
         // Function to search songs by artist name or song title
         // Supports multi-term search and shows "no results" message when needed
         function searchSongs() {
             const searchTerm = document.getElementById('song-search').value.toLowerCase();
-            const songEntries = document.querySelectorAll('.song-entry[data-artist]'); // Songs now have data-artist
+            const songEntries = document.querySelectorAll('.song-entry[data-artist]');
             let visibleCount = 0;
             
             // Split search into individual terms
@@ -451,25 +393,14 @@
         
 
 
-        // Function to share an album
-        function shareAlbum(albumId, albumTitle) {
-            const currentUrl = window.location.href.split('#')[0];
-            const shareUrl = `${currentUrl}#${albumId}`;
-            
-            // Simply copy the direct link to clipboard
-            copyToClipboard(albumId, albumTitle, shareUrl);
-        }
+
 
         // Function to handle hash navigation
         function handleHashNavigation() {
             const hash = window.location.hash.substring(1);
             if (hash) {
-                // Determine which tab this element belongs to
-                if (hash.includes('-song-review')) {
-                    showContent('free');
-                } else if (hash.includes('-album-review')) {
-                    showContent('free'); // Redirect album reviews to songs tab for now
-                }
+                // All reviews go to the songs tab
+                showContent('free');
                 
                 // Wait for API data to load, then scroll to element
                 const waitForElement = () => {
