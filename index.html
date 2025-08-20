@@ -85,7 +85,18 @@
             members: { title: "All Weekly Picks", html: '<div class="section"><p>Loading all content...</p></div>' }
         };
 
-        // Function to generate song HTML from API data
+        /**
+         * Generate HTML for a song review entry
+         * @param {Object} song - Song review data from API
+         * @param {string} song.song_title - Title of the song
+         * @param {string} song.song_artist - Name of the artist
+         * @param {string} song.review_score - Rating (e.g., "3.5/4")
+         * @param {string} song.review_date - Date of the review
+         * @param {string} song.review_text - Review description
+         * @param {string} song.song_url - URL to listen to the song
+         * @param {string} song.review_id - Unique identifier for the review
+         * @returns {string} HTML string for the song entry
+         */
         function generateSongHTML(song) {
             return `
             <div class="song-entry" id="${song.review_id}" data-artist="${song.song_artist.toLowerCase()} ${song.song_title.toLowerCase()}">
@@ -99,7 +110,15 @@
             </div>`;
         }
 
-        // Function to generate link HTML from API data
+        /**
+         * Generate HTML for a link entry (future feature)
+         * @param {Object} link - Link data from API
+         * @param {string} link.title - Title of the link
+         * @param {string} link.date - Date of the link
+         * @param {string} link.description - Description of the link
+         * @param {string} link.url - URL to the link
+         * @returns {string} HTML string for the link entry
+         */
         function generateLinkHTML(link) {
             return `
             <div class="link-entry">
@@ -112,7 +131,10 @@
             </div>`;
         }
 
-        // Function to update content from API data
+        /**
+         * Update the content object with data from the API
+         * Generates HTML for songs and links, updates footer date
+         */
         function updateContentFromAPI() {
             // Update Songs tab (free)
             if (reviewsData.length > 0) {
@@ -131,11 +153,12 @@
             if (reviewsData.length > 0 || linksData.length > 0) {
                 const membersHTML = `
                 <div class="section">
-                    <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
-                    <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
-                    ${reviewsData.map(song => generateSongHTML(song)).join('')}
-                    ${linksData.map(link => generateLinkHTML(link)).join('')}
-                </div>`;
+                    <div class="search-section">
+                        <input type="text" id="song-search" placeholder="Search for artist or song..." onkeyup="searchSongs()">
+                        <p class="search-help">Type a song title (e.g., "Like a Rolling Stone") or artist name to search</p>
+                        ${reviewsData.map(song => generateSongHTML(song)).join('')}
+                        ${linksData.map(link => generateLinkHTML(link)).join('')}
+                    </div>`;
                 content.members.html = membersHTML;
             }
 
@@ -147,9 +170,28 @@
                     lastUpdatedSpan.textContent = mostRecentReview.review_date;
                 }
             }
+            
+            // Add subtle animation to new content
+            setTimeout(() => {
+                const songEntries = document.querySelectorAll('.song-entry');
+                songEntries.forEach((entry, index) => {
+                    entry.style.opacity = '0';
+                    entry.style.transform = 'translateY(20px)';
+                    entry.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    
+                    setTimeout(() => {
+                        entry.style.opacity = '1';
+                        entry.style.transform = 'translateY(0)';
+                    }, index * 50); // Stagger the animation
+                });
+            }, 100);
         }
 
-        // Function to fetch data from API
+        /**
+         * Fetch review data from the API and update the UI
+         * Handles loading states, error handling, and content updates
+         * @returns {Promise<void>}
+         */
         async function fetchDataFromAPI() {
             try {
                 // Show loading state
@@ -256,58 +298,70 @@
             }, 1000);
         }
 
-        // Function to search songs by artist name or song title
-        // Supports multi-term search and shows "no results" message when needed
+        /**
+         * Search songs by artist name or song title
+         * Supports multi-term search with optimized performance
+         */
         function searchSongs() {
-            const searchTerm = document.getElementById('song-search').value.toLowerCase();
+            const searchTerm = document.getElementById('song-search').value.toLowerCase().trim();
             const songEntries = document.querySelectorAll('.song-entry[data-artist]');
-            let visibleCount = 0;
             
-            // Split search into individual terms
-            const searchTerms = searchTerm.split(' ').filter(term => term.length > 0);
+            // Early return for empty search
+            if (!searchTerm) {
+                songEntries.forEach(entry => entry.style.display = 'block');
+                hideNoResultsMessage();
+                return;
+            }
+            
+            // Split search into individual terms and filter out empty ones
+            const searchTerms = searchTerm.split(/\s+/).filter(term => term.length > 0);
+            let visibleCount = 0;
             
             songEntries.forEach(entry => {
                 const artistText = entry.getAttribute('data-artist');
                 const titleText = entry.querySelector('.song-title').textContent.toLowerCase();
                 const combinedText = `${artistText} ${titleText}`;
                 
-                let shouldShow = false;
+                // Check if ALL search terms appear in the combined text
+                const shouldShow = searchTerms.every(term => combinedText.includes(term));
                 
-                if (searchTerm === '') {
-                    // Empty search shows everything
-                    shouldShow = true;
-                } else if (searchTerms.length === 1) {
-                    // Single term search - check if it appears anywhere
-                    shouldShow = combinedText.includes(searchTerms[0]);
-                } else {
-                    // Multi-term search - check if ALL terms appear somewhere
-                    shouldShow = searchTerms.every(term => combinedText.includes(term));
-                }
-                
-                if (shouldShow) {
-                    entry.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    entry.style.display = 'none';
-                }
+                entry.style.display = shouldShow ? 'block' : 'none';
+                if (shouldShow) visibleCount++;
             });
             
             // Show/hide "no results" message
+            if (visibleCount === 0) {
+                showNoResultsMessage();
+            } else {
+                hideNoResultsMessage();
+            }
+        }
+        
+        /**
+         * Show the "no results" message
+         */
+        function showNoResultsMessage() {
             let noResultsMsg = document.getElementById('no-results-msg');
             if (!noResultsMsg) {
                 noResultsMsg = document.createElement('p');
                 noResultsMsg.id = 'no-results-msg';
                 noResultsMsg.className = 'no-results';
                 noResultsMsg.textContent = 'No results, sad.';
+                
                 const searchSection = document.querySelector('.search-section');
                 if (searchSection) {
                     searchSection.appendChild(noResultsMsg);
                 }
             }
-            
-            if (visibleCount === 0 && searchTerm !== '') {
-                noResultsMsg.style.display = 'block';
-            } else {
+            noResultsMsg.style.display = 'block';
+        }
+        
+        /**
+         * Hide the "no results" message
+         */
+        function hideNoResultsMessage() {
+            const noResultsMsg = document.getElementById('no-results-msg');
+            if (noResultsMsg) {
                 noResultsMsg.style.display = 'none';
             }
         }
