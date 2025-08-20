@@ -1,26 +1,44 @@
-const fs = require('fs');
-const path = require('path');
-
-// Load reviews from JSON file
-function loadReviews() {
-  try {
-    const dataFile = path.join(__dirname, 'reviews.json');
-    console.log('Attempting to read file:', dataFile);
-    console.log('Current directory:', __dirname);
-    
-    // Check if file exists
-    if (!fs.existsSync(dataFile)) {
-      console.error('File does not exist:', dataFile);
-      return [];
+// Reviews data embedded directly in the function
+const reviewsData = {
+  "metadata": {
+    "conversion_date": "2025-08-19T16:26:58.891812",
+    "source_file": "content/songs.md",
+    "total_reviews": 3
+  },
+  "reviews": [
+    {
+      "song_title": "Bitter Everyday",
+      "song_artist": "Wednesday",
+      "review_date": "August 19, 2025",
+      "review_score": "0.5/4",
+      "review_text": "I'd rather lick Kid Rock's dinghy than listen to any more 2020s shoegaze. Even mildew and regret got bored by this song.",
+      "song_url": "https://youtu.be/qGNRGk5TOLE?si=-9XE7b4vi1BZC-re",
+      "review_id": "wednesday-bitter-everyday-song-review"
+    },
+    {
+      "song_title": "All My Friends Are So Depressed",
+      "song_artist": "Joyce Manor",
+      "review_date": "August 18, 2025",
+      "review_score": "1/4",
+      "review_text": "Why is everyone trying to do alt-country poorly now. The Civil War reenactment of Old 97's no one asked for.",
+      "song_url": "https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr",
+      "review_id": "joyce-manor-all-my-friends-are-so-depressed-song-review"
+    },
+    {
+      "song_title": "Barely a Horse, Mostly a Pony",
+      "song_artist": "Horses 4k",
+      "review_date": "August 15, 2025",
+      "review_score": "3.5/4",
+      "review_text": "The sound of a horse staring at the sea, pondering frisbees and Tolstoy. Seagulls heckle. The wind; it smells like Elvis's hairspray. And zoomers — bless them — think they invented y'alternative just to ban it, like they're trying to outlaw sadness itself.",
+      "song_url": "https://horses4k.bandcamp.com/album/nina",
+      "review_id": "horses-4k-barely-a-horse-mostly-a-pony-song-review"
     }
-    
-    const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-    console.log('Successfully loaded data:', data);
-    return data.reviews || [];
-  } catch (error) {
-    console.error('Error loading reviews:', error);
-    return [];
-  }
+  ]
+};
+
+// Load reviews from embedded data
+function loadReviews() {
+  return reviewsData.reviews || [];
 }
 
 // Create response with CORS headers
@@ -66,36 +84,78 @@ exports.handler = async function(event, context) {
   const method = event.httpMethod;
   
   try {
-    // Simple test endpoint
-    if (requestPath === '/.netlify/functions/reviews') {
+    // API endpoints
+    if (requestPath === '/.netlify/functions/reviews' || requestPath === '/api/reviews') {
       if (method === 'GET') {
         const reviews = loadReviews();
         return createResponse({
-          message: "OPE! Music Reviews API is working!",
-          total_reviews: reviews.length,
-          sample_review: reviews[0] || null,
-          debug: {
-            current_dir: __dirname,
-            data_file: path.join(__dirname, 'reviews.json'),
-            file_exists: fs.existsSync(path.join(__dirname, 'reviews.json'))
+          reviews: reviews,
+          pagination: {
+            page: 1,
+            per_page: reviews.length,
+            total: reviews.length,
+            pages: 1
           }
         });
       }
     }
     
-    // Default response
-    return createResponse({
-      message: "OPE! Music Reviews API",
-      status: "Function is running",
-      path: requestPath,
-      method: method,
-      debug: {
-        current_dir: __dirname,
-        data_file: path.join(__dirname, 'reviews.json'),
-        file_exists: fs.existsSync(path.join(__dirname, 'reviews.json')),
-        available_files: fs.readdirSync(__dirname)
+    // Search endpoint
+    if (requestPath === '/api/search') {
+      if (method === 'GET') {
+        const query = event.queryStringParameters?.q || '';
+        if (!query) {
+          return createResponse({ error: 'Search query required' }, 400);
+        }
+        
+        const reviews = loadReviews();
+        const results = [];
+        const searchTerms = query.toLowerCase().split(' ');
+        
+        for (const review of reviews) {
+          const searchableText = `${review.song_artist} ${review.song_title} ${review.review_text}`.toLowerCase();
+          if (searchTerms.every(term => searchableText.includes(term))) {
+            results.push(review);
+          }
+        }
+        
+        return createResponse({
+          query: query,
+          results: results,
+          total_results: results.length
+        });
       }
-    });
+    }
+    
+    // Analytics endpoint
+    if (requestPath === '/api/analytics') {
+      if (method === 'GET') {
+        const reviews = loadReviews();
+        const ratingCounts = {};
+        const artistCounts = {};
+        
+        for (const review of reviews) {
+          ratingCounts[review.review_score] = (ratingCounts[review.review_score] || 0) + 1;
+          artistCounts[review.song_artist] = (artistCounts[review.song_artist] || 0) + 1;
+        }
+        
+        return createResponse({
+          total_reviews: reviews.length,
+          rating_distribution: ratingCounts,
+          artist_counts: artistCounts
+        });
+      }
+    }
+    
+    // Default response for unknown endpoints
+    return createResponse({
+      error: "Endpoint not found",
+      available_endpoints: [
+        "/api/reviews",
+        "/api/search?q=<query>",
+        "/api/analytics"
+      ]
+    }, 404);
     
   } catch (error) {
     console.error('Function error:', error);
