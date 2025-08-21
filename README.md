@@ -9,14 +9,14 @@ A minimal music discovery website powered by dynamic APIs.
 - **Shareable Links** - Direct links to individual reviews
 - **Mobile-Responsive** - Works on all devices
 - **Dynamic Content** - Real-time updates via API
-- **Data Export** - CSV download with data quality validation
+- **Data Export** - CSV download with data quality validation and BigQuery-ready formats
 - **Public API** - RESTful endpoint for programmatic access
 - **Analytics Tracking** - User behavior monitoring with performance metrics
-- **Data Quality Controls** - Enterprise-grade validation and sanitization
+- **Data Quality Controls** - Enterprise-grade validation, sanitization, and dashboard
 
 ## 🚀 Live Site
 
-Visit: [https://ope-music.netlify.app](https://ope-music.netlify.app)
+**Visit**: [https://ope-music.netlify.app](https://ope-music.netlify.app)
 
 **Public API**: [https://ope-music.netlify.app/api/reviews](https://ope-music.netlify.app/api/reviews)
 
