@@ -442,9 +442,13 @@
                             errors: validation.errors,
                             review: review
                         });
-                        // Only log significant data quality issues
+                        // Track data quality issues for analytics
                         if (validation.errors.length > 1) {
-                            // console.warn(`Data quality issue in review ${index}:`, validation.errors);
+                            analyticsData.dataQualityIssues.push({
+                                reviewIndex: index,
+                                errors: validation.errors,
+                                timestamp: new Date().toISOString()
+                            });
                         }
                     }
                 });
@@ -452,16 +456,21 @@
                 // Store validated data (fallback to raw if all validation fails)
                 if (validatedReviews.length > 0) {
                     reviewsData = validatedReviews;
-                    // console.log(`✅ Loaded ${validatedReviews.length} validated reviews`);
+                    // Track successful validation for analytics
+                    analyticsData.performanceMetrics.totalRequests++;
                 } else {
-                    // console.warn('⚠️ No reviews passed validation, falling back to raw data');
+                    // Track validation failure for analytics
+                    analyticsData.errors.push({
+                        type: 'validation_failure',
+                        message: 'All reviews failed validation',
+                        timestamp: new Date().toISOString()
+                    });
                     reviewsData = rawReviews;
                 }
                 
-                // Track data quality issues
+                // Track data quality issues for analytics
                 if (dataQualityIssues.length > 0) {
                     analyticsData.dataQualityIssues.push(...dataQualityIssues);
-                    // console.warn(`⚠️ Found ${dataQualityIssues.length} data quality issues`);
                 }
 
 
@@ -1115,7 +1124,7 @@
             </div>
             
             <div class="analytics-info">
-                <strong>For all my data nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="openDataQualityModal(); return false;" class="analytics-link">download OPE!'s review data as a CSV file</a> 
+                <strong>For all my data nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="openDataQualityModal(); return false;" class="analytics-link">download OPE!'s review data as a CSV file</a> - you can also check out OPE! on <a href="https://lookerstudio.google.com/reporting/86a21abe-e77c-4fda-9b58-423d4a45da2b" target="_blank" class="api-link">Looker Studio</a> (powered by BigQuery)
             </div>
             
             <div class="footer-bottom">
