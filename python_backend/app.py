@@ -195,7 +195,7 @@ def export_csv():
 if __name__ == '__main__':
     print("🎵 Starting OPE! Music Reviews API...")
     print(f"📁 Data file: {DATA_FILE}")
-    print("🌐 API will be available at: http://localhost:5001")
+    print("🌐 API will be available at: http://0.0.0.0:5001")
     print("📚 Endpoints:")
     print("   - GET /api/reviews - List all reviews")
     print("   - GET /api/reviews/<id> - Get specific review")
@@ -204,4 +204,5 @@ if __name__ == '__main__':
     print("   - GET /api/export/csv - Export to CSV")
     print()
     
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    # Start the Flask app
+    app.run(debug=False, host='0.0.0.0', port=5001)

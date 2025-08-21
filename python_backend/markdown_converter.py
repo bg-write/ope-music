@@ -23,20 +23,127 @@ def parse_song_review(markdown_text):
     artist = header_match.group(1).strip()
     song_title = header_match.group(2).strip()
     
-    # Extract other fields using regex patterns
-    date_match = re.search(r'\*\*Date:\*\* (.+)', markdown_text)
-    rating_match = re.search(r'\*\*Rating:\*\* (.+)', markdown_text)
-    description_match = re.search(r'\*\*Description:\*\* (.+)', markdown_text)
-    listen_match = re.search(r'\*\*Listen:\*\* (.+)', markdown_text)
+    # Extract all the new metadata fields using regex patterns
+    song_artist_match = re.search(r'\*\*song_artist:\*\* (.+)', markdown_text)
+    song_title_match = re.search(r'\*\*song_title:\*\* (.+)', markdown_text)
+    song_release_date_match = re.search(r'\*\*song_release_date:\*\* (.+)', markdown_text)
+    song_upload_date_match = re.search(r'\*\*song_upload_date:\*\* (.+)', markdown_text)
+    song_duration_sec_match = re.search(r'\*\*song_duration_sec:\*\* (.+)', markdown_text)
+    song_album_match = re.search(r'\*\*song_album:\*\* (.+)', markdown_text)
+    song_label_match = re.search(r'\*\*song_label:\*\* (.+)', markdown_text)
+    song_genre_match = re.search(r'\*\*song_genre:\*\* (.+)', markdown_text)
+    song_mood_match = re.search(r'\*\*song_mood:\*\* (.+)', markdown_text)
+    song_instrumentation_match = re.search(r'\*\*song_instrumentation:\*\* (.+)', markdown_text)
+    song_language_match = re.search(r'\*\*song_language:\*\* (.+)', markdown_text)
+    song_audio_url_match = re.search(r'\*\*song_audio_url:\*\* (.+)', markdown_text)
     
-    # Create the review object with SQL-friendly field names
+    # Extract review metadata fields
+    review_date_match = re.search(r'\*\*review_date:\*\* (.+)', markdown_text)
+    review_score_match = re.search(r'\*\*review_score:\*\* (.+)', markdown_text)
+    review_text_match = re.search(r'\*\*review_text:\*\* (.+)', markdown_text)
+    
+    # Fallback to old format fields if new ones aren't found
+    if not song_artist_match:
+        song_artist_match = re.search(r'\*\*Date:\*\* (.+)', markdown_text)
+    if not review_score_match:
+        review_score_match = re.search(r'\*\*Rating:\*\* (.+)', markdown_text)
+    if not review_text_match:
+        review_text_match = re.search(r'\*\*Description:\*\* (.+)', markdown_text)
+    if not song_audio_url_match:
+        song_audio_url_match = re.search(r'\*\*Listen:\*\* (.+)', markdown_text)
+    
+    # Helper function to safely extract field values
+    def safe_extract(match, default=""):
+        return match.group(1).strip() if match else default
+    
+    # Convert duration from MM:SS to seconds
+    def duration_to_seconds(duration_str):
+        if not duration_str or duration_str == "N/A":
+            return None
+        try:
+            if ':' in duration_str:
+                parts = duration_str.split(':')
+                if len(parts) == 2:
+                    minutes, seconds = int(parts[0]), int(parts[1])
+                    return minutes * 60 + seconds
+                elif len(parts) == 3:
+                    hours, minutes, seconds = int(parts[0]), int(parts[1]), int(parts[2])
+                    return hours * 3600 + minutes * 60 + seconds
+            return None
+        except:
+            return None
+    
+    # Convert date to YYYY-MM-DD format
+    def date_to_iso(date_str):
+        if not date_str or date_str == "N/A":
+            return None
+        try:
+            # Handle various date formats
+            if re.match(r'\d{4}-\d{2}-\d{2}', date_str):
+                return date_str  # Already in ISO format
+            elif re.match(r'\w+ \d{1,2}, \d{4}', date_str):
+                # Convert "August 20, 2025" to "2025-08-20"
+                from datetime import datetime
+                return datetime.strptime(date_str, "%B %d, %Y").strftime("%Y-%m-%d")
+            elif re.match(r'\d{4}', date_str):
+                # Just year, return as is
+                return date_str
+            return date_str
+        except:
+            return date_str
+    
+    # Convert review score to decimal
+    def score_to_decimal(score_str):
+        if not score_str:
+            return None
+        try:
+            # Handle your 0-4 rating scale
+            if score_str == "0/4":
+                return 0.0
+            elif score_str == "0.5/4":
+                return 0.5
+            elif score_str == "1/4":
+                return 1.0
+            elif score_str == "1.5/4":
+                return 1.5
+            elif score_str == "2/4":
+                return 2.0
+            elif score_str == "2.5/4":
+                return 2.5
+            elif score_str == "3/4":
+                return 3.0
+            elif score_str == "3.5/4":
+                return 3.5
+            elif score_str == "4/4":
+                return 4.0
+            else:
+                # Try to parse as a simple number
+                return float(score_str)
+        except:
+            return score_str
+    
+    # Create the comprehensive review object with all metadata fields
     review = {
-        "song_title": song_title,
-        "song_artist": artist,
-        "review_date": date_match.group(1).strip() if date_match else "",
-        "review_score": rating_match.group(1).strip() if rating_match else "",
-        "review_text": description_match.group(1).strip() if description_match else "",
-        "song_url": listen_match.group(1).strip() if listen_match else "",
+        # Song metadata
+        "song_artist": safe_extract(song_artist_match, artist),
+        "song_title": safe_extract(song_title_match, song_title),
+        "song_release_date": date_to_iso(safe_extract(song_release_date_match)),
+        "song_upload_date": date_to_iso(safe_extract(song_upload_date_match)),
+        "song_duration_sec": duration_to_seconds(safe_extract(song_duration_sec_match)),
+        "song_album": safe_extract(song_album_match),
+        "song_label": safe_extract(song_label_match),
+        "song_genre": safe_extract(song_genre_match),
+        "song_mood": safe_extract(song_mood_match),
+        "song_instrumentation": safe_extract(song_instrumentation_match),
+        "song_language": safe_extract(song_language_match),
+        "song_audio_url": safe_extract(song_audio_url_match),
+        
+        # Review metadata
+        "review_date": date_to_iso(safe_extract(review_date_match)),
+        "review_score": score_to_decimal(safe_extract(review_score_match)),
+        "review_text": safe_extract(review_text_match),
+        
+        # Generated fields
         "review_id": f"{artist.lower().replace(' ', '-')}-{song_title.lower().replace(' ', '-').replace('"', '').replace(',', '')}-song-review"
     }
     

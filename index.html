@@ -284,14 +284,14 @@
                         <h3>📥 Data Downloads</h3>
                         <div class="download-options">
                             <div class="download-option">
-                                <h4>🚀 BigQuery Ready CSV</h4>
-                                <p>Clean data for analysis - no metadata rows</p>
-                                <button onclick="exportCleanCSV()" class="download-btn">Download Clean CSV</button>
+                                                                  <h4>🚀 BigQuery Ready CSV</h4>
+                                  <p>Comprehensive data with all metadata fields for analysis</p>
+                                <button onclick="exportCleanCSV()" class="download-btn">Download Comprehensive CSV</button>
                             </div>
                             <div class="download-option">
                                 <h4>📋 Full Report CSV</h4>
                                 <p>Includes data quality metadata and validation status</p>
-                                <button onclick="exportReviewsCSV()" class="download-btn">Download Full Report</button>
+                                <button onclick="exportReviewsCSV()" class="download-btn">Download Full Report with Quality</button>
                             </div>
                             <div class="download-option">
                                 <h4>📈 Analytics Data</h4>
@@ -445,30 +445,15 @@
 
                 // API data loaded successfully
             } catch (error) {
-                console.error('❌ Error fetching API data:', error);
-                
-                // Track API error for analytics
+                // Track error analytics
                 analyticsData.apiErrors.push({
                     timestamp: new Date().toISOString(),
                     error: error.message,
                     stack: error.stack
                 });
                 
-                // Create error HTML with retry button
-                const errorHTML = `<div class="section">
-                    <p>❌ Error loading reviews: ${error.message}</p>
-                    <p><button onclick="fetchDataFromAPI()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Retry</button></p>
-                </div>`;
-                
-                content.free.html = errorHTML;
-
-                
-                // Refresh current tab to show error
-                const currentTab = document.querySelector('.nav a[aria-selected="true"]');
-                if (currentTab) {
-                    const currentPage = currentTab.getAttribute('onclick').match(/'([^']+)'/)[1];
-                    showContent(currentPage);
-                }
+                // Show user-friendly error message
+                showErrorMessage('Failed to load reviews. Please try again later.');
             }
         }
 
@@ -547,14 +532,14 @@
          */
         function loadAnalyticsData() {
             if (typeof localStorage !== 'undefined') {
-                const saved = localStorage.getItem('opeAnalytics');
-                if (saved) {
-                    try {
-                        const parsed = JSON.parse(saved);
-                        analyticsData = { ...analyticsData, ...parsed };
-                    } catch (e) {
-                        console.warn('Could not parse saved analytics data');
+                try {
+                    const saved = localStorage.getItem('opeAnalytics');
+                    if (saved) {
+                        analyticsData = JSON.parse(saved);
                     }
+                } catch (error) {
+                    // Reset analytics data if parsing fails
+                    analyticsData = getDefaultAnalyticsData();
                 }
             }
         }
@@ -628,28 +613,34 @@
                     return;
                 }
                 
-                // Create clean CSV without metadata rows
+                // Create comprehensive CSV with all metadata fields
                 const csvData = [];
                 
-                // Add header row only
-                csvData.push('song_title,song_artist,review_date,review_score,review_text,song_url,review_id');
+                // Add header row with all metadata fields
+                csvData.push('song_title,song_artist,song_release_date,song_upload_date,song_duration_sec,song_album,song_label,song_genre,song_mood,song_instrumentation,song_language,song_audio_url,review_date,review_score,review_text,review_id');
                 
                 // Add each review as a row
                 reviews.forEach((review, index) => {
-                    // Clean and escape the review text for CSV
+                    // Clean and escape all text fields for CSV
                     const cleanText = (review.review_text || '').replace(/"/g, '""').replace(/\n/g, ' ');
                     const cleanTitle = (review.song_title || '').replace(/"/g, '""');
                     const cleanArtist = (review.song_artist || '').replace(/"/g, '""');
+                    const cleanAlbum = (review.song_album || '').replace(/"/g, '""');
+                    const cleanLabel = (review.song_label || '').replace(/"/g, '""');
+                    const cleanGenre = (review.song_genre || '').replace(/"/g, '""');
+                    const cleanMood = (review.song_mood || '').replace(/"/g, '""');
+                    const cleanInstrumentation = (review.song_instrumentation || '').replace(/"/g, '""');
                     
-                    // Convert review score from fraction to decimal
+                    // Convert review score to proper decimal format (1/4 -> 1.0, 0.5/4 -> 0.5)
                     let reviewScore = review.review_score;
-                    if (reviewScore && reviewScore.includes('/')) {
+                    if (reviewScore && typeof reviewScore === 'string' && reviewScore.includes('/')) {
                         const [numerator, denominator] = reviewScore.split('/');
-                        const decimalScore = (parseFloat(numerator) / parseFloat(denominator)) * 4;
-                        reviewScore = decimalScore.toFixed(1);
+                        if (denominator === '4') {
+                            reviewScore = parseFloat(numerator).toFixed(1);
+                        }
                     }
                     
-                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.review_date}","${reviewScore}","${cleanText}","${review.song_url}","${review.review_id}"`);
+                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.song_release_date || ''}","${review.song_upload_date || ''}","${review.song_duration_sec || ''}","${cleanAlbum}","${cleanLabel}","${cleanGenre}","${cleanMood}","${cleanInstrumentation}","${review.song_language || ''}","${review.song_audio_url || ''}","${review.review_date || ''}","${reviewScore || ''}","${cleanText}","${review.review_id || ''}"`);
                 });
                 
                 const csv = csvData.join('\n');
@@ -657,7 +648,7 @@
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `ope_reviews_clean_${new Date().toISOString().split('T')[0]}.csv`;
+                a.download = `ope_reviews_comprehensive_${new Date().toISOString().split('T')[0]}.csv`;
                 a.click();
                 window.URL.revokeObjectURL(url);
                 
@@ -666,8 +657,11 @@
                 saveAnalyticsData();
                 
             } catch (error) {
-                console.error('❌ Error exporting clean CSV:', error);
-                alert('Failed to export clean CSV. Please try again.');
+                // Track error analytics
+                analyticsData.performanceMetrics.totalRequests++;
+                saveAnalyticsData();
+                
+                alert('Failed to export comprehensive CSV. Please try again.');
             }
         }
 
@@ -690,11 +684,11 @@
                     return;
                 }
                 
-                // Create CSV with review metadata
+                // Create comprehensive CSV with all metadata fields and data quality
                 const csvData = [];
                 
-                // Add header row with data quality column
-                csvData.push('song_title,song_artist,review_date,review_score,review_text,song_url,review_id,data_quality_status');
+                // Add header row with all metadata fields plus data quality
+                csvData.push('song_title,song_artist,song_release_date,song_upload_date,song_duration_sec,song_album,song_label,song_genre,song_mood,song_instrumentation,song_language,song_audio_url,review_date,review_score,review_text,review_id,data_quality_status');
                 
                 // Track validation results
                 const validationResults = {
@@ -720,21 +714,27 @@
                         });
                     }
                     
-                    // Clean and escape the review text for CSV
+                    // Clean and escape all text fields for CSV
                     const cleanText = (review.review_text || '').replace(/"/g, '""').replace(/\n/g, ' ');
                     const cleanTitle = (review.song_title || '').replace(/"/g, '""');
                     const cleanArtist = (review.song_artist || '').replace(/"/g, '""');
+                    const cleanAlbum = (review.song_album || '').replace(/"/g, '""');
+                    const cleanLabel = (review.song_label || '').replace(/"/g, '""');
+                    const cleanGenre = (review.song_genre || '').replace(/"/g, '""');
+                    const cleanMood = (review.song_mood || '').replace(/"/g, '""');
+                    const cleanInstrumentation = (review.song_instrumentation || '').replace(/"/g, '""');
                     
-                    // Convert review score from fraction to decimal (e.g., "1/4" -> "1.0")
+                    // Convert review score to proper decimal format (1/4 -> 1.0, 0.5/4 -> 0.5)
                     let reviewScore = review.review_score;
-                    if (reviewScore && reviewScore.includes('/')) {
+                    if (reviewScore && typeof reviewScore === 'string' && reviewScore.includes('/')) {
                         const [numerator, denominator] = reviewScore.split('/');
-                        const decimalScore = (parseFloat(numerator) / parseFloat(denominator)) * 4;
-                        reviewScore = decimalScore.toFixed(1); // Keep 1 decimal place
+                        if (denominator === '4') {
+                            reviewScore = parseFloat(numerator).toFixed(1);
+                        }
                     }
                     
                     const qualityStatus = isValid ? 'VALID' : `INVALID: ${validation.errors.join(', ')}`;
-                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.review_date}","${reviewScore}","${cleanText}","${review.song_url}","${review.review_id}","${qualityStatus}"`);
+                    csvData.push(`"${cleanTitle}","${cleanArtist}","${review.song_release_date || ''}","${review.song_upload_date || ''}","${review.song_duration_sec || ''}","${cleanAlbum}","${cleanLabel}","${cleanGenre}","${cleanMood}","${cleanInstrumentation}","${review.song_language || ''}","${review.song_audio_url || ''}","${review.review_date || ''}","${reviewScore || ''}","${cleanText}","${review.review_id || ''}","${qualityStatus}"`);
                 });
                 
                 // Add data quality summary at the top
@@ -745,23 +745,26 @@
                 }
                 csvData.unshift('');
                 
-                            // Create and download CSV with proper headers
-            const csv = csvData.join('\n');
-            const blob = new Blob(['\ufeff' + csv], { 
-                type: 'text/csv;charset=utf-8;' 
-            });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ope_reviews_with_quality_${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            window.URL.revokeObjectURL(url);
+                // Create and download CSV with proper headers
+                const csv = csvData.join('\n');
+                const blob = new Blob(['\ufeff' + csv], { 
+                    type: 'text/csv;charset=utf-8;' 
+                });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ope_reviews_comprehensive_with_quality_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
                 
                 // Successfully exported reviews to CSV
                 
             } catch (error) {
-                console.error('❌ Error exporting reviews:', error);
-                alert('Error exporting reviews. Please try again.');
+                // Track error analytics
+                analyticsData.performanceMetrics.totalRequests++;
+                saveAnalyticsData();
+                
+                alert('Error exporting comprehensive reviews. Please try again.');
             }
         }
 
