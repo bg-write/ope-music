@@ -2,6 +2,27 @@
 const reviewsData = {
   "reviews": [
     {
+      "song_artist": "Felsmann + Tiley",
+      "song_title": "Gabriel",
+      "song_release_date": "2025-08-19",
+      "song_release_date_display": "August 19, 2025",
+      "song_upload_date": "2025-08-19",
+      "song_upload_date_display": "August 19, 2025",
+      "song_duration_sec": 141,
+      "song_album": "Single",
+      "song_label": "Mute",
+      "song_genre": "Electronic, Ambient",
+      "song_mood": "Contemplative",
+      "song_instrumentation": "Synthesizers, Ambient Textures",
+      "song_language": "N/A",
+      "song_audio_url": "https://youtu.be/58uUh1a8vSA?si=RIo0UoK46jB1Fz7f",
+      "review_date": "2025-08-21",
+      "review_date_display": "August 21, 2025",
+      "review_score": 2.0,
+      "review_text": "Sounds like Jarvis Cocker's airplane daydream — half Bloody Mary, half crossword doodle in the margins of SkyMall - heckling the Ocean's Eleven score from coach. Wish the song would lead somewhere though. It just paces the aisle forever, waiting for peanuts that never come.",
+      "review_id": "felsmann-+-tiley-gabriel-song-review"
+    },
+    {
       "song_artist": "Florence + The Machine",
       "song_title": "Everybody Scream",
       "song_release_date": "2025-08-20",
@@ -88,11 +109,11 @@ const reviewsData = {
   ],
   "pagination": {
     "page": 1,
-    "per_page": 4,
-    "total": 4,
+    "per_page": 5,
+    "total": 5,
     "pages": 1
   }
-};;;;;;;
+};;;;;;;;
 
 // Load reviews from embedded data
 function loadReviews() {
