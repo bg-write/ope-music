@@ -95,17 +95,36 @@
             validateReview: (review) => {
                 const errors = [];
                 
+                // Check required song metadata fields
                 if (!review.song_title || review.song_title.trim().length === 0) {
                     errors.push('Missing song title');
                 }
                 if (!review.song_artist || review.song_artist.trim().length === 0) {
                     errors.push('Missing artist name');
                 }
-                if (!review.review_score || !/^\d+(\.\d+)?\/\d+$/.test(review.review_score)) {
-                    errors.push(`Invalid review score format: "${review.review_score}"`);
+                
+                // Check review score - now accepts decimal format (1.0, 0.5, etc.)
+                if (!review.review_score) {
+                    errors.push('Missing review score');
+                } else {
+                    // Accept both decimal format (1.0, 0.5) and fraction format (1/4, 0.5/4)
+                    const scorePatterns = [
+                        /^\d+(\.\d+)?$/, // Decimal format: 1.0, 0.5, 4.0
+                        /^\d+(\.\d+)?\/\d+$/ // Fraction format: 1/4, 0.5/4
+                    ];
+                    
+                    const isValidScore = scorePatterns.some(pattern => pattern.test(review.review_score.toString()));
+                    if (!isValidScore) {
+                        errors.push(`Invalid review score format: "${review.review_score}"`);
+                    }
                 }
                 
-                // More flexible date validation - accept various formats
+                // Check review text
+                if (!review.review_text || review.review_text.trim().length === 0) {
+                    errors.push('Missing review text');
+                }
+                
+                // Check review date - accept various formats
                 if (!review.review_date) {
                     errors.push('Missing review date');
                 } else {
@@ -131,7 +150,7 @@
                     song_title: DataValidator.sanitizeText(review.song_title),
                     song_artist: DataValidator.sanitizeText(review.song_artist),
                     review_text: DataValidator.sanitizeText(review.review_text),
-                    song_url: review.song_url || '',
+                    song_audio_url: review.song_audio_url || '',
                     review_id: review.review_id || ''
                 };
             }
@@ -170,12 +189,25 @@
          * @returns {string} HTML string with 4 stars
          */
         function generateStarRating(rating) {
-            // Parse the rating (e.g., "3.5/4" -> 3.5 out of 4)
-            const ratingMatch = rating.match(/(\d+(?:\.\d+)?)\/(\d+)/);
-            if (!ratingMatch) return rating; // Fallback to original if can't parse
+            let score, maxScore;
             
-            const score = parseFloat(ratingMatch[1]);
-            const maxScore = parseInt(ratingMatch[2]);
+            // Handle decimal format (e.g., 1.0, 0.5, 3.5)
+            if (typeof rating === 'number' || (typeof rating === 'string' && !rating.includes('/'))) {
+                score = parseFloat(rating);
+                maxScore = 4; // Assume 4-point scale for decimal ratings
+            } 
+            // Handle fraction format (e.g., "3.5/4", "1/4")
+            else if (typeof rating === 'string' && rating.includes('/')) {
+                const ratingMatch = rating.match(/(\d+(?:\.\d+)?)\/(\d+)/);
+                if (!ratingMatch) return rating; // Fallback to original if can't parse
+                
+                score = parseFloat(ratingMatch[1]);
+                maxScore = parseInt(ratingMatch[2]);
+            } 
+            // Fallback for unexpected formats
+            else {
+                return rating;
+            }
             
             // Convert to 4-star scale
             const fourStarScore = (score / maxScore) * 4;
@@ -199,7 +231,7 @@
          * @param {string} song.review_score - Rating (e.g., "3.5/4")
          * @param {string} song.review_date - Date of the review
          * @param {string} song.review_text - Review description
-         * @param {string} song.song_url - URL to listen to the song
+         * @param {string} song.song_audio_url - URL to listen to the song
          * @param {string} song.review_id - Unique identifier for the review
          * @returns {string} HTML string for the song entry
          */
@@ -208,10 +240,10 @@
             <div class="song-entry" id="${song.review_id}" data-artist="${song.song_artist.toLowerCase()} ${song.song_title.toLowerCase()}">
                 <h3 class="song-title">${song.song_artist} - "${song.song_title}"</h3>
                 <div class="song-rating">${generateStarRating(song.review_score)}</div>
-                <p class="song-date">${song.review_date}</p>
+                <p class="song-date">${song.review_date_display || song.review_date}</p>
                 <p class="song-description">${song.review_text}</p>
                 <div class="song-links">
-                    <a href="${song.song_url}" target="_blank" rel="noopener">Listen</a>
+                    <a href="${song.song_audio_url}" target="_blank" rel="noopener">Listen</a>
                 </div>
             </div>`;
         }
@@ -348,7 +380,7 @@
                 const mostRecentReview = reviewsData[0]; // First review is most recent
                 const lastUpdatedSpan = document.getElementById('last-updated-date');
                 if (lastUpdatedSpan) {
-                    lastUpdatedSpan.textContent = mostRecentReview.review_date;
+                    lastUpdatedSpan.textContent = mostRecentReview.review_date_display || mostRecentReview.review_date;
                 }
             }
             
@@ -452,8 +484,14 @@
                     stack: error.stack
                 });
                 
-                // Show user-friendly error message
-                showErrorMessage('Failed to load reviews. Please try again later.');
+                // Show error message in content area
+                content.free.html = `<div class="section">
+                    <p>❌ Failed to load reviews: ${error.message}</p>
+                    <p><button onclick="fetchDataFromAPI()" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔄 Retry</button></p>
+                </div>`;
+                
+                // Show the error content
+                showContent('free');
             }
         }
 

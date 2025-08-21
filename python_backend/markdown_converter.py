@@ -128,7 +128,9 @@ def parse_song_review(markdown_text):
         "song_artist": safe_extract(song_artist_match, artist),
         "song_title": safe_extract(song_title_match, song_title),
         "song_release_date": date_to_iso(safe_extract(song_release_date_match)),
+        "song_release_date_display": safe_extract(song_release_date_match),  # Original format for frontend
         "song_upload_date": date_to_iso(safe_extract(song_upload_date_match)),
+        "song_upload_date_display": safe_extract(song_upload_date_match),  # Original format for frontend
         "song_duration_sec": duration_to_seconds(safe_extract(song_duration_sec_match)),
         "song_album": safe_extract(song_album_match),
         "song_label": safe_extract(song_label_match),
@@ -140,6 +142,7 @@ def parse_song_review(markdown_text):
         
         # Review metadata
         "review_date": date_to_iso(safe_extract(review_date_match)),
+        "review_date_display": safe_extract(review_date_match),  # Original format for frontend
         "review_score": score_to_decimal(safe_extract(review_score_match)),
         "review_text": safe_extract(review_text_match),
         

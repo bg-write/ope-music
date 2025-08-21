@@ -7,6 +7,7 @@
 - **Design data schema** for complex SQL queries
 - **Create sample queries** demonstrating advanced SQL skills
 - **Plan Looker visualizations** using rich metadata
+- In Footer, add links to public BigQuery and/or Looker Studios?
 
 ---
 

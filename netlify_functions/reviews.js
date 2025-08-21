@@ -5,7 +5,9 @@ const reviewsData = {
       "song_artist": "Florence + The Machine",
       "song_title": "Everybody Scream",
       "song_release_date": "2025-08-20",
+      "song_release_date_display": "August 20, 2025",
       "song_upload_date": "2025-08-20",
+      "song_upload_date_display": "August 20, 2025",
       "song_duration_sec": 339,
       "song_album": "Everybody Scream",
       "song_label": "Universal Music Operations Limited",
@@ -15,6 +17,7 @@ const reviewsData = {
       "song_language": "English",
       "song_audio_url": "https://youtu.be/03iBgkXb1EE?si=AEroczos9BZM7yVx",
       "review_date": "2025-08-20",
+      "review_date_display": "August 20, 2025",
       "review_score": 1.0,
       "review_text": "The Spoon of theater kids but doomed to jazz hands. The pre-chorus drum fumble (\"breakdown\" is felony-level generous) is bad yet Florence can still out-sing the man yelling at pigeons behind the 7-Eleven.",
       "review_id": "florence-+-the-machine-everybody-scream-song-review"
@@ -23,7 +26,9 @@ const reviewsData = {
       "song_artist": "Wednesday",
       "song_title": "Bitter Everyday",
       "song_release_date": "2025-08-19",
+      "song_release_date_display": "August 19, 2025",
       "song_upload_date": "2025-08-19",
+      "song_upload_date_display": "August 19, 2025",
       "song_duration_sec": 202,
       "song_album": "Bleeds",
       "song_label": "Dead Oceans",
@@ -33,6 +38,7 @@ const reviewsData = {
       "song_language": "English",
       "song_audio_url": "https://youtu.be/qGNRGk5TOLE?si=-9XE7b4vi1BZC-re",
       "review_date": "2025-08-19",
+      "review_date_display": "August 19, 2025",
       "review_score": 0.5,
       "review_text": "I'd rather lick Kid Rock's dinghy than listen to any more 2020s shoegaze. Even mildew and regret got bored by this song.",
       "review_id": "wednesday-bitter-everyday-song-review"
@@ -41,7 +47,9 @@ const reviewsData = {
       "song_artist": "Joyce Manor",
       "song_title": "All My Friends Are So Depressed",
       "song_release_date": "2025-08-18",
+      "song_release_date_display": "August 18, 2025",
       "song_upload_date": "2025-08-18",
+      "song_upload_date_display": "August 18, 2025",
       "song_duration_sec": 166,
       "song_album": "Single",
       "song_label": "Epitaph Records",
@@ -51,6 +59,7 @@ const reviewsData = {
       "song_language": "English",
       "song_audio_url": "https://youtu.be/NDmJDdFl_jI?si=I99dZE6IilHRunLr",
       "review_date": "2025-08-18",
+      "review_date_display": "August 18, 2025",
       "review_score": 1.0,
       "review_text": "Why is everyone trying to do alt-country poorly now. The Civil War reenactment of Old 97's no one asked for.",
       "review_id": "joyce-manor-all-my-friends-are-so-depressed-song-review"
@@ -59,7 +68,9 @@ const reviewsData = {
       "song_artist": "Horses 4k",
       "song_title": "Barely a Horse, Mostly a Pony",
       "song_release_date": "2025-08-01",
+      "song_release_date_display": "August 1, 2025",
       "song_upload_date": "2025-08-01",
+      "song_upload_date_display": "August 1, 2025",
       "song_duration_sec": 246,
       "song_album": "Nina",
       "song_label": "Independent",
@@ -69,6 +80,7 @@ const reviewsData = {
       "song_language": "N/A",
       "song_audio_url": "https://horses4k.bandcamp.com/album/nina",
       "review_date": "2025-08-15",
+      "review_date_display": "August 15, 2025",
       "review_score": 3.5,
       "review_text": "The sound of a horse staring at the sea, pondering frisbees and Tolstoy. Seagulls heckle. The wind; it smells like Elvis's hairspray. And zoomers — bless them — think they invented y'alternative just to ban it, like they're trying to outlaw sadness itself.",
       "review_id": "horses-4k-barely-a-horse-mostly-a-pony-song-review"
@@ -80,7 +92,7 @@ const reviewsData = {
     "total": 4,
     "pages": 1
   }
-};;;;;;
+};;;;;;;
 
 // Load reviews from embedded data
 function loadReviews() {
