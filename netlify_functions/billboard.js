@@ -50,9 +50,9 @@ exports.handler = async (event, context) => {
         })
       };
     } else {
-      // Fallback to embedded data if file doesn't exist
+            // Fallback to embedded data if file doesn't exist (updated to latest date)
       const billboardData = {
-      "chart_date": "2025-08-31",
+        "chart_date": "2025-08-31",
       "total_entries": 100,
       "chart_entries": [
         {
