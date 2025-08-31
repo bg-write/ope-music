@@ -12,6 +12,14 @@ __pycache__/
 .Python
 *.so
 
+# Database files (optional - remove if you want to track data)
+*.db
+*.sqlite
+*.sqlite3
+
+# Export files
+database_export_*.csv
+
 # Environment variables
 .env
 .env.local

@@ -17,5 +17,10 @@
   to = "/.netlify/functions/reviews"
   status = 200
 
+[[redirects]]
+  from = "/api/billboard"
+  to = "/.netlify/functions/billboard"
+  status = 200
+
 [build.environment]
   PYTHON_VERSION = "3.12"

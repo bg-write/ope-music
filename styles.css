@@ -908,3 +908,380 @@ li {
         padding: 20px;
     }
 }
+
+/* Billboard Hot 100 Styling */
+.billboard-chart {
+    margin: 20px 0;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chart-entry {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.2s ease;
+}
+
+.chart-entry:last-child {
+    border-bottom: none;
+}
+
+.chart-entry:hover {
+    background-color: #f8f9fa;
+}
+
+.rank-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #495057;
+    min-width: 40px;
+    text-align: center;
+    margin-right: 15px;
+}
+
+.song-info {
+    flex: 1;
+    margin-right: 15px;
+}
+
+.song-info .song-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    color: #000;
+}
+
+.song-info .song-artist {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+}
+
+.chart-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 11px;
+    color: #6c757d;
+}
+
+.weeks-on-chart {
+    margin-bottom: 2px;
+}
+
+.peak-position {
+    font-style: italic;
+}
+
+.chart-description {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #007bff;
+}
+
+.data-source-info {
+    background-color: #e8f5e8;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #28a745;
+}
+
+.data-source-info h3 {
+    margin-top: 0;
+    color: #155724;
+}
+
+.data-source-info ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.data-source-info li {
+    margin: 5px 0;
+}
+
+.analytics-note {
+    background-color: #fff3cd;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #ffc107;
+}
+
+.analytics-note h3 {
+    margin-top: 0;
+    color: #856404;
+}
+
+.analytics-note ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.analytics-note li {
+    margin: 5px 0;
+}
+
+/* Loading spinner for Billboard data */
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    font-size: 16px;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 2px dashed #dee2e6;
+}
+
+/* Billboard Watch Styling */
+.billboard-chart {
+    margin: 20px 0;
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.top-artists-summary {
+    margin: 20px 0;
+    padding: 20px;
+    background: #e8f4fd;
+    border: 1px solid #bee5eb;
+    border-radius: 12px;
+    color: #0c5460;
+}
+
+.top-artists-summary h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.5em;
+    text-align: center;
+    color: #0c5460;
+}
+
+.top-artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.top-artist-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.top-artist-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.artist-rank {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 8px;
+}
+
+.artist-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.artist-score {
+    font-size: 1.1em;
+    color: #ffd700;
+    margin-bottom: 5px;
+}
+
+.artist-songs {
+    font-size: 0.9em;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.artist-positions {
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-family: monospace;
+}
+
+.chart-entry {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.chart-entry:hover {
+    background-color: #f8f9fa;
+}
+
+.chart-entry:last-child {
+    border-bottom: none;
+}
+
+.rank-number {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #666;
+    min-width: 40px;
+    text-align: center;
+}
+
+.song-info {
+    flex: 1;
+    margin-left: 16px;
+}
+
+.song-title {
+    margin: 0 0 4px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+}
+
+.song-artist {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.chart-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8em;
+    color: #888;
+    min-width: 80px;
+}
+
+.weeks-on-chart,
+.peak-position,
+.chart-date {
+    margin: 2px 0;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.data-source-info {
+    background: #e8f4fd;
+    border: 1px solid #bee5eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.data-source-info h3 {
+    margin: 0 0 12px 0;
+    color: #0c5460;
+}
+
+.data-source-info p {
+    margin: 0 0 8px 0;
+    color: #0c5460;
+}
+
+.analytics-note {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.analytics-note h3 {
+    margin: 0 0 16px 0;
+    color: #495057;
+}
+
+.analytics-note ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.analytics-note li {
+    margin: 8px 0;
+    color: #6c757d;
+}
+
+.top-artists-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.top-artists-list li {
+    padding: 8px 0;
+    margin: 4px 0;
+    font-size: 1em;
+    color: #0c5460;
+    list-style: none;
+    margin-left: 0;
+}
+
+.top-artists-list li strong {
+    color: #0c5460;
+}
+
+.scoring-note {
+    margin: 20px 0 0 0;
+    font-size: 0.85em;
+    color: #0c5460;
+    opacity: 0.8;
+    font-style: italic;
+    text-align: left;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .top-artists-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
+    }
+    
+    .rank-number {
+        margin-bottom: 8px;
+    }
+    
+    .song-info {
+        margin-left: 0;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    
+    .chart-stats {
+        align-items: flex-start;
+        width: 100%;
+    }
+    
+    .top-artists-list li {
+        padding: 6px 0;
+        font-size: 0.9em;
+        margin-left: 0;
+    }
+}

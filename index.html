@@ -43,9 +43,9 @@
     <!-- Navigation tabs for switching between different content sections -->
     <!-- Each tab loads content dynamically without page refresh -->
     <nav class="nav" role="navigation" aria-label="Main navigation">
-        <a href="#" onclick="showContent('free')" id="free-link" role="tab" aria-selected="true" aria-controls="content-container">Songs</a>
-        <a href="#" onclick="showContent('newsletter')" id="newsletter-link" role="tab" aria-selected="false" aria-controls="content-container">Newsletter</a>
-        <a href="#" onclick="showContent('podcast')" id="podcast-link" role="tab" aria-selected="false" aria-controls="content-container">Podcast</a>
+        <a href="#" onclick="showContent('free')" id="free-link" role="tab" aria-selected="true" aria-controls="content-container">Song Reviews</a>
+        <a href="#" onclick="showContent('billboard')" id="billboard-link" role="tab" aria-selected="false" aria-controls="content-container">Billboard Watch</a>
+        <a href="#" onclick="showContent('newsletter-podcast')" id="newsletter-podcast-link" role="tab" aria-selected="false" aria-controls="content-container">Newsletter & Podcast</a>
         <!-- <a href="#" onclick="showContent('email')" id="email-link" role="tab" aria-selected="false" aria-controls="content-container">Email</a> -->
         <!-- <a href="#" onclick="showContent('albums')" id="albums-link" role="tab" aria-selected="false" aria-controls="content-container">Album Reviews</a> -->
         <!-- <a href="#" onclick="showContent('members')" id="members-link" role="tab" aria-selected="false" aria-controls="content-container">Exclusive Member Content</a> -->
@@ -174,12 +174,14 @@
         // Content data - Now dynamically populated from API
         let content = {
             free: { title: "Songs", html: '<div class="section"><p>Loading reviews...</p></div>' },
-            newsletter: { title: "Newsletter", html: `<div class="section">
+            'newsletter-podcast': { title: "Newsletter & Podcast", html: `<div class="section">
+        <h2>Newsletter</h2>
         <p>A link to the week's reviews every Friday, along with other "fun" links and "musings" on "life": <a href="https://bradygerber.com/newsletter/" target="_blank" rel="noopener">https://bradygerber.com/newsletter/</a></p>
-    </div>` },
-            podcast: { title: "Podcast", html: `<div class="section">
+        
+        <h2>Podcast</h2>
         <p>My reviews, but easier to understand: <a href="https://bradygerber.com/podcast-and-youtube/" target="_blank" rel="noopener">https://bradygerber.com/podcast-and-youtube/</a></p>
     </div>` },
+            billboard: { title: "Billboard Watch", html: '<div class="section"><p>Loading Billboard Watch...</p></div>' },
 
         };
 
@@ -508,8 +510,8 @@
         function showContent(page) {
             const container = document.getElementById('content-container');
             const freeLink = document.getElementById('free-link');
-            const newsletterLink = document.getElementById('newsletter-link');
-            const podcastLink = document.getElementById('podcast-link');
+            const newsletterPodcastLink = document.getElementById('newsletter-podcast-link');
+            const billboardLink = document.getElementById('billboard-link');
             
             // Track page view for analytics
             if (!analyticsData.pageViews[page]) {
@@ -526,20 +528,22 @@
             // Update navigation styling and ARIA states
             freeLink.classList.remove('active');
             freeLink.setAttribute('aria-selected', 'false');
-            newsletterLink.classList.remove('active');
-            newsletterLink.setAttribute('aria-selected', 'false');
-            podcastLink.classList.remove('active');
-            podcastLink.setAttribute('aria-selected', 'false');
+            newsletterPodcastLink.classList.remove('active');
+            newsletterPodcastLink.setAttribute('aria-selected', 'false');
+            billboardLink.classList.remove('active');
+            billboardLink.setAttribute('aria-selected', 'false');
             
             if (page === 'free') {
                 freeLink.classList.add('active');
                 freeLink.setAttribute('aria-selected', 'true');
-            } else if (page === 'newsletter') {
-                newsletterLink.classList.add('active');
-                newsletterLink.setAttribute('aria-selected', 'true');
-            } else if (page === 'podcast') {
-                podcastLink.classList.add('active');
-                podcastLink.setAttribute('aria-selected', 'true');
+            } else if (page === 'newsletter-podcast') {
+                newsletterPodcastLink.classList.add('active');
+                newsletterPodcastLink.setAttribute('aria-selected', 'true');
+            } else if (page === 'billboard') {
+                billboardLink.classList.add('active');
+                billboardLink.setAttribute('aria-selected', 'true');
+                // Load Billboard data when tab is selected
+                loadBillboardData();
             }
             
             // Update page title
@@ -1105,6 +1109,1016 @@
                 e.preventDefault();
             }
         });
+
+        /**
+         * Load Billboard Watch data
+         * This demonstrates real-time data integration capabilities
+         */
+        async function loadBillboardData() {
+            const container = document.getElementById('content-container');
+            if (!container) {
+                console.error('Content container not found! Looking for: content-container');
+                return;
+            }
+            
+            // Show loading state
+            container.innerHTML = `
+                <div class="section">
+                                            <h2><strong>Billboard Hot 100 Tracker</strong><br><em>Loading...</em></h2>
+                    <p>This tab tracks <a href="https://www.billboard.com/charts/hot-100/" target="_blank">Billboard's official Hot 100 chart</a>, which updates every Tuesday morning pending any holidays or special cases.</p>
+                    <div class="loading-spinner">🔄 Loading chart data...</div>
+                </div>
+            `;
+            
+            try {
+                // Automatically detect environment and use appropriate API endpoint
+                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const apiUrl = isLocalhost ? 'http://localhost:8000/api/billboard' : '/api/billboard';
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to load Billboard data');
+                }
+                
+                const billboardData = result.data.chart_entries;
+                const topArtists = result.data.top_artists;
+                const chartDate = result.data.chart_date;
+
+                
+                if (!billboardData || billboardData.length === 0) {
+                    throw new Error('No chart data found');
+                }
+                
+
+                
+                // Format the date to "August 21, 2025" format
+                const formatDate = (dateString) => {
+                    const date = new Date(dateString);
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    return date.toLocaleDateString('en-US', options);
+                };
+                
+                const formattedDate = formatDate(chartDate);
+                
+                const billboardHTML = `
+                    <div class="section">
+                        <h2>Billboard Hot 100 Tracker</h2>
+                        <p><em>Last updated: ${formattedDate}</em></p>
+                        <p>This tab tracks <a href="https://www.billboard.com/charts/hot-100/" target="_blank">Billboard's official Hot 100 chart</a>, which updates every Tuesday morning pending any holidays or special cases.</p>
+                        
+                        <div class="top-artists-summary">
+                            <h3>🏆 Top Artists This Week</h3>
+                            <ul class="top-artists-list">
+                                ${topArtists.slice(0, 5).map(artist => `
+                                    <li><strong>#${artist.rank} ${artist.artist}</strong> - ${artist.total_score} pts (${artist.songs_count} songs at positions ${artist.chart_positions.join(', ')})</li>
+                                `).join('')}
+                            </ul>
+                            <p class="scoring-note">Artists are ranked by total points earned across all their chart entries. Rank #1 = 100 points, Rank #2 = 99 points, and so on. This rewards artists with multiple high-charting songs.</p>
+                        </div>
+
+                        <div class="billboard-chart">
+                            <h3>The Billboard Hot 100 Chart</h3>
+                            ${billboardData.map((song, index) => `
+                                <div class="chart-entry" data-rank="${song.rank}">
+                                    <div class="rank-number">${song.rank}</div>
+                                    <div class="song-info">
+                                        <h4 class="song-title">${song.title}</h4>
+                                        <p class="song-artist">${song.artist}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = billboardHTML;
+                
+            } catch (error) {
+                console.error('Error loading Billboard data:', error);
+                
+                // Fallback to mock data if API fails
+                const fallbackData = generateMockBillboardData();
+                const fallbackHTML = `
+                    <div class="section">
+                        <h2><strong>Billboard Hot 100 Tracker</strong><br><em>Error</em></h2>
+                        <p>This tab tracks <a href="https://www.billboard.com/charts/hot-100/" target="_blank">Billboard's official Hot 100 chart</a>, which updates every Tuesday morning pending any holidays or special cases.</p>
+                        
+                        <div class="data-source-info">
+                            <h3>⚠️ Data Source Note</h3>
+                            <p>Live Billboard data is temporarily unavailable. This demonstrates error handling 
+                            and fallback mechanisms in data integration systems.</p>
+                            <p><strong>Error:</strong> ${error.message}</p>
+                        </div>
+
+                        <div class="billboard-chart">
+                            <h3>The Billboard Hot 100 Chart</h3>
+                            ${fallbackData.map((song, index) => `
+                                <div class="chart-entry" data-rank="${index + 1}">
+                                    <div class="rank-number">${index + 1}</div>
+                                    <div class="song-info">
+                                        <h4 class="song-title">${song.title}</h4>
+                                        <p class="song-artist">${song.artist}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                container.innerHTML = fallbackHTML;
+            }
+        }
+
+        /**
+         * Parse Billboard Watch HTML to extract chart data
+         * This function scrapes the actual Billboard website structure
+         */
+        function parseBillboardHTML(html) {
+            try {
+                
+                // Create a DOM parser to extract data from the HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+
+                
+                // Billboard's current structure - let's be more specific
+                let chartEntries = [];
+                
+                // Method 1: Look for the actual chart entries with more specific selectors
+                // Billboard uses specific data attributes and classes for chart items
+                const chartItems = doc.querySelectorAll('[data-testid*="chart-entry"], [data-testid*="chart-item"], .chart-list-item, .chart-element, .chart-item, .chart-list__item, .chart-list-item, .chart-element__container');
+                
+                console.log(`Found ${chartItems.length} potential chart items`);
+                
+                // Try the specific Billboard selector we know works
+                const billboardRows = doc.querySelectorAll('.o-chart-results-list-row-container');
+                console.log(`Found ${billboardRows.length} Billboard chart rows using .o-chart-results-list-row-container`);
+                
+                if (billboardRows.length > 0) {
+                    console.log('First row HTML structure:', billboardRows[0].outerHTML.substring(0, 500));
+                }
+                
+                if (chartItems.length > 0) {
+                    console.log('Processing chart items...');
+                    chartItems.forEach((item, index) => {
+                        if (index >= 100) return;
+                        console.log(`Processing chart item ${index}...`);
+                        
+                        // Look for song title and artist in the chart item
+                        const titleElement = item.querySelector('h3, h4, .chart-element__title, .chart-list-item__title, .title, [class*="title"], .chart-element__text, .chart-list-item__text');
+                        const artistElement = item.querySelector('p, .chart-element__artist, .chart-list-item__artist, .artist, [class*="artist"], .chart-element__subtitle, .chart-list-item__subtitle');
+                        
+                        if (titleElement && artistElement) {
+                            const title = titleElement.textContent.trim();
+                            const artist = artistElement.textContent.trim();
+                            
+                            // Filter out navigation items and menu text
+                            if (title && artist && 
+                                !title.includes('Expand') && 
+                                !title.includes('menu') && 
+                                !title.includes('Charts') &&
+                                !title.includes('Global') &&
+                                !title.includes('Afrobeats') &&
+                                !title.includes('Greatest') &&
+                                !title.includes('Pop') &&
+                                !title.includes('Country') &&
+                                !title.includes('Rock') &&
+                                !title.includes('R&B') &&
+                                !title.includes('Latin') &&
+                                !title.includes('Dance') &&
+                                !title.includes('Christian') &&
+                                !title.includes('Gospel') &&
+                                !title.includes('Holiday') &&
+                                !title.includes('International') &&
+                                !title.includes('Regional') &&
+                                !title.includes('Billboard') &&
+                                !title.includes('THE WEEK') &&
+                                !title.includes('MOST POPULAR') &&
+                                !title.includes('CURRENT SONGS') &&
+                                !title.includes('ACROSS ALL GENRES') &&
+                                !title.includes('RANKED BY') &&
+                                !title.includes('STREAMING') &&
+                                !title.includes('DIGITAL MUSIC') &&
+                                !title.includes('LUMINATE') &&
+                                !title.includes('RADIO AIRPLAY') &&
+                                !title.includes('AUDIENCE IMPRESSIONS') &&
+                                !title.includes('SALES DATA') &&
+                                !title.includes('COMPILED BY') &&
+                                !title.includes('click to see more') &&
+                                !title.includes('Biggest gain') &&
+                                !title.includes('Gains In Performance') &&
+                                !title.includes('A.Warren') &&
+                                !title.includes('A.Yaron') &&
+                                !title.includes('C.Shapiro') &&
+                                !title.includes('Mags Duval')) {
+                                
+                                chartEntries.push({
+                                    title: title,
+                                    artist: artist,
+                                    rank: index + 1,
+                                    weeks: 'N/A',
+                                    peak: 'N/A'
+                                });
+                            }
+                        }
+                    });
+                }
+                
+                // Process the Billboard rows directly - this is the correct approach
+                if (billboardRows.length > 0 && chartEntries.length === 0) {
+                    console.log('Processing Billboard rows directly...');
+                    billboardRows.forEach((row, index) => {
+                        if (index >= 100) return;
+                        console.log(`Processing Billboard row ${index}...`);
+                        
+                        // Extract data from each Billboard row
+                        const rankElement = row.querySelector('li:first-child .c-label');
+                        const rankText = rankElement ? rankElement.textContent.trim() : '';
+                        const rank = rankText ? parseInt(rankText) : (index + 1);
+                        
+                        const titleElement = row.querySelector('h3.c-title');
+                        const title = titleElement ? titleElement.textContent.trim() : '';
+                        
+                        // More specific artist selector - look for artist links, not date links
+                        let artist = '';
+                        const allArtistLinks = row.querySelectorAll('.c-label a');
+                        allArtistLinks.forEach((link, linkIndex) => {
+                            const text = link.textContent.trim();
+                            // Filter out dates, numbers, and navigation text
+                            if (text && 
+                                text.length > 2 && 
+                                !text.match(/^\d{2}\/\d{2}\/\d{2}$/) && // Not date format
+                                !text.match(/^\d+$/) && // Not just numbers
+                                !text.includes('Expand') &&
+                                !text.includes('menu') &&
+                                !text.includes('Search') &&
+                                !text.includes('Plus Icon') &&
+                                !text.includes('Account') &&
+                                !text.includes('LOGIN') &&
+                                !text.includes('Log Out') &&
+                                !text.includes('All Charts') &&
+                                !text.includes('Week of') &&
+                                !text.includes('Datepicker')) {
+                                artist = text;
+                            }
+                        });
+                        
+                        console.log(`Row ${index}: Rank="${rankText}", Title="${title}", Artist="${artist}"`);
+                        
+                        // Only add if we have valid song data
+                        if (title && artist && 
+                            title.length > 2 && 
+                            artist.length > 2 &&
+                            !title.includes('Expand') &&
+                            !title.includes('menu') &&
+                            !title.includes('Search') &&
+                            !title.includes('Plus Icon') &&
+                            !title.includes('Account') &&
+                            !title.includes('LOGIN') &&
+                            !title.includes('Log Out') &&
+                            !title.includes('All Charts') &&
+                            !title.includes('Week of') &&
+                            !title.includes('Datepicker')) {
+                            
+                            chartEntries.push({
+                                title: title,
+                                artist: artist,
+                                rank: rank,
+                                weeks: 'N/A',
+                                peak: 'N/A'
+                            });
+                            
+                            console.log(`Row ${index}: Added song "${title}" by ${artist} at rank ${rank}`);
+                        } else {
+                            console.log(`Row ${index}: Skipped - invalid data (title: "${title}", artist: "${artist}")`);
+                        }
+                    });
+                    
+                    console.log(`Successfully processed ${billboardRows.length} Billboard rows, found ${chartEntries.length} valid songs`);
+                }
+                
+                // Method 2: Look for the main chart content area
+                if (chartEntries.length === 0) {
+                    console.log('Trying alternative parsing method...');
+                    
+                    // Look for the main chart content
+                    const mainContent = doc.querySelector('main, .main-content, .chart-content, [role="main"]');
+                    if (mainContent) {
+                        // Look for song entries within the main content
+                        const songEntries = mainContent.querySelectorAll('article, .song-entry, .chart-entry, [class*="entry"]');
+                        
+                        songEntries.forEach((entry, index) => {
+                            if (index >= 100) return;
+                            
+                            const title = entry.querySelector('h3, h4, .song-title, .title');
+                            const artist = entry.querySelector('p, .artist, .song-artist');
+                            
+                            if (title && artist) {
+                                const titleText = title.textContent.trim();
+                                const artistText = artist.textContent.trim();
+                                
+                                // Additional filtering for actual song data
+                                if (titleText && artistText && 
+                                    titleText.length > 2 && 
+                                    artistText.length > 2 &&
+                                    !titleText.includes('Expand') &&
+                                    !titleText.includes('menu')) {
+                                    
+                                    chartEntries.push({
+                                        title: titleText,
+                                        artist: artistText,
+                                        rank: index + 1,
+                                        weeks: 'N/A',
+                                        peak: 'N/A'
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Method 2.5: Look for chart ranking numbers and associated content
+                if (chartEntries.length === 0) {
+                    console.log('Trying ranking-based parsing...');
+                    
+                    // Look for elements that contain ranking numbers (1, 2, 3, etc.)
+                    const rankingElements = doc.querySelectorAll('span, div, h3, h4');
+                    const rankingData = [];
+                    
+                    rankingElements.forEach(element => {
+                        const text = element.textContent.trim();
+                        // Look for ranking numbers (1-100)
+                        const rankMatch = text.match(/^(\d{1,2}|100)$/);
+                        if (rankMatch) {
+                            const rank = parseInt(rankMatch[1]);
+                            if (rank >= 1 && rank <= 100) {
+                                // Find the parent container or nearby elements for title/artist
+                                const container = element.closest('article, .chart-item, .chart-entry, [class*="chart"], [class*="entry"]') || element.parentElement;
+                                if (container) {
+                                    const titleElement = container.querySelector('h3, h4, .title, [class*="title"]');
+                                    const artistElement = container.querySelector('p, .artist, [class*="artist"]');
+                                    
+                                    if (titleElement && artistElement) {
+                                        const title = titleElement.textContent.trim();
+                                        const artist = artistElement.textContent.trim();
+                                        
+                                        if (title && artist && 
+                                            !title.includes('Expand') && 
+                                            !title.includes('menu') &&
+                                            title.length > 2 && 
+                                            artist.length > 2) {
+                                            
+                                            rankingData.push({
+                                                rank: rank,
+                                                title: title,
+                                                artist: artist,
+                                                weeks: 'N/A',
+                                                peak: 'N/A'
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    
+                    // Sort by rank and add to chart entries
+                    if (rankingData.length > 0) {
+                        rankingData.sort((a, b) => a.rank - b.rank);
+                        chartEntries = rankingData;
+                        console.log(`Found ${rankingData.length} entries using ranking-based parsing`);
+                    }
+                }
+                
+                // Method 2.6: Look for the actual chart content by finding chart-specific containers
+                if (chartEntries.length === 0) {
+                    console.log('Trying chart-container parsing...');
+                    
+                    // Look for elements that might contain the actual chart
+                    const chartContainers = doc.querySelectorAll('[class*="chart"], [class*="list"], [class*="ranking"], [class*="hot-100"], [class*="billboard"], article, section');
+                    let foundChartData = false;
+                    
+                    chartContainers.forEach(container => {
+                        if (foundChartData) return;
+                        
+                        const containerText = container.textContent.toLowerCase();
+                        
+                        // Check if this container looks like it contains chart data
+                        if (containerText.includes('hot 100') || 
+                            containerText.includes('billboard') || 
+                            containerText.includes('chart') ||
+                            containerText.includes('ranking') ||
+                            containerText.includes('top 100') ||
+                            containerText.includes('weekly chart')) {
+                            
+                            console.log('Found potential chart container:', container.className);
+                            
+                            // Look for the actual chart list - Billboard uses specific structures
+                            const chartList = container.querySelector('.chart-list, .chart-container, .chart-entries, [class*="chart-list"], [class*="chart-entries"]');
+                            
+                            if (chartList) {
+                                console.log('Found chart list container');
+                                
+                                // Look for individual chart entries
+                                const chartEntries = chartList.querySelectorAll('.chart-entry, .chart-item, .chart-list-item, [class*="chart-entry"], [class*="chart-item"]');
+                                
+                                if (chartEntries.length > 0) {
+                                    console.log(`Found ${chartEntries.length} individual chart entries`);
+                                    
+                                    chartEntries.forEach((entry, index) => {
+                                        if (index >= 100) return;
+                                        
+                                        // Look for song title and artist within each entry
+                                        const titleElement = entry.querySelector('h3, h4, .title, .song-title, .chart-title, [class*="title"]');
+                                        const artistElement = entry.querySelector('p, .artist, .song-artist, .chart-artist, [class*="artist"]');
+                                        
+                                        if (titleElement && artistElement) {
+                                            const title = titleElement.textContent.trim();
+                                            const artist = artistElement.textContent.trim();
+                                            
+                                            // Filter out metadata and non-song content
+                                            if (title && artist && 
+                                                title.length > 2 && 
+                                                artist.length > 2 &&
+                                                !title.includes('Gains in Weekly Performance') &&
+                                                !title.includes('Additional Awards') &&
+                                                !title.includes('Debut Chart Date') &&
+                                                !title.includes('Peak Position') &&
+                                                !title.includes('Peak Chart Date') &&
+                                                !title.includes('Chart History') &&
+                                                !title.includes('Share') &&
+                                                !title.includes('Awards') &&
+                                                !title.includes('Credits') &&
+                                                !title.includes('Songwriter') &&
+                                                !title.includes('Producer') &&
+                                                !title.includes('Imprint') &&
+                                                !title.includes('Label') &&
+                                                !title.includes('RIAA') &&
+                                                !title.includes('Certification') &&
+                                                !artist.includes('Gains In Performance') &&
+                                                !artist.includes('Biggest gain') &&
+                                                !artist.includes('airplay') &&
+                                                !artist.includes('streams') &&
+                                                !artist.includes('sales') &&
+                                                !artist.includes('Republic') &&
+                                                !artist.includes('Atlantic') &&
+                                                !artist.includes('Def Jam') &&
+                                                !artist.includes('ILH') &&
+                                                !artist.includes('JRC')) {
+                                                
+                                                chartEntries.push({
+                                                    title: title,
+                                                    artist: artist,
+                                                    rank: index + 1,
+                                                    weeks: 'N/A',
+                                                    peak: 'N/A'
+                                                });
+                                            }
+                                        }
+                                    });
+                                    
+                                    if (chartEntries.length > 0) {
+                                        foundChartData = true;
+                                        console.log(`Successfully extracted ${chartEntries.length} chart entries from chart list`);
+                                    }
+                                }
+                            }
+                            
+                            // If no chart list found, try alternative approach
+                            if (!foundChartData) {
+                                console.log('No chart list found, trying alternative approach...');
+                                
+                                // Look for elements that look like song titles (not metadata)
+                                const allTextElements = container.querySelectorAll('h3, h4, p, span, div');
+                                const potentialSongs = [];
+                                
+                                allTextElements.forEach(element => {
+                                    const text = element.textContent.trim();
+                                    
+                                    // Look for text that could be actual song titles
+                                    if (text && 
+                                        text.length > 3 && 
+                                        text.length < 100 &&
+                                        !text.includes('Gains in Weekly Performance') &&
+                                        !text.includes('Additional Awards') &&
+                                        !text.includes('Debut Chart Date') &&
+                                        !text.includes('Peak Position') &&
+                                        !text.includes('Peak Chart Date') &&
+                                        !text.includes('Chart History') &&
+                                        !text.includes('Share') &&
+                                        !text.includes('Awards') &&
+                                        !text.includes('Credits') &&
+                                        !text.includes('Songwriter') &&
+                                        !text.includes('Producer') &&
+                                        !text.includes('Imprint') &&
+                                        !text.includes('Label') &&
+                                        !text.includes('RIAA') &&
+                                        !text.includes('Certification') &&
+                                        !text.includes('Expand') &&
+                                        !text.includes('menu') &&
+                                        !text.includes('Search') &&
+                                        !text.includes('Plus Icon') &&
+                                        !text.includes('Account') &&
+                                        !text.includes('LOGIN')) {
+                                        
+                                        potentialSongs.push(text);
+                                    }
+                                });
+                                
+                                // Take the first 100 potential songs and pair them with artists
+                                for (let i = 0; i < Math.min(potentialSongs.length, 100); i += 2) {
+                                    if (potentialSongs[i] && potentialSongs[i + 1]) {
+                                        chartEntries.push({
+                                            title: potentialSongs[i],
+                                            artist: potentialSongs[i + 1],
+                                            rank: Math.floor(i / 2) + 1,
+                                            weeks: 'N/A',
+                                            peak: 'N/A'
+                                        });
+                                    }
+                                }
+                                
+                                if (chartEntries.length > 0) {
+                                    foundChartData = true;
+                                    console.log(`Successfully extracted ${chartEntries.length} chart entries using alternative approach`);
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // Method 2.7: Target Billboard's exact chart structure based on the HTML we found
+                if (chartEntries.length === 0) {
+                    console.log('Trying Billboard-specific structure parsing...');
+                    
+                    // Look for Billboard's specific chart row containers
+                    const chartRows = doc.querySelectorAll('.o-chart-results-list-row-container');
+                    
+                    if (chartRows.length > 0) {
+                        console.log(`Found ${chartRows.length} Billboard chart rows`);
+                        
+                        chartRows.forEach((row, index) => {
+                            if (index >= 100) return;
+                            
+                            // Find the rank number - it's in the first li element with a c-label span
+                            const rankElement = row.querySelector('li:first-child .c-label');
+                            const rankText = rankElement ? rankElement.textContent.trim() : '';
+                            const rank = rankText ? parseInt(rankText) : (index + 1);
+                            
+                            console.log(`Row ${index}: RANK EXTRACTION:`);
+                            console.log(`  rankElement found: ${!!rankElement}`);
+                            console.log(`  rankText: "${rankText}"`);
+                            console.log(`  parsed rank: ${rank}`);
+                            console.log(`  fallback index: ${index + 1}`);
+                            
+                            // Debug the first li element specifically
+                            const firstLi = row.querySelector('li:first-child');
+                            if (firstLi) {
+                                console.log(`  First li classes: "${firstLi.className}"`);
+                                const firstLiLabels = firstLi.querySelectorAll('.c-label');
+                                console.log(`  First li has ${firstLiLabels.length} .c-label elements`);
+                                firstLiLabels.forEach((label, i) => {
+                                    console.log(`    Label[${i}]: "${label.textContent.trim()}"`);
+                                });
+                            }
+                            
+                            // Debug: show all li elements and their content
+                            const allLiElements = row.querySelectorAll('li');
+                            console.log(`Row ${index}: Found ${allLiElements.length} li elements`);
+                            allLiElements.forEach((li, liIndex) => {
+                                const labels = li.querySelectorAll('.c-label');
+                                console.log(`  li[${liIndex}]: has ${labels.length} .c-label elements`);
+                                labels.forEach((label, labelIndex) => {
+                                    console.log(`    label[${labelIndex}]: "${label.textContent.trim()}"`);
+                                });
+                            });
+                            
+                            // Try alternative rank selector - look for the first li with a c-label that contains a number
+                            if (!rankText || isNaN(rank)) {
+                                console.log(`Row ${index}: Trying alternative rank selector...`);
+                                const firstLi = row.querySelector('li:first-child');
+                                if (firstLi) {
+                                    const firstLiLabels = firstLi.querySelectorAll('.c-label');
+                                    console.log(`Row ${index}: First li has ${firstLiLabels.length} labels`);
+                                    firstLiLabels.forEach((label, labelIndex) => {
+                                        const text = label.textContent.trim();
+                                        console.log(`Row ${index}: First li label[${labelIndex}]: "${text}"`);
+                                        if (text && !isNaN(parseInt(text))) {
+                                            console.log(`Row ${index}: Found numeric rank: ${text}`);
+                                        }
+                                    });
+                                }
+                            }
+                            
+                            // Try alternative rank selector - look for the first li with a c-label that contains a number
+                            if (!rankText || isNaN(rank)) {
+                                console.log(`Row ${index}: Trying alternative rank selector...`);
+                                const firstLi = row.querySelector('li:first-child');
+                                if (firstLi) {
+                                    const firstLiLabels = firstLi.querySelectorAll('.c-label');
+                                    console.log(`Row ${index}: First li has ${firstLiLabels.length} labels`);
+                                    firstLiLabels.forEach((label, labelIndex) => {
+                                        const text = label.textContent.trim();
+                                        console.log(`Row ${index}: First li label[${labelIndex}]: "${text}"`);
+                                        if (text && !isNaN(parseInt(text))) {
+                                            console.log(`Row ${index}: Found numeric rank: ${text}`);
+                                        }
+                                    });
+                                }
+                            }
+                            
+                            // Try alternative rank selector - look for the first li with a c-label that contains a number
+                            if (!rankText || isNaN(rank)) {
+                                console.log(`Row ${index}: Trying alternative rank selector...`);
+                                const firstLi = row.querySelector('li:first-child');
+                                if (firstLi) {
+                                    const firstLiLabels = firstLi.querySelectorAll('.c-label');
+                                    console.log(`Row ${index}: First li has ${firstLiLabels.length} labels`);
+                                    firstLiLabels.forEach((label, labelIndex) => {
+                                        const text = label.textContent.trim();
+                                        console.log(`Row ${index}: First li label[${labelIndex}]: "${text}"`);
+                                        if (text && !isNaN(parseInt(text))) {
+                                            console.log(`Row ${index}: Found numeric rank: ${text}`);
+                                        }
+                                    });
+                                }
+                            }
+                            
+                            // Try alternative rank selector - look for the first li with a c-label that contains a number
+                            if (!rankText || isNaN(rank)) {
+                                console.log(`Row ${index}: Trying alternative rank selector...`);
+                                const firstLi = row.querySelector('li:first-child');
+                                if (firstLi) {
+                                    const firstLiLabels = firstLi.querySelectorAll('.c-label');
+                                    console.log(`Row ${index}: First li has ${firstLiLabels.length} labels`);
+                                    firstLiLabels.forEach((label, labelIndex) => {
+                                        const text = label.textContent.trim();
+                                        console.log(`Row ${index}: First li label[${labelIndex}]: "${text}"`);
+                                        if (text && !isNaN(parseInt(text))) {
+                                            console.log(`Row ${index}: Found numeric rank: ${text}`);
+                                        }
+                                    });
+                                }
+                            }
+                            
+                            // Find the song title - look for h3 with c-title class specifically
+                            const titleElement = row.querySelector('h3.c-title');
+                            const title = titleElement ? titleElement.textContent.trim() : '';
+                            
+                            // Find the artist name - look for .c-label a that's NOT in the first li (rank)
+                            let artist = '';
+                            const allArtistLinks = row.querySelectorAll('.c-label a');
+                            allArtistLinks.forEach((link, linkIndex) => {
+                                const text = link.textContent.trim();
+                                // Skip the first li (which should be the rank) and look for artist links
+                                if (text && text.length > 2 && !text.match(/^\d+$/)) {
+                                    artist = text;
+                                }
+                            });
+                            
+                            // Debug: show exactly what we found
+                            console.log(`Row ${index}: FINAL EXTRACTION:`);
+                            console.log(`  Rank: ${rank} (${typeof rank})`);
+                            console.log(`  Title: "${title}" (${typeof title})`);
+                            console.log(`  Artist: "${artist}" (${typeof artist})`);
+                            
+                            // Additional debugging for the specific HTML structure
+                            console.log(`Row ${index}: HTML STRUCTURE ANALYSIS:`);
+                            const allH3s = row.querySelectorAll('h3');
+                            console.log(`  Found ${allH3s.length} h3 elements:`);
+                            allH3s.forEach((h3, i) => {
+                                console.log(`    h3[${i}]: class="${h3.className}", text="${h3.textContent.trim()}"`);
+                            });
+                            
+                            const allLinks = row.querySelectorAll('a');
+                            console.log(`  Found ${allLinks.length} a elements:`);
+                            allLinks.forEach((link, i) => {
+                                console.log(`    a[${i}]: href="${link.href}", text="${link.textContent.trim()}"`);
+                            });
+                            
+                            console.log(`Row ${index}: titleElement found: ${!!titleElement}, title: "${title}"`);
+                            console.log(`Row ${index}: artistElement found: ${!!artistElement}, artist: "${artist}"`);
+                            
+                            // Debug: show all h3 elements and their content
+                            const allH3Elements = row.querySelectorAll('h3');
+                            console.log(`Row ${index}: Found ${allH3Elements.length} h3 elements`);
+                            allH3Elements.forEach((h3, h3Index) => {
+                                console.log(`  h3[${h3Index}]: "${h3.textContent.trim()}"`);
+                            });
+                            
+                            // Debug: show all .c-label a elements and their content
+                            console.log(`Row ${index}: Found ${allArtistLinks.length} .c-label a elements`);
+                            allArtistLinks.forEach((link, linkIndex) => {
+                                console.log(`  link[${linkIndex}]: "${link.textContent.trim()}"`);
+                            });
+                            
+                            // Try alternative title selector - look for h3 with c-title class
+                            if (!title) {
+                                console.log(`Row ${index}: Trying alternative title selector...`);
+                                const titleH3 = row.querySelector('h3.c-title');
+                                if (titleH3) {
+                                    console.log(`Row ${index}: Found h3.c-title: "${titleH3.textContent.trim()}"`);
+                                }
+                            }
+                            
+                            // Try alternative artist selector - look for .c-label a that's not in the first li
+                            if (!artist) {
+                                console.log(`Row ${index}: Trying alternative artist selector...`);
+                                allArtistLinks.forEach((link, linkIndex) => {
+                                    const text = link.textContent.trim();
+                                    console.log(`Row ${index}: Artist link[${linkIndex}]: "${text}"`);
+                                    // Skip the first li (which should be the rank)
+                                    if (linkIndex > 0 && text && text.length > 2) {
+                                        console.log(`Row ${index}: Potential artist found: "${text}"`);
+                                    }
+                                });
+                            }
+                            
+                            // Try alternative title selector - look for h3 with c-title class
+                            if (!title) {
+                                console.log(`Row ${index}: Trying alternative title selector...`);
+                                const titleH3 = row.querySelector('h3.c-title');
+                                if (titleH3) {
+                                    console.log(`Row ${index}: Found h3.c-title: "${titleH3.textContent.trim()}"`);
+                                }
+                            }
+                            
+                            // Try alternative artist selector - look for .c-label a that's not in the first li
+                            if (!artist) {
+                                console.log(`Row ${index}: Trying alternative artist selector...`);
+                                const artistLinks = row.querySelectorAll('.c-label a');
+                                artistLinks.forEach((link, linkIndex) => {
+                                    const text = link.textContent.trim();
+                                    console.log(`Row ${index}: Artist link[${linkIndex}]: "${text}"`);
+                                    // Skip the first li (which should be the rank)
+                                    if (linkIndex > 0 && text && text.length > 2) {
+                                        console.log(`Row ${index}: Potential artist found: "${text}"`);
+                                    }
+                                });
+                            }
+                            
+                            // Try alternative title selector - look for h3 with c-title class
+                            if (!title) {
+                                console.log(`Row ${index}: Trying alternative title selector...`);
+                                const titleH3 = row.querySelector('h3.c-title');
+                                if (titleH3) {
+                                    console.log(`Row ${index}: Found h3.c-title: "${titleH3.textContent.trim()}"`);
+                                }
+                            }
+                            
+                            // Try alternative artist selector - look for .c-label a that's not in the first li
+                            if (!artist) {
+                                console.log(`Row ${index}: Trying alternative artist selector...`);
+                                const artistLinks = row.querySelectorAll('.c-label a');
+                                artistLinks.forEach((link, linkIndex) => {
+                                    const text = link.textContent.trim();
+                                    console.log(`Row ${index}: Artist link[${linkIndex}]: "${text}"`);
+                                    // Skip the first li (which should be the rank)
+                                    if (linkIndex > 0 && text && text.length > 2) {
+                                        console.log(`Row ${index}: Potential artist found: "${text}"`);
+                                    }
+                                });
+                            }
+                            
+                            // Find additional stats if available
+                            const lwElement = row.querySelector('.o-chart-results-list__item .c-label:contains("LW") + .o-chart-results-list__item .c-label');
+                            const peakElement = row.querySelector('.o-chart-results-list__item .c-label:contains("PEAK") + .o-chart-results-list__item .c-label');
+                            const weeksElement = row.querySelector('.o-chart-results-list__item .c-label:contains("WEEKS") + .o-chart-results-list__item .c-label');
+                            
+                            const lw = lwElement ? lwElement.textContent.trim() : 'N/A';
+                            const peak = peakElement ? peakElement.textContent.trim() : 'N/A';
+                            const weeks = weeksElement ? weeksElement.textContent.trim() : 'N/A';
+                            
+                            if (title && artist && 
+                                title.length > 2 && 
+                                artist.length > 2 &&
+                                !title.includes('Expand') &&
+                                !title.includes('menu') &&
+                                !title.includes('Search') &&
+                                !title.includes('Plus Icon') &&
+                                !title.includes('Account') &&
+                                !title.includes('LOGIN')) {
+                                
+                                chartEntries.push({
+                                    title: title,
+                                    artist: artist,
+                                    rank: rank,
+                                    weeks: weeks,
+                                    peak: peak
+                                });
+                                
+                                console.log(`Found chart entry: #${rank} "${title}" by ${artist} (${weeks} weeks, peak: ${peak})`);
+                            }
+                        });
+                        
+                        if (chartEntries.length > 0) {
+                            console.log(`Successfully extracted ${chartEntries.length} chart entries using Billboard structure`);
+                        }
+                    }
+                }
+                
+                // Method 3: Look for specific Billboard chart patterns
+                if (chartEntries.length === 0) {
+                    console.log('Trying pattern-based parsing...');
+                    
+                    // Look for text that looks like song titles (not navigation)
+                    const allTextElements = doc.querySelectorAll('h3, h4, p, span');
+                    const potentialSongs = [];
+                    
+                    allTextElements.forEach((element, index) => {
+                        if (index >= 200) return; // Limit search
+                        
+                        const text = element.textContent.trim();
+                        
+                        // Look for text that could be song titles
+                        if (text && 
+                            text.length > 3 && 
+                            text.length < 100 &&
+                            !text.includes('Expand') &&
+                            !text.includes('menu') &&
+                            !text.includes('Charts') &&
+                            !text.includes('Billboard') &&
+                            !text.includes('THE WEEK') &&
+                            !text.includes('MOST POPULAR') &&
+                            !text.includes('CURRENT SONGS') &&
+                            !text.includes('ACROSS ALL GENRES') &&
+                            !text.includes('RANKED BY') &&
+                            !text.includes('STREAMING') &&
+                            !text.includes('DIGITAL MUSIC') &&
+                            !text.includes('LUMINATE') &&
+                            !text.includes('RADIO AIRPLAY') &&
+                            !text.includes('AUDIENCE IMPRESSIONS') &&
+                            !text.includes('SALES DATA') &&
+                            !text.includes('COMPILED BY') &&
+                            !text.includes('click to see more') &&
+                            !text.includes('Biggest gain') &&
+                            !text.includes('Gains In Performance') &&
+                            !text.includes('A.Warren') &&
+                            !text.includes('A.Yaron') &&
+                            !text.includes('C.Shapiro') &&
+                            !text.includes('Mags Duval') &&
+                            !text.includes('Expand') &&
+                            !text.includes('menu') &&
+                            !text.includes('Charts') &&
+                            !text.includes('Global') &&
+                            !text.includes('Afrobeats') &&
+                            !text.includes('Greatest') &&
+                            !text.includes('Pop') &&
+                            !text.includes('Country') &&
+                            !text.includes('Rock') &&
+                            !text.includes('R&B') &&
+                            !text.includes('Latin') &&
+                            !text.includes('Dance') &&
+                            !text.includes('Christian') &&
+                            !text.includes('Gospel') &&
+                            !text.includes('Holiday') &&
+                            !text.includes('International') &&
+                            !text.includes('Regional') &&
+                            // Filter out navigation elements
+                            !text.includes('Search') &&
+                            !text.includes('Plus Icon') &&
+                            !text.includes('Click to Close') &&
+                            !text.includes('Account') &&
+                            !text.includes('Manage Account') &&
+                            !text.includes('Log Out') &&
+                            !text.includes('LOGIN') &&
+                            !text.includes('Login') &&
+                            !text.includes('Follow Billboard') &&
+                            !text.includes('Facebook') &&
+                            !text.includes('Instagram') &&
+                            !text.includes('Pinterest') &&
+                            !text.includes('X') &&
+                            !text.includes('YouTube') &&
+                            !text.includes('About Us') &&
+                            !text.includes('Accessibility') &&
+                            !text.includes('Advertise') &&
+                            !text.includes('Shop') &&
+                            !text.includes('Events') &&
+                            !text.includes('Careers') &&
+                            !text.includes('Contact Us') &&
+                            !text.includes('Privacy Policy') &&
+                            !text.includes('Terms of Use') &&
+                            !text.includes('California Privacy Rights') &&
+                            !text.includes('Ad Choices') &&
+                            !text.includes('Reprints') &&
+                            !text.includes('Permissions') &&
+                            !text.includes('Privacy Preferences') &&
+                            !text.includes('Your Privacy Choices') &&
+                            !text.includes('Sitemap') &&
+                            !text.includes('Pro') &&
+                            !text.includes('Have a Tip') &&
+                            !text.includes('Send us a tip') &&
+                            !text.includes('The Daily') &&
+                            !text.includes('daily briefing') &&
+                            !text.includes('music industry') &&
+                            !text.includes('Enter Your Email') &&
+                            !text.includes('Sign Up') &&
+                            !text.includes('By providing your information') &&
+                            !text.includes('Terms of Use') &&
+                            !text.includes('Privacy Policy') &&
+                            !text.includes('reCAPTCHA') &&
+                            !text.includes('Google Privacy Policy') &&
+                            !text.includes('Terms of Service') &&
+                            !text.includes('Powered by WordPress.com VIP') &&
+                            !text.includes('Our Sites') &&
+                            !text.includes('Art in America') &&
+                            !text.includes('Artforum') &&
+                            !text.includes('ARTnews') &&
+                            !text.includes('BlogHer') &&
+                            !text.includes('Deadline') &&
+                            !text.includes('Flow Space') &&
+                            !text.includes('Gold Derby') &&
+                            !text.includes('IndieWire') &&
+                            !text.includes('Robb Report') &&
+                            !text.includes('Rolling Stone') &&
+                            !text.includes('SheKnows') &&
+                            !text.includes('Soaps') &&
+                            !text.includes('Sourcing Journal') &&
+                            !text.includes('Sportico') &&
+                            !text.includes('StyleCaster') &&
+                            !text.includes('The Hollywood Reporter') &&
+                            !text.includes('TVLine') &&
+                            !text.includes('Variety') &&
+                            !text.includes('Vibe') &&
+                            !text.includes('WWD')) {
+                            
+                            potentialSongs.push(text);
+                        }
+                    });
+                    
+                    // Take the first 100 potential songs and pair them with artists
+                    for (let i = 0; i < Math.min(potentialSongs.length, 100); i += 2) {
+                        if (potentialSongs[i] && potentialSongs[i + 1]) {
+                            chartEntries.push({
+                                title: potentialSongs[i],
+                                artist: potentialSongs[i + 1],
+                                rank: Math.floor(i / 2) + 1,
+                                weeks: 'N/A',
+                                peak: 'N/A'
+                            });
+                        }
+                    }
+                }
+                
+                // Clean and validate the data
+                chartEntries = chartEntries.filter(entry => 
+                    entry.title && 
+                    entry.title.length > 0 && 
+                    entry.title.length < 100 &&
+                    entry.artist && 
+                    entry.artist.length > 0 && 
+                    entry.artist.length < 100 &&
+                    entry.title !== 'Unknown Title' &&
+                    entry.artist !== 'Unknown Artist'
+                );
+                
+                console.log(`After filtering: ${chartEntries.length} chart entries`);
+                
+                // If we still don't have data, return mock data
+                if (chartEntries.length === 0) {
+                    console.log('No Billboard data found, using mock data');
+                    return generateMockBillboardData();
+                }
+                
+                console.log(`Successfully parsed ${chartEntries.length} Billboard chart entries`);
+                
+                // Debug: Show what we actually captured
+                console.log('First 10 chart entries:', chartEntries.slice(0, 10));
+                
+                return chartEntries.slice(0, 100); // Ensure we only return top 100
+                
+            } catch (error) {
+                console.error('Error parsing Billboard HTML:', error);
+                return generateMockBillboardData();
+            }
+        }
+
+        /**
+         * Generate mock Billboard Watch data for demonstration
+         * In production, this would be replaced with real API calls
+         */
+        function generateMockBillboardData() {
+            return [
+                { title: "Flowers", artist: "Miley Cyrus", weeks: 8, peak: 1 },
+                { title: "Last Night", artist: "Morgan Wallen", weeks: 12, peak: 1 },
+                { title: "Kill Bill", artist: "SZA", weeks: 15, peak: 2 },
+                { title: "Unholy", artist: "Sam Smith & Kim Petras", weeks: 20, peak: 1 },
+                { title: "As It Was", artist: "Harry Styles", weeks: 25, peak: 1 },
+                { title: "About Damn Time", artist: "Lizzo", weeks: 18, peak: 3 },
+                { title: "Break My Soul", artist: "Beyoncé", weeks: 22, peak: 7 },
+                { title: "Late Night Talking", artist: "Harry Styles", weeks: 16, peak: 4 },
+                { title: "Hold Me Closer", artist: "Elton John & Britney Spears", weeks: 14, peak: 6 },
+                { title: "Vampire", artist: "Olivia Rodrigo", weeks: 12, peak: 5 }
+            ];
+        }
     </script>
 
                                                                                                                                                         <!-- Footer -->
@@ -1112,19 +2126,19 @@
         
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Last updated:</strong> <span id="last-updated-date">Loading...</span> (Los Angeles, CA PST Time)
+                <strong>Reviews last updated:</strong> <span id="last-updated-date">Loading...</span> (Los Angeles, CA PST Time). Reviews are published on Fridays unless I'm on vacation or sick.
             </div>
             
             <div class="support-info">
-                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends
+                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends.
             </div>
             
             <div class="contact-info">
-                <strong>Don't like my reviews?</strong> Email me at bradywgerber at gmail dot com to tell me why I'm wrong, or hate-click my <a href="https://bradygerber.com/" target="_blank" rel="noopener" class="api-link">website</a>
+                <strong>Don't like my reviews?</strong> Email me at bradywgerber at gmail dot com to tell me why I'm wrong, or hate-click my <a href="https://bradygerber.com/" target="_blank" rel="noopener" class="api-link">website</a>. My reviews don’t reflect the views of all my wonderful clients.
             </div>
             
             <div class="analytics-info">
-                <strong>For all my data and Excel nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="openDataQualityModal(); return false;" class="analytics-link">download review data as a CSV file</a> - you can also check out OPE! on <a href="https://github.com/bg-write/ope-music" target="_blank" class="api-link">GitHub</a> and <a href="https://lookerstudio.google.com/reporting/86a21abe-e77c-4fda-9b58-423d4a45da2b" target="_blank" class="api-link">Looker Studio</a> (powered by BigQuery)
+                <strong>For all my data and Excel nerds:</strong> Check out <a href="https://ope-music.netlify.app/api/reviews" target="_blank" class="api-link">OPE!'s public API</a> and <a href="#" onclick="openDataQualityModal(); return false;" class="analytics-link">download review data as a CSV file</a>. You can also check out OPE! on <a href="https://github.com/bg-write/ope-music" target="_blank" class="api-link">GitHub</a> and <a href="https://lookerstudio.google.com/reporting/86a21abe-e77c-4fda-9b58-423d4a45da2b" target="_blank" class="api-link">Looker Studio</a>, powered by BigQuery.
             </div>
             
             <div class="footer-bottom">

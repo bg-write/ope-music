@@ -1,0 +1,817 @@
+{
+  "chart_date": "2025-08-30",
+  "total_entries": 100,
+  "scraped_at": "2025-08-30T21:52:01.264949",
+  "chart_entries": [
+    {
+      "rank": 1,
+      "title": "Golden",
+      "artist": "HUNTR/X: EJAE, Audrey Nuna & REI AMI",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:00.987469"
+    },
+    {
+      "rank": 2,
+      "title": "Ordinary",
+      "artist": "Alex Warren",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:00.990292"
+    },
+    {
+      "rank": 3,
+      "title": "What I Want",
+      "artist": "Morgan Wallen Featuring Tate McRae",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:00.992766"
+    },
+    {
+      "rank": 4,
+      "title": "Your Idol",
+      "artist": "Saja Boys: Andrew Choi, Neckwav, Danny Chung, Kevin Woo & samUIL Lee",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:00.995467"
+    },
+    {
+      "rank": 5,
+      "title": "Soda Pop",
+      "artist": "Saja Boys: Andrew Choi, Neckwav, Danny Chung, Kevin Woo & samUIL Lee",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:00.998228"
+    },
+    {
+      "rank": 6,
+      "title": "Love Me Not",
+      "artist": "Ravyn Lenae",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.001096"
+    },
+    {
+      "rank": 7,
+      "title": "Lose Control",
+      "artist": "Teddy Swims",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.003818"
+    },
+    {
+      "rank": 8,
+      "title": "Daisies",
+      "artist": "Justin Bieber",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.006454"
+    },
+    {
+      "rank": 9,
+      "title": "Just In Case",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.009060"
+    },
+    {
+      "rank": 10,
+      "title": "How It's Done",
+      "artist": "HUNTR/X: EJAE, Audrey Nuna & REI AMI",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.011762"
+    },
+    {
+      "rank": 11,
+      "title": "Die With A Smile",
+      "artist": "Lady Gaga & Bruno Mars",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.014203"
+    },
+    {
+      "rank": 12,
+      "title": "Good News",
+      "artist": "Shaboozey",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.017628"
+    },
+    {
+      "rank": 13,
+      "title": "A Bar Song (Tipsy)",
+      "artist": "Shaboozey",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.020402"
+    },
+    {
+      "rank": 14,
+      "title": "Manchild",
+      "artist": "Sabrina Carpenter",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.023426"
+    },
+    {
+      "rank": 15,
+      "title": "Mutt",
+      "artist": "Leon Thomas",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.026190"
+    },
+    {
+      "rank": 16,
+      "title": "I'm The Problem",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.028863"
+    },
+    {
+      "rank": 17,
+      "title": "Beautiful Things",
+      "artist": "Benson Boone",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.031788"
+    },
+    {
+      "rank": 18,
+      "title": "Pink Pony Club",
+      "artist": "Chappell Roan",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.034804"
+    },
+    {
+      "rank": 19,
+      "title": "I Got Better",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.037698"
+    },
+    {
+      "rank": 20,
+      "title": "What It Sounds Like",
+      "artist": "HUNTR/X: EJAE, Audrey Nuna & REI AMI",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.040350"
+    },
+    {
+      "rank": 21,
+      "title": "Luther",
+      "artist": "Kendrick Lamar & SZA",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.042745"
+    },
+    {
+      "rank": 22,
+      "title": "Birds Of A Feather",
+      "artist": "Billie Eilish",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.045394"
+    },
+    {
+      "rank": 23,
+      "title": "Free",
+      "artist": "Rumi, JINU, EJAE & Andrew Choi",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.048066"
+    },
+    {
+      "rank": 24,
+      "title": "I Had Some Help",
+      "artist": "Post Malone Featuring Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.051687"
+    },
+    {
+      "rank": 25,
+      "title": "Takedown",
+      "artist": "HUNTR/X: EJAE, Audrey Nuna & REI AMI",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.054416"
+    },
+    {
+      "rank": 26,
+      "title": "Sorry I'm Here For Someone Else",
+      "artist": "Benson Boone",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.057003"
+    },
+    {
+      "rank": 27,
+      "title": "Undressed",
+      "artist": "sombr",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.059667"
+    },
+    {
+      "rank": 28,
+      "title": "The Subway",
+      "artist": "Chappell Roan",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.062609"
+    },
+    {
+      "rank": 29,
+      "title": "Yukon",
+      "artist": "Justin Bieber",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.065603"
+    },
+    {
+      "rank": 30,
+      "title": "Mystical Magical",
+      "artist": "Benson Boone",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.068364"
+    },
+    {
+      "rank": 31,
+      "title": "Back To Friends",
+      "artist": "sombr",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.071011"
+    },
+    {
+      "rank": 32,
+      "title": "It Depends",
+      "artist": "Chris Brown Featuring Bryson Tiller",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.073714"
+    },
+    {
+      "rank": 33,
+      "title": "All The Way",
+      "artist": "BigXthaPlug Featuring Bailey Zimmerman",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.076346"
+    },
+    {
+      "rank": 34,
+      "title": "Backup Plan",
+      "artist": "Bailey Zimmerman & Luke Combs",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.078782"
+    },
+    {
+      "rank": 35,
+      "title": "Folded",
+      "artist": "Kehlani",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.081798"
+    },
+    {
+      "rank": 36,
+      "title": "Burning Blue",
+      "artist": "Mariah The Scientist",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.085055"
+    },
+    {
+      "rank": 37,
+      "title": "Blue Strips",
+      "artist": "Jessie Murph",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.087816"
+    },
+    {
+      "rank": 38,
+      "title": "30 For 30",
+      "artist": "SZA With Kendrick Lamar",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.090278"
+    },
+    {
+      "rank": 39,
+      "title": "After All The Bars Are Closed",
+      "artist": "Thomas Rhett",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.092902"
+    },
+    {
+      "rank": 40,
+      "title": "Happen To Me",
+      "artist": "Russell Dickerson",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.095832"
+    },
+    {
+      "rank": 41,
+      "title": "Worst Way",
+      "artist": "Riley Green",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.098974"
+    },
+    {
+      "rank": 42,
+      "title": "APT.",
+      "artist": "ROSE & Bruno Mars",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.101582"
+    },
+    {
+      "rank": 43,
+      "title": "Bar None",
+      "artist": "Jordan Davis",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.104777"
+    },
+    {
+      "rank": 44,
+      "title": "Love Somebody",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.107476"
+    },
+    {
+      "rank": 45,
+      "title": "What Did I Miss?",
+      "artist": "Drake",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.110172"
+    },
+    {
+      "rank": 46,
+      "title": "Nokia",
+      "artist": "Drake",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.112880"
+    },
+    {
+      "rank": 47,
+      "title": "Back In The Saddle",
+      "artist": "Luke Combs",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.116262"
+    },
+    {
+      "rank": 48,
+      "title": "Bottle Rockets",
+      "artist": "Scotty McCreery & Hootie & The Blowfish",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.119053"
+    },
+    {
+      "rank": 49,
+      "title": "Sugar On My Tongue",
+      "artist": "Tyler, The Creator",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.121992"
+    },
+    {
+      "rank": 50,
+      "title": "No Broke Boys",
+      "artist": "Disco Lines & Tinashe",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.124706"
+    },
+    {
+      "rank": 51,
+      "title": "6 Months Later",
+      "artist": "Megan Moroney",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.127662"
+    },
+    {
+      "rank": 52,
+      "title": "Miami",
+      "artist": "Morgan Wallen Featuring Lil Wayne & Rick Ross",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.130123"
+    },
+    {
+      "rank": 53,
+      "title": "Takedown",
+      "artist": "JEONGYEON, JIHYO & CHAEYOUNG Of TWICE",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.133327"
+    },
+    {
+      "rank": 54,
+      "title": "Somewhere Over Laredo",
+      "artist": "Lainey Wilson",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.136328"
+    },
+    {
+      "rank": 55,
+      "title": "20 Cigarettes",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.139052"
+    },
+    {
+      "rank": 56,
+      "title": "House Again",
+      "artist": "Hudson Westbrook",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.141849"
+    },
+    {
+      "rank": 57,
+      "title": "Strategy",
+      "artist": "TWICE",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.144828"
+    },
+    {
+      "rank": 58,
+      "title": "Amen",
+      "artist": "Shaboozey & Jelly Roll",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.147314"
+    },
+    {
+      "rank": 59,
+      "title": "Wildflower",
+      "artist": "Billie Eilish",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.150477"
+    },
+    {
+      "rank": 60,
+      "title": "Outside",
+      "artist": "Cardi B",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.153252"
+    },
+    {
+      "rank": 61,
+      "title": "Hell At Night",
+      "artist": "BigXthaPlug & Ella Langley",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.155770"
+    },
+    {
+      "rank": 62,
+      "title": "Your Way's Better",
+      "artist": "Forrest Frank",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.158260"
+    },
+    {
+      "rank": 63,
+      "title": "Just Keep Watching",
+      "artist": "Tate McRae",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.160927"
+    },
+    {
+      "rank": 64,
+      "title": "So Far So Fake",
+      "artist": "Pierce The Veil",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.163981"
+    },
+    {
+      "rank": 65,
+      "title": "Shake It To The Max (Fly)",
+      "artist": "MOLIY, Silent Addy, Skillibeng & Shenseea",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.167212"
+    },
+    {
+      "rank": 66,
+      "title": "Eternity",
+      "artist": "Alex Warren",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.169858"
+    },
+    {
+      "rank": 67,
+      "title": "I Ain't Coming Back",
+      "artist": "Morgan Wallen Featuring Post Malone",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.172333"
+    },
+    {
+      "rank": 68,
+      "title": "Better Me For You (Brown Eyes)",
+      "artist": "Max McNown",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.174712"
+    },
+    {
+      "rank": 69,
+      "title": "Marlboro Rojo",
+      "artist": "Fuerza Regida",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.177617"
+    },
+    {
+      "rank": 70,
+      "title": "Imaginary Playerz",
+      "artist": "Cardi B",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.180607"
+    },
+    {
+      "rank": 71,
+      "title": "Party 4 U",
+      "artist": "Charli xcx",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.183868"
+    },
+    {
+      "rank": 72,
+      "title": "Gabriela",
+      "artist": "KATSEYE",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.186788"
+    },
+    {
+      "rank": 73,
+      "title": "Which One",
+      "artist": "Drake & Central Cee",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.189224"
+    },
+    {
+      "rank": 74,
+      "title": "Jump",
+      "artist": "BLACKPINK",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.191824"
+    },
+    {
+      "rank": 75,
+      "title": "Superman",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.194447"
+    },
+    {
+      "rank": 76,
+      "title": "Rather Lie",
+      "artist": "Playboi Carti & The Weeknd",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.197159"
+    },
+    {
+      "rank": 77,
+      "title": "Last One To Know",
+      "artist": "Gavin Adcock",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.200193"
+    },
+    {
+      "rank": 78,
+      "title": "Don't Mind If I Do",
+      "artist": "Riley Green Featuring Ella Langley",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.203000"
+    },
+    {
+      "rank": 79,
+      "title": "Revolving Door",
+      "artist": "Tate McRae",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.205942"
+    },
+    {
+      "rank": 80,
+      "title": "Nice To Meet You",
+      "artist": "Myles Smith",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.208902"
+    },
+    {
+      "rank": 81,
+      "title": "Sparks",
+      "artist": "Coldplay",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.211832"
+    },
+    {
+      "rank": 82,
+      "title": "Went Legit",
+      "artist": "G Herbo",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.214861"
+    },
+    {
+      "rank": 83,
+      "title": "Frecuencia",
+      "artist": "Dareyes de La Sierra",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.217571"
+    },
+    {
+      "rank": 84,
+      "title": "Hard Fought Hallelujah",
+      "artist": "Brandon Lake X Jelly Roll",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.220187"
+    },
+    {
+      "rank": 85,
+      "title": "Ring Ring Ring",
+      "artist": "Tyler, The Creator",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.222840"
+    },
+    {
+      "rank": 86,
+      "title": "Heart Of Stone",
+      "artist": "Jelly Roll",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.225571"
+    },
+    {
+      "rank": 87,
+      "title": "TN",
+      "artist": "Morgan Wallen",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.228206"
+    },
+    {
+      "rank": 88,
+      "title": "Typa",
+      "artist": "GloRilla",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.231100"
+    },
+    {
+      "rank": 89,
+      "title": "Just Say Dat",
+      "artist": "Gunna",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.234069"
+    },
+    {
+      "rank": 90,
+      "title": "Cliche",
+      "artist": "mgk",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.236704"
+    },
+    {
+      "rank": 91,
+      "title": "Let Down",
+      "artist": "Radiohead",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.239486"
+    },
+    {
+      "rank": 92,
+      "title": "Tu Sancho",
+      "artist": "Fuerza Regida",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.242217"
+    },
+    {
+      "rank": 93,
+      "title": "wgft",
+      "artist": "Gunna Featuring Burna Boy",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.244667"
+    },
+    {
+      "rank": 94,
+      "title": "Bloodline",
+      "artist": "Alex Warren With Jelly Roll",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.247246"
+    },
+    {
+      "rank": 95,
+      "title": "Is It A Crime",
+      "artist": "Mariah The Scientist & Kali Uchis",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.250277"
+    },
+    {
+      "rank": 96,
+      "title": "Forever Be Mine",
+      "artist": "Gunna Featuring Wizkid",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.252909"
+    },
+    {
+      "rank": 97,
+      "title": "Somebody",
+      "artist": "Latto",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.255742"
+    },
+    {
+      "rank": 98,
+      "title": "What Kinda Man",
+      "artist": "Parker McCollum",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.258859"
+    },
+    {
+      "rank": 99,
+      "title": "Country Song Came On",
+      "artist": "Luke Bryan",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.261507"
+    },
+    {
+      "rank": 100,
+      "title": "Napoleon",
+      "artist": "$uicideboy$",
+      "chart_date": "2025-08-30",
+      "scraped_at": "2025-08-30T21:52:01.264346"
+    }
+  ],
+  "top_artists": [
+    {
+      "rank": 1,
+      "artist": "Morgan Wallen",
+      "total_score": 402,
+      "chart_positions": [
+        9,
+        16,
+        19,
+        44,
+        55,
+        75,
+        87
+      ],
+      "songs_count": 7
+    },
+    {
+      "rank": 2,
+      "artist": "HUNTR/X: EJAE, Audrey Nuna & REI AMI",
+      "total_score": 348,
+      "chart_positions": [
+        1,
+        10,
+        20,
+        25
+      ],
+      "songs_count": 4
+    },
+    {
+      "rank": 3,
+      "artist": "Benson Boone",
+      "total_score": 230,
+      "chart_positions": [
+        17,
+        26,
+        30
+      ],
+      "songs_count": 3
+    },
+    {
+      "rank": 4,
+      "artist": "Saja Boys: Andrew Choi, Neckwav, Danny Chung, Kevin Woo & samUIL Lee",
+      "total_score": 193,
+      "chart_positions": [
+        4,
+        5
+      ],
+      "songs_count": 2
+    },
+    {
+      "rank": 5,
+      "artist": "Shaboozey",
+      "total_score": 177,
+      "chart_positions": [
+        12,
+        13
+      ],
+      "songs_count": 2
+    },
+    {
+      "rank": 6,
+      "artist": "Justin Bieber",
+      "total_score": 165,
+      "chart_positions": [
+        8,
+        29
+      ],
+      "songs_count": 2
+    },
+    {
+      "rank": 7,
+      "artist": "Chappell Roan",
+      "total_score": 156,
+      "chart_positions": [
+        18,
+        28
+      ],
+      "songs_count": 2
+    },
+    {
+      "rank": 8,
+      "artist": "sombr",
+      "total_score": 144,
+      "chart_positions": [
+        27,
+        31
+      ],
+      "songs_count": 2
+    },
+    {
+      "rank": 9,
+      "artist": "Alex Warren",
+      "total_score": 134,
+      "chart_positions": [
+        2,
+        66
+      ],
+      "songs_count": 2
+    },
+    {
+      "rank": 10,
+      "artist": "Billie Eilish",
+      "total_score": 121,
+      "chart_positions": [
+        22,
+        59
+      ],
+      "songs_count": 2
+    }
+  ]
+}
