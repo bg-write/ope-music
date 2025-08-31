@@ -1147,9 +1147,9 @@
                     throw new Error(result.error || 'Failed to load Billboard data');
                 }
                 
-                const billboardData = result.data.chart_entries;
-                const topArtists = result.data.top_artists;
-                const chartDate = result.data.chart_date;
+                const billboardData = result.data.chart_entries || [];
+                const topArtists = result.data.top_artists || [];
+                const chartDate = result.data.chart_date || new Date().toISOString().split('T')[0];
 
                 
                 if (!billboardData || billboardData.length === 0) {
@@ -1177,7 +1177,7 @@
                             <h3>🏆 Top Artists This Week</h3>
                             <ul class="top-artists-list">
                                 ${topArtists.slice(0, 5).map(artist => `
-                                    <li><strong>#${artist.rank} ${artist.artist}</strong> - ${artist.total_score} pts (${artist.songs_count} songs at positions ${artist.chart_positions.join(', ')})</li>
+                                    <li><strong>#${artist.rank || 'N/A'} ${artist.artist}</strong> - ${artist.total_score} pts (${artist.song_count || artist.songs_count || 0} songs at positions ${(artist.positions || artist.chart_positions || []).join(', ')})</li>
                                 `).join('')}
                             </ul>
                             <p class="scoring-note">Artists are ranked by total points earned across all their chart entries. Rank #1 = 100 points, Rank #2 = 99 points, and so on. This rewards artists with multiple high-charting songs.</p>
@@ -1207,7 +1207,7 @@
                 const fallbackData = generateMockBillboardData();
                 const fallbackHTML = `
                     <div class="section">
-                        <h2><strong>Billboard Hot 100 Tracker</strong><br><em>Error</em></h2>
+                        <h2><strong>Billboard Hot 100 Tracker</strong></h2>
                         <p>This tab tracks <a href="https://www.billboard.com/charts/hot-100/" target="_blank">Billboard's official Hot 100 chart</a>, which updates every Tuesday morning pending any holidays or special cases.</p>
                         
                         <div class="data-source-info">
@@ -1216,10 +1216,7 @@
                             <p><strong>Error:</strong> ${error.message}</p>
                         </div>
 
-                        <div class="billboard-chart">
-                            <h3>The Billboard Hot 100 Chart</h3>
-                            <p>Chart data is currently unavailable. Please try again later.</p>
-                        </div>
+
                     </div>
                 `;
                 
