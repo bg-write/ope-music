@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
 
   try {
     // In production, read from the deployed data file
-    const dataPath = path.join(__dirname, '../data_output/billboard_chart_data.json');
+    const dataPath = path.join(process.cwd(), 'data_output/billboard_chart_data.json');
     
     if (fs.existsSync(dataPath)) {
       const realData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
