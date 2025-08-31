@@ -1133,7 +1133,7 @@
             try {
                 // Automatically detect environment and use appropriate API endpoint
                 const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                const apiUrl = isLocalhost ? 'http://localhost:8000/api/billboard' : '/api/billboard';
+                const apiUrl = isLocalhost ? 'http://localhost:8000/api/billboard' : '/api/billboard?t=' + Date.now();
                 
                 const response = await fetch(apiUrl);
                 
