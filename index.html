@@ -1212,22 +1212,13 @@
                         
                         <div class="data-source-info">
                             <h3>⚠️ Data Source Note</h3>
-                            <p>Live Billboard data is temporarily unavailable. This demonstrates error handling 
-                            and fallback mechanisms in data integration systems.</p>
+                            <p>Live Billboard data is temporarily unavailable.</p>
                             <p><strong>Error:</strong> ${error.message}</p>
                         </div>
 
                         <div class="billboard-chart">
                             <h3>The Billboard Hot 100 Chart</h3>
-                            ${fallbackData.map((song, index) => `
-                                <div class="chart-entry" data-rank="${index + 1}">
-                                    <div class="rank-number">${index + 1}</div>
-                                    <div class="song-info">
-                                        <h4 class="song-title">${song.title}</h4>
-                                        <p class="song-artist">${song.artist}</p>
-                                    </div>
-                                </div>
-                            `).join('')}
+                            <p>Chart data is currently unavailable. Please try again later.</p>
                         </div>
                     </div>
                 `;
