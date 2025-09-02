@@ -18,7 +18,7 @@ from pathlib import Path
 class BillboardDataValidator:
     """Validates Billboard scraped data for quality and accuracy."""
     
-    def __init__(self, data_file='data_output/billboard_chart_data.json'):
+    def __init__(self, data_file='../data/current/billboard_chart_data.json'):
         """Initialize validator with data file path."""
         self.data_file = data_file
         self.data = None

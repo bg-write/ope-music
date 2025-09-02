@@ -1,6 +1,6 @@
 # OPE! 🎵
 
-A music review platform with enterprise-grade data analytics.
+A music reviews platform with data analytics.
 
 ## ✨ Features
 
@@ -47,11 +47,45 @@ ope/
 ├── content/                      # Content (Markdown with rich metadata)
 │   ├── songs.md                  # Song reviews with comprehensive metadata
 │   └── drafts.md                 # Work-in-progress reviews
-├── python_backend/               # Content conversion tools and data processing
-├── netlify_functions/            # API backend with comprehensive endpoints
+├── data/                         # DATA STORAGE (All data files)
+│   ├── current/                  # THIS WEEK'S DATA (Frontend API)
+│   │   └── billboard_chart_data.json
+│   ├── exports/                  # THIS WEEK'S ANALYSIS FILES
+│   │   └── *_2025-08-31.csv
+│   └── historical/               # ALL PAST WEEKS (Organized by Date)
+│       ├── 2025-08-30/
+│       └── 2025-08-31/
+├── python_backend/               # DATA PROCESSING (Development)
+│   ├── billboard_scraper.py      # Scrapes Billboard.com
+│   ├── serve_billboard_data.py   # Local API server (port 8000)
+│   ├── serve_reviews_data.py     # Local API server (port 8001)
+│   ├── billboard_database.py     # Database operations
+│   └── venv/                     # Python environment
+├── netlify_functions/            # PRODUCTION DEPLOYMENT (Live Site)
+│   ├── billboard.js              # Production Billboard API
+│   ├── reviews.js                # Production Reviews API
+│   └── reviews.json              # Reviews data for production
+├── scripts/                      # DEVELOPMENT AUTOMATION
+│   ├── start-dev.sh              # One-command daily startup
+│   ├── stop-dev.sh               # Clean shutdown
+│   └── update-billboard.sh       # Weekly data updates
 ├── docs/                         # Documentation and development notes
 └── images/                       # Assets and branding
 ```
+
+### **🎯 Clear Distinctions:**
+
+- **`data/`** = **DATA STORAGE** (JSON/CSV files, organized by time)
+- **`python_backend/`** = **DATA PROCESSING** (Development - your local machine)
+- **`netlify_functions/`** = **PRODUCTION DEPLOYMENT** (Live website)
+- **`scripts/`** = **DEVELOPMENT AUTOMATION** (One-command workflows)
+
+### **🔄 How They Work Together:**
+
+1. **`python_backend/`** → Scrapes data → Saves to **`data/`**
+2. **`python_backend/`** → Serves local APIs (development)
+3. **`netlify_functions/`** → Serves production APIs (deployed)
+4. **`data/`** → Provides data to both local and production APIs
 
 ## 📊 Data Analytics Features
 

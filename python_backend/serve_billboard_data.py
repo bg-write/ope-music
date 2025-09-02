@@ -40,7 +40,7 @@ class BillboardDataHandler(http.server.SimpleHTTPRequestHandler):
         """Send Billboard chart data as JSON."""
         try:
             # Read the Billboard data file
-            data_file = Path('data_output/billboard_chart_data.json')
+            data_file = Path('../data/current/billboard_chart_data.json')
             
             if data_file.exists():
                 with open(data_file, 'r', encoding='utf-8') as f:

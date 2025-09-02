@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
 
   try {
     // In production, read from the data file in root directory
-    const dataPath = path.join(__dirname, '..', 'billboard_chart_data.json');
+    const dataPath = path.join(__dirname, '..', 'data', 'current', 'billboard_chart_data.json');
     
     console.log('Looking for data file at:', dataPath);
     console.log('File exists:', fs.existsSync(dataPath));

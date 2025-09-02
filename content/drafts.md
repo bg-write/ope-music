@@ -27,19 +27,70 @@ AUTOMATIC FIELDS:
 - review_id: Auto-generated unique identifier
 -->
 
-## Felsmann + Tiley - "Gabriel"
-**song_artist**: Felsmann + Tiley
-**song_title**: Gabriel
-**song_release_date:** August 19, 2025
-**song_upload_date:** August 19, 2025
-**song_duration_sec:** 2:21
+## Big Thief - "SONG"
+**song_artist**: Big Thief
+**song_title**: SONG
+**song_release_date:** mmmm dd, 2025
+**song_upload_date:** mmmm dd, 2025
+**song_duration_sec:** 0:00
 **song_album:** TK
-**song_label:** Mute
-**song_genre:** Electronic, Ambient
-**song_mood:** Contemplative
-**song_instrumentation:** Synthesizers, Ambient Textures
+**song_label:** TK
+**song_genre:** TK, TK
+**song_mood:** TK, TK
+**song_instrumentation:** TK, TK
 **song_language:** N/A
-**song_audio_url:** https://youtu.be/58uUh1a8vSA?si=RIo0UoK46jB1Fz7f
-**review_date:** August 21, 2025
-**review_score:** 2/4
-**review_text:** Sounds like Jarvis Cocker's airplane daydream — half Bloody Mary, half crossword doodle in the margins of SkyMall - heckling the Ocean's Eleven score from coach. Wish the song would lead somewhere though. It just paces the aisle forever, waiting for peanuts that never come.
+**song_audio_url:** URL
+**review_date:** mmmm dd, 2025
+**review_score:** TK/4
+**review_text:** TK
+
+## ARTIST - "SONG"
+**song_artist**: ARTIST
+**song_title**: SONG
+**song_release_date:** mmmm dd, 2025
+**song_upload_date:** mmmm dd, 2025
+**song_duration_sec:** 0:00
+**song_album:** TK
+**song_label:** TK
+**song_genre:** TK, TK
+**song_mood:** TK, TK
+**song_instrumentation:** TK, TK
+**song_language:** N/A
+**song_audio_url:** URL
+**review_date:** mmmm dd, 2025
+**review_score:** TK/4
+**review_text:** TK
+
+## ARTIST - "SONG"
+**song_artist**: ARTIST
+**song_title**: SONG
+**song_release_date:** mmmm dd, 2025
+**song_upload_date:** mmmm dd, 2025
+**song_duration_sec:** 0:00
+**song_album:** TK
+**song_label:** TK
+**song_genre:** TK, TK
+**song_mood:** TK, TK
+**song_instrumentation:** TK, TK
+**song_language:** N/A
+**song_audio_url:** URL
+**review_date:** mmmm dd, 2025
+**review_score:** TK/4
+**review_text:** TK
+
+## ARTIST - "SONG"
+**song_artist**: ARTIST
+**song_title**: SONG
+**song_release_date:** mmmm dd, 2025
+**song_upload_date:** mmmm dd, 2025
+**song_duration_sec:** 0:00
+**song_album:** TK
+**song_label:** TK
+**song_genre:** TK, TK
+**song_mood:** TK, TK
+**song_instrumentation:** TK, TK
+**song_language:** N/A
+**song_audio_url:** URL
+**review_date:** mmmm dd, 2025
+**review_score:** TK/4
+**review_text:** TK
