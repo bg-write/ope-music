@@ -16,12 +16,13 @@ A music reviews platform with data analytics.
 - **BigQuery Integration** - Professional data warehouse with real-time sync
 - **Looker Studio Dashboard** - Interactive analytics portfolio showcasing data skills
 - **Rich Metadata** - Genre, mood, instrumentation, duration, labels, and more
+- **Billboard Integration** - Real-time Hot 100 chart tracking with historical data
 
 ## 🚀 Live Site
 
 **Visit**: [https://ope-music.netlify.app](https://ope-music.netlify.app)
 
-**Public API**: [https://ope-music.netlify.app/api/reviews](https://ope-music.netlify.app/api/reviews)
+**Reviews API**: [https://ope-music.netlify.app/api/reviews](https://ope-music.netlify.app/api/reviews)
 
 **Analytics Dashboard**: [OPE! on Looker Studio](https://lookerstudio.google.com/reporting/86a21abe-e77c-4fda-9b58-423d4a45da2b) (Powered by BigQuery)
 

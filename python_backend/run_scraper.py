@@ -72,7 +72,6 @@ def main():
         if chart_date:
             # Extract date from chart_date (format: "Week of August 31, 2025")
             try:
-                from datetime import datetime
                 date_obj = datetime.strptime(chart_date, "Week of %B %d, %Y")
                 date_str = date_obj.strftime("%Y-%m-%d")
                 

@@ -20,6 +20,9 @@ __pycache__/
 # Export files
 database_export_*.csv
 
+# Private content (drafts in progress)
+content/drafts.md
+
 # Environment variables
 .env
 .env.local

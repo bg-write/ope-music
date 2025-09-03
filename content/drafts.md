@@ -40,9 +40,26 @@ AUTOMATIC FIELDS:
 **song_instrumentation:** TK, TK
 **song_language:** N/A
 **song_audio_url:** URL
-**review_date:** mmmm dd, 2025
+**review_date:** September 5, 2025
 **review_score:** TK/4
 **review_text:** TK
+
+## Sabrina Carpenter - "Tears"
+**song_artist**: Sabrina Carpenter
+**song_title**: Tears
+**song_release_date:** mmmm dd, 2025
+**song_upload_date:** mmmm dd, 2025
+**song_duration_sec:** 0:00
+**song_album:** TK
+**song_label:** TK
+**song_genre:** TK, TK
+**song_mood:** TK, TK
+**song_instrumentation:** TK, TK
+**song_language:** N/A
+**song_audio_url:** URL
+**review_date:** September 5, 2025
+**review_score:** 2/4
+**review_text:** Somehow makes sex sound boring, but the transition into the chorus shows actual songwriting. Glad to know someone in Sabrina's camp finally introduced her to Sharleen Spiteri.
 
 ## ARTIST - "SONG"
 **song_artist**: ARTIST
@@ -57,40 +74,6 @@ AUTOMATIC FIELDS:
 **song_instrumentation:** TK, TK
 **song_language:** N/A
 **song_audio_url:** URL
-**review_date:** mmmm dd, 2025
-**review_score:** TK/4
-**review_text:** TK
-
-## ARTIST - "SONG"
-**song_artist**: ARTIST
-**song_title**: SONG
-**song_release_date:** mmmm dd, 2025
-**song_upload_date:** mmmm dd, 2025
-**song_duration_sec:** 0:00
-**song_album:** TK
-**song_label:** TK
-**song_genre:** TK, TK
-**song_mood:** TK, TK
-**song_instrumentation:** TK, TK
-**song_language:** N/A
-**song_audio_url:** URL
-**review_date:** mmmm dd, 2025
-**review_score:** TK/4
-**review_text:** TK
-
-## ARTIST - "SONG"
-**song_artist**: ARTIST
-**song_title**: SONG
-**song_release_date:** mmmm dd, 2025
-**song_upload_date:** mmmm dd, 2025
-**song_duration_sec:** 0:00
-**song_album:** TK
-**song_label:** TK
-**song_genre:** TK, TK
-**song_mood:** TK, TK
-**song_instrumentation:** TK, TK
-**song_language:** N/A
-**song_audio_url:** URL
-**review_date:** mmmm dd, 2025
+**review_date:** September 5, 2025
 **review_score:** TK/4
 **review_text:** TK
