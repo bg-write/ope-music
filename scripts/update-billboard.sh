@@ -94,6 +94,11 @@ if [ $? -eq 0 ]; then
         echo "✅ New exports moved to data/exports/"
     fi
     
+    # Update Netlify function data for production
+    echo "🌐 Updating production API data..."
+    cp data/current/billboard_chart_data.json netlify_functions/billboard_data.json
+    echo "✅ Production API data updated"
+    
     # Display summary
     echo ""
     echo "📊 Update Summary:"
