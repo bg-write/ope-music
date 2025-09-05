@@ -420,17 +420,21 @@
                     showContent(currentPage);
                 }
 
-                // Fetch reviews
-                const reviewsResponse = await fetch(`${API_BASE}/reviews`);
+                // Fetch reviews with localhost detection
+                const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.port === '5500';
+                const reviewsUrl = isLocalhost ? 'http://localhost:8001/api/reviews' : `${API_BASE}/reviews`;
+                const reviewsResponse = await fetch(reviewsUrl);
                 if (!reviewsResponse.ok) {
                     throw new Error(`HTTP ${reviewsResponse.status}: ${reviewsResponse.statusText}`);
                 }
                 
                 const reviewsResult = await reviewsResponse.json();
-                reviewsData = reviewsResult.reviews || [];
+                // Handle both local API format (data.reviews) and production format (reviews)
+                const reviews = reviewsResult.data?.reviews || reviewsResult.reviews || [];
+                reviewsData = reviews;
                 
                 // Validate and sanitize all reviews
-                const rawReviews = reviewsResult.reviews || [];
+                const rawReviews = reviews;
                 const validatedReviews = [];
                 const dataQualityIssues = [];
                 
@@ -2122,11 +2126,11 @@
         
         <div class="footer-content">
             <div class="last-updated">
-                <strong>Reviews last updated:</strong> <span id="last-updated-date">Loading...</span> (Los Angeles, CA PST Time). Reviews are published on Fridays unless I'm on vacation or sick.
+                New reviews run on Fridays unless I'm on vacation or sick.
             </div>
             
             <div class="support-info">
-                <strong>Best ways to support:</strong> Bookmark this page, subscribe to the newsletter and podcast, tell all your friends.
+                <strong>Like what I do?</strong> Consider bookmarking this page, subscribing to the newsletter and podcast, or telling all your friends.
             </div>
             
             <div class="contact-info">

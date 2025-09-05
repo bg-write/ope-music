@@ -27,53 +27,19 @@ AUTOMATIC FIELDS:
 - review_id: Auto-generated unique identifier
 -->
 
-## Big Thief - "SONG"
-**song_artist**: Big Thief
-**song_title**: SONG
-**song_release_date:** mmmm dd, 2025
-**song_upload_date:** mmmm dd, 2025
-**song_duration_sec:** 0:00
-**song_album:** TK
-**song_label:** TK
-**song_genre:** TK, TK
-**song_mood:** TK, TK
-**song_instrumentation:** TK, TK
-**song_language:** N/A
-**song_audio_url:** URL
+## Winter - "Just Like A Flower"
+**song_artist:** Winter
+**song_title:** Just Like A Flower
+**song_release_date:** May 20, 2025
+**song_upload_date:** May 20, 2025
+**song_duration_sec:** 4:27
+**song_album:** Adult Romantix
+**song_label:** Winspear
+**song_genre:** Indie Pop, Indie Rock
+**song_mood:** Dreamy, Hazy
+**song_instrumentation:** Vocals, Guitars, Bass, Drums
+**song_language:** English
+**song_audio_url:** https://www.youtube.com/watch?v=fSYlSGJspbo&list=RDfSYlSGJspbo&start_radio=1
 **review_date:** September 5, 2025
-**review_score:** TK/4
-**review_text:** TK
-
-## Sabrina Carpenter - "Tears"
-**song_artist**: Sabrina Carpenter
-**song_title**: Tears
-**song_release_date:** mmmm dd, 2025
-**song_upload_date:** mmmm dd, 2025
-**song_duration_sec:** 0:00
-**song_album:** TK
-**song_label:** TK
-**song_genre:** TK, TK
-**song_mood:** TK, TK
-**song_instrumentation:** TK, TK
-**song_language:** N/A
-**song_audio_url:** URL
-**review_date:** September 5, 2025
-**review_score:** 2/4
-**review_text:** Somehow makes sex sound boring, but the transition into the chorus shows actual songwriting. Glad to know someone in Sabrina's camp finally introduced her to Sharleen Spiteri.
-
-## ARTIST - "SONG"
-**song_artist**: ARTIST
-**song_title**: SONG
-**song_release_date:** mmmm dd, 2025
-**song_upload_date:** mmmm dd, 2025
-**song_duration_sec:** 0:00
-**song_album:** TK
-**song_label:** TK
-**song_genre:** TK, TK
-**song_mood:** TK, TK
-**song_instrumentation:** TK, TK
-**song_language:** N/A
-**song_audio_url:** URL
-**review_date:** September 5, 2025
-**review_score:** TK/4
-**review_text:** TK
+**review_score:** 3.5/4
+**review_text:** The only dreampop of 2025 that's actually stuck with me. Combines the best (less embarrassing) parts of Car Seat Headrest and Snail Mail, back when indie rock still had an identity and singers who could actually sing. Don't sleep on this album.

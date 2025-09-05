@@ -2,6 +2,69 @@
 const reviewsData = {
   "reviews": [
     {
+      "song_artist": "HUNTR/X",
+      "song_title": "Golden",
+      "song_release_date": "2025-06-23",
+      "song_release_date_display": "June 23, 2025",
+      "song_upload_date": "2025-06-23",
+      "song_upload_date_display": "June 23, 2025",
+      "song_duration_sec": 198,
+      "song_album": "Single",
+      "song_label": "Sony Animation",
+      "song_genre": "K-Pop, Pop",
+      "song_mood": "Upbeat, Anthemic",
+      "song_instrumentation": "Vocals, Synths, Drumbeats",
+      "song_language": "English",
+      "song_audio_url": "https://www.youtube.com/watch?v=yebNIHKAC4A&list=RDyebNIHKAC4A&start_radio=1",
+      "review_date": "2025-09-05",
+      "review_date_display": "September 5, 2025",
+      "review_score": 3.0,
+      "review_text": "More singable than recent real-life K-Pop (or \"KPop,\" as styled in this movie I'll never watch). Maybe it works because it's a trio and not 20 idiot boy toys. All this auto-tune still makes me sick.",
+      "review_id": "huntr/x-golden-song-review"
+    },
+    {
+      "song_artist": "Sabrina Carpenter",
+      "song_title": "Tears",
+      "song_release_date": "2025-08-28",
+      "song_release_date_display": "August 28, 2025",
+      "song_upload_date": "2025-08-28",
+      "song_upload_date_display": "August 28, 2025",
+      "song_duration_sec": 305,
+      "song_album": "Man's Best Friend",
+      "song_label": "Island Records",
+      "song_genre": "Pop, Dance",
+      "song_mood": "Upbeat",
+      "song_instrumentation": "Vocals, Bass, Drums, Keys, Guitars, Strings",
+      "song_language": "English",
+      "song_audio_url": "https://www.youtube.com/watch?v=V9vuCByb6js&list=RDV9vuCByb6js&start_radio=1",
+      "review_date": "2025-09-05",
+      "review_date_display": "September 5, 2025",
+      "review_score": 2.0,
+      "review_text": "Somehow makes sex boring. The transition into the chorus shows actual songwriting. It's good someone in Sabrina's camp finally introduced her to Sharleen Spiteri—-though Dua Lipa already does the better rip-off. You have to go away in order for people to miss you.",
+      "review_id": "sabrina-carpenter-tears-song-review"
+    },
+    {
+      "song_artist": "Winter",
+      "song_title": "Just Like A Flower",
+      "song_release_date": "2025-05-20",
+      "song_release_date_display": "May 20, 2025",
+      "song_upload_date": "2025-05-20",
+      "song_upload_date_display": "May 20, 2025",
+      "song_duration_sec": 267,
+      "song_album": "Adult Romantix",
+      "song_label": "Winspear",
+      "song_genre": "Indie Pop, Indie Rock",
+      "song_mood": "Dreamy, Hazy",
+      "song_instrumentation": "Vocals, Guitars, Bass, Drums",
+      "song_language": "English",
+      "song_audio_url": "https://www.youtube.com/watch?v=fSYlSGJspbo&list=RDfSYlSGJspbo&start_radio=1",
+      "review_date": "2025-09-05",
+      "review_date_display": "September 5, 2025",
+      "review_score": 3.5,
+      "review_text": "The only dreampop of 2025 that's sticking with me. Combines the best (less embarrassing) parts of Car Seat Headrest and Snail Mail, back when indie rock still had an identity. Don't sleep on this album.",
+      "review_id": "winter-just-like-a-flower-song-review"
+    },
+    {
       "song_artist": "Felsmann + Tiley",
       "song_title": "Gabriel",
       "song_release_date": "2025-08-19",
@@ -109,11 +172,11 @@ const reviewsData = {
   ],
   "pagination": {
     "page": 1,
-    "per_page": 5,
-    "total": 5,
+    "per_page": 8,
+    "total": 8,
     "pages": 1
   }
-};;;;;;;;
+};;;;;;;;;;;
 
 // Load reviews from embedded data
 function loadReviews() {

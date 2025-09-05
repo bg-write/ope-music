@@ -27,9 +27,60 @@ AUTOMATIC FIELDS:
 - review_id: Auto-generated unique identifier
 -->
 
+## HUNTR/X - "Golden"
+**song_artist:** HUNTR/X
+**song_title:** Golden
+**song_release_date:** June 23, 2025
+**song_upload_date:** June 23, 2025
+**song_duration_sec:** 3:18
+**song_album:** Single
+**song_label:** Sony Animation
+**song_genre:** K-Pop, Pop
+**song_mood:** Upbeat, Anthemic
+**song_instrumentation:** Vocals, Synths, Drumbeats
+**song_language:** English
+**song_audio_url:** https://www.youtube.com/watch?v=yebNIHKAC4A&list=RDyebNIHKAC4A&start_radio=1
+**review_date:** September 5, 2025
+**review_score:** 3/4
+**review_text:** More singable than recent real-life K-Pop (or "KPop," as styled in this movie I'll never watch). Maybe it works because it's a trio and not 20 idiot boy toys. All this auto-tune still makes me sick.
+
+## Sabrina Carpenter - "Tears"
+**song_artist:** Sabrina Carpenter
+**song_title:** Tears
+**song_release_date:** August 28, 2025
+**song_upload_date:** August 28, 2025
+**song_duration_sec:** 5:05
+**song_album:** Man's Best Friend
+**song_label:** Island Records
+**song_genre:** Pop, Dance
+**song_mood:** Upbeat
+**song_instrumentation:** Vocals, Bass, Drums, Keys, Guitars, Strings
+**song_language:** English
+**song_audio_url:** https://www.youtube.com/watch?v=V9vuCByb6js&list=RDV9vuCByb6js&start_radio=1
+**review_date:** September 5, 2025
+**review_score:** 2/4
+**review_text:** Somehow makes sex boring. The transition into the chorus shows actual songwriting. It's good someone in Sabrina's camp finally introduced her to Sharleen Spiteri—-though Dua Lipa already does the better rip-off. You have to go away in order for people to miss you.
+
+## Winter - "Just Like A Flower"
+**song_artist:** Winter
+**song_title:** Just Like A Flower
+**song_release_date:** May 20, 2025
+**song_upload_date:** May 20, 2025
+**song_duration_sec:** 4:27
+**song_album:** Adult Romantix
+**song_label:** Winspear
+**song_genre:** Indie Pop, Indie Rock
+**song_mood:** Dreamy, Hazy
+**song_instrumentation:** Vocals, Guitars, Bass, Drums
+**song_language:** English
+**song_audio_url:** https://www.youtube.com/watch?v=fSYlSGJspbo&list=RDfSYlSGJspbo&start_radio=1
+**review_date:** September 5, 2025
+**review_score:** 3.5/4
+**review_text:** The only dreampop of 2025 that's sticking with me. Combines the best (less embarrassing) parts of Car Seat Headrest and Snail Mail, back when indie rock still had an identity. Don't sleep on this album.
+
 ## Felsmann + Tiley - "Gabriel"
-**song_artist**: Felsmann + Tiley
-**song_title**: Gabriel
+**song_artist:** Felsmann + Tiley
+**song_title:** Gabriel
 **song_release_date:** August 19, 2025
 **song_upload_date:** August 19, 2025
 **song_duration_sec:** 2:21
